@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Karan Chulliparambil</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .hero-sub {
+      margin-top: 36px;
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-body p {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.88;
+      margin-bottom: 22px;
+    }
+    .about-body p:last-child { margin-bottom: 0; }
+
+    .facts { display: flex; flex-direction: column; gap: 22px; }
+    .fact-label {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 3px;
+    }
+    .fact-val { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* Explore — plain rows, no boxes */
+    .explore-row {
+      display: grid;
+      grid-template-columns: 160px 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+      transition: opacity .2s;
+    }
+    .explore-row:first-of-type { border-top: 1px solid var(--rule); }
+    .explore-row:hover { opacity: .4; }
+    .explore-name { font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -.01em; }
+    .explore-desc { font-size: 13px; color: var(--dim); }
+    .explore-arrow { font-size: 13px; color: var(--faint); }
+
+    @media (max-width: 720px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .explore-row { grid-template-columns: 1fr auto; }
+      .explore-desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Karan Chulliparambil</a>
+    <ul class="nav-links">
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="writing.html">Writing</a></li>
+      <li><a href="design.html">Design</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-header">
+      <div class="status-pill fade-up"><span class="dot"></span>Open to work</div>
+      <div class="hero-name fade-up">
+        <div class="solid">Karan</div>
+        <div class="ghost">Chulliparambil.</div>
+      </div>
+      <p class="hero-sub fade-up">NYU Economics &nbsp;·&nbsp; Class of 2025 &nbsp;·&nbsp; New York</p>
+    </div>
+
+    <hr class="section-rule fade-up" />
+    <p class="section-eyebrow fade-up">About</p>
+
+    <div class="about-grid fade-up">
+      <div class="about-body">
+        <p>I'm an economics graduate from NYU with a focus on financial markets, data analysis, and product thinking. Drawn to problems where technology meets capital — how AI is reshaping finance, how data compounds into competitive advantage, how markets process information.</p>
+        <p>My work spans financial modeling, research automation, and building tools that cut through the manual parts of analysis. I care about precision in the work and clarity in how it's communicated.</p>
+        <p>Currently exploring roles in fintech, strategy, and growth — ideally at a company where rigor and velocity coexist.</p>
+      </div>
+      <div class="facts">
+        <div><div class="fact-label">Education</div><div class="fact-val">New York University</div></div>
+        <div><div class="fact-label">Degree</div><div class="fact-val">B.A. Economics</div></div>
+        <div><div class="fact-label">Year</div><div class="fact-val">Class of 2025</div></div>
+        <div><div class="fact-label">Based in</div><div class="fact-val">New York, NY</div></div>
+        <div><div class="fact-label">Interests</div><div class="fact-val">Fintech · AI · Markets · Product</div></div>
+        <div><div class="fact-label">Tools</div><div class="fact-val">Python · Excel · SQL · Bloomberg</div></div>
+      </div>
+    </div>
+
+    <hr class="section-rule fade-up" />
+    <p class="section-eyebrow fade-up">Explore</p>
+
+    <div class="fade-up">
+      <a href="projects.html" class="explore-row">
+        <span class="explore-name">Projects</span>
+        <span class="explore-desc">Work, side projects, and research.</span>
+        <span class="explore-arrow">↗</span>
+      </a>
+      <a href="writing.html" class="explore-row">
+        <span class="explore-name">Writing</span>
+        <span class="explore-desc">Essays, memos, and market notes.</span>
+        <span class="explore-arrow">↗</span>
+      </a>
+      <a href="design.html" class="explore-row">
+        <span class="explore-name">Design</span>
+        <span class="explore-desc">UI, branding, and visual work.</span>
+        <span class="explore-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Karan Chulliparambil</p>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/karan-chulliparambil" target="_blank">LinkedIn</a>
+      <a href="mailto:chulkara2003@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(e => e.forEach(x => {
+      if (x.isIntersecting) x.target.classList.add('visible');
+    }), { threshold: .04 });
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 55}ms`;
+      obs.observe(el);
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.page-header .fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 50 + i * 100);
+      });
+    }, 0);
+  </script>
+</body>
+</html>

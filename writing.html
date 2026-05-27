@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing — Karan Chulliparambil</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .writing-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+      transition: opacity .2s;
+    }
+    .writing-item:first-of-type { border-top: 1px solid var(--rule); }
+    .writing-item:hover { opacity: 0.4; }
+
+    .w-tag {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 10px;
+    }
+    .w-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .w-excerpt { font-size: 13px; color: var(--dim); line-height: 1.7; max-width: 520px; }
+
+    .w-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-top: 2px; }
+    .w-date  { font-size: 11px; color: var(--faint); white-space: nowrap; letter-spacing: 0.03em; }
+    .w-arrow { font-size: 13px; color: var(--faint); }
+
+    @media (max-width: 640px) {
+      .writing-item { grid-template-columns: 1fr auto; gap: 16px; }
+      .w-right { flex-direction: row; align-items: center; gap: 10px; padding-top: 0; }
+      .w-date  { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Karan Chulliparambil</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="writing.html" class="active">Writing</a></li>
+      <li><a href="design.html">Design</a></li>
+      
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-header">
+      <p class="eyebrow fade-up">Writing</p>
+      <div class="hero-name fade-up">
+        <div class="solid">Essays &</div>
+        <div class="ghost">Notes.</div>
+      </div>
+      <p style="margin-top:36px;font-size:14px;color:var(--dim);max-width:400px;line-height:1.8;" class="fade-up">Thinking out loud on markets, startups, technology, and the occasional idea worth sharing.</p>
+    </div>
+
+    <div class="fade-up">
+      <a href="#" class="writing-item">
+        <div>
+          <div class="w-tag">Markets</div>
+          <div class="w-title">Replace with your first piece title</div>
+          <div class="w-excerpt">A short excerpt — 1–2 sentences that tell the reader what this is about and why it's worth clicking.</div>
+        </div>
+        <div class="w-right">
+          <span class="w-date">Jan 2025</span>
+          <span class="w-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="#" class="writing-item">
+        <div>
+          <div class="w-tag">Startups</div>
+          <div class="w-title">Replace with your second piece title</div>
+          <div class="w-excerpt">Writing doesn't have to be polished — essays, research memos, and market teardowns all work great here.</div>
+        </div>
+        <div class="w-right">
+          <span class="w-date">Nov 2024</span>
+          <span class="w-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="#" class="writing-item">
+        <div>
+          <div class="w-tag">Economics</div>
+          <div class="w-title">Replace with your third piece title</div>
+          <div class="w-excerpt">Link to a Substack, PDF, Notion page, or Medium post — wherever your writing already lives.</div>
+        </div>
+        <div class="w-right">
+          <span class="w-date">Sep 2024</span>
+          <span class="w-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="#" class="writing-item">
+        <div>
+          <div class="w-tag">Finance</div>
+          <div class="w-title">Add more pieces here</div>
+          <div class="w-excerpt">Duplicate any row above. Update the title, tag, date, and href to link to your work.</div>
+        </div>
+        <div class="w-right">
+          <span class="w-date">—</span>
+          <span class="w-arrow">↗</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Karan Chulliparambil</p>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/karan-chulliparambil" target="_blank">LinkedIn</a>
+      <a href="mailto:chulkara2003@gmail.com">Email</a>
+
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(e => e.forEach(x => {
+      if (x.isIntersecting) x.target.classList.add('visible');
+    }), { threshold: .04 });
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 60}ms`;
+      obs.observe(el);
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.page-header .fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 50 + i * 100);
+      });
+    }, 0);
+  </script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Karan Chulliparambil</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Filter — plain text, no pills */
+    .filter-bar {
+      display: flex;
+      gap: 0;
+      margin-bottom: 56px;
+    }
+    .filter-btn {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: var(--faint);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0 18px 0 0;
+      transition: color .15s;
+      letter-spacing: -0.01em;
+    }
+    .filter-btn:first-child { padding-left: 0; }
+    .filter-btn:hover { color: var(--muted); }
+    .filter-btn.active { color: var(--ink); font-weight: 500; }
+
+    /* Featured — large text block, no box */
+    .feat {
+      padding-bottom: 52px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 0;
+    }
+    .feat-label {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 20px;
+    }
+    .feat-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      margin-bottom: 20px;
+    }
+    .feat-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 560px;
+      margin-bottom: 28px;
+    }
+    .feat-foot {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .feat-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+    .feat-link {
+      font-size: 12px;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color .15s;
+      margin-left: auto;
+    }
+    .feat-link:hover { color: var(--ink); }
+
+    /* Project list rows */
+    .proj-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+      transition: opacity .2s;
+    }
+    .proj-item:hover { opacity: 0.4; }
+    .proj-num   { font-size: 10px; color: var(--faint); font-weight: 500; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .proj-title { font-size: 15.5px; font-weight: 500; color: var(--ink); letter-spacing: -0.015em; margin-bottom: 5px; }
+    .proj-sub   { font-size: 12.5px; color: var(--dim); line-height: 1.5; }
+    .proj-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .proj-meta  { font-size: 11px; color: var(--faint); white-space: nowrap; letter-spacing: 0.03em; }
+    .proj-arrow { font-size: 13px; color: var(--faint); }
+
+    @media (max-width: 640px) {
+      .feat-title { font-size: 26px; }
+      .proj-item { gap: 16px; }
+      .proj-meta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Karan Chulliparambil</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="writing.html">Writing</a></li>
+      <li><a href="design.html">Design</a></li>
+      
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-header">
+      <p class="eyebrow fade-up">Projects</p>
+      <div class="hero-name fade-up">
+        <div class="solid">Work &</div>
+        <div class="ghost">Projects.</div>
+      </div>
+    </div>
+
+    <div class="filter-bar fade-up">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="finance">Finance</button>
+      <button class="filter-btn" data-filter="research">Research</button>
+      <button class="filter-btn" data-filter="data">Data</button>
+      <button class="filter-btn" data-filter="strategy">Strategy</button>
+    </div>
+
+    <!-- Featured -->
+    <div class="feat fade-up" data-category="finance">
+      <p class="feat-label">Featured — 01</p>
+      <h2 class="feat-title">[Your best project — DCF Model &<br>Investment Memo]</h2>
+      <p class="feat-desc">Built a full DCF and comparable company analysis for [Company / Sector]. Identified [key insight] with [X]% upside to current trading price. Modeled three scenarios and presented findings to [audience].</p>
+      <div class="feat-foot">
+        <div class="feat-tags">
+          <span class="tag">Financial Modeling</span>
+          <span class="tag">Excel</span>
+          <span class="tag">Equity Research</span>
+        </div>
+        <a href="#" class="feat-link">View project ↗</a>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div>
+      <a href="#" class="proj-item fade-up" data-category="data">
+        <div>
+          <div class="proj-num">02</div>
+          <div class="proj-title">Market Intelligence Automation</div>
+          <div class="proj-sub">Python script that scrapes and structures competitive data across [N] companies, cutting research time from days to hours.</div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-meta">Data · 2024</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="#" class="proj-item fade-up" data-category="research">
+        <div>
+          <div class="proj-num">03</div>
+          <div class="proj-title">Economics Thesis — [Your Topic]</div>
+          <div class="proj-sub">Empirical analysis of [your question] using panel data. Applied regression methods to identify [key result].</div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-meta">Research · 2025</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="#" class="proj-item fade-up" data-category="strategy">
+        <div>
+          <div class="proj-num">04</div>
+          <div class="proj-title">[Case Competition / Strategy Project]</div>
+          <div class="proj-sub">Problem, approach, and outcome. Did you place? What was the recommendation?</div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-meta">Strategy · 2023</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="#" class="proj-item fade-up" data-category="finance">
+        <div>
+          <div class="proj-num">05</div>
+          <div class="proj-title">[Portfolio / Stock Pitch]</div>
+          <div class="proj-sub">Managed a $10K paper portfolio tracking [strategy] over [period]. Returned X% vs. benchmark Y%.</div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-meta">Finance · 2024</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+
+      <a href="#" class="proj-item fade-up" data-category="data">
+        <div>
+          <div class="proj-num">06</div>
+          <div class="proj-title">Add your project here</div>
+          <div class="proj-sub">Replace with a real project — update the title, description, and link.</div>
+        </div>
+        <div class="proj-right">
+          <span class="proj-meta">Data · 20XX</span>
+          <span class="proj-arrow">↗</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Karan Chulliparambil</p>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/karan-chulliparambil" target="_blank">LinkedIn</a>
+      <a href="mailto:chulkara2003@gmail.com">Email</a>
+
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(e => e.forEach(x => {
+      if (x.isIntersecting) x.target.classList.add('visible');
+    }), { threshold: .04 });
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 55}ms`;
+      obs.observe(el);
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.page-header .fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 50 + i * 100);
+      });
+    }, 0);
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('[data-category]').forEach(c => {
+          c.style.display = (f === 'all' || c.dataset.category === f) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

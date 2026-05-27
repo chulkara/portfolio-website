@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume — Karan Chulliparambil</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .resume-actions { display: flex; gap: 12px; margin-top: 40px; }
+
+    .resume-layout {
+      display: grid;
+      grid-template-columns: 192px 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+
+    /* SIDEBAR */
+    .resume-sidebar { position: sticky; top: calc(var(--nav-h) + 28px); }
+
+    .sb-block { margin-bottom: 36px; }
+    .sb-block h4 {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 12px;
+    }
+    .sb-item { font-size: 13px; color: var(--muted); margin-bottom: 5px; line-height: 1.55; }
+    .sb-item a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: var(--faint);
+      transition: color .15s, text-decoration-color .15s;
+    }
+    .sb-item a:hover { color: var(--ink); text-decoration-color: var(--dim); }
+
+    .skill-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* MAIN */
+    .r-section { margin-bottom: 52px; }
+
+    .r-section-title {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--faint);
+      padding-bottom: 14px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .r-entry {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .r-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .r-org  { font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 3px; }
+    .r-role { font-size: 13px; color: var(--dim); margin-bottom: 12px; }
+
+    .r-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .r-bullets li {
+      font-size: 13px;
+      color: var(--dim);
+      line-height: 1.7;
+      padding-left: 16px;
+      position: relative;
+    }
+    .r-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--faint); }
+
+    .r-date { font-size: 11px; color: var(--faint); white-space: nowrap; padding-top: 2px; letter-spacing: 0.02em; }
+
+    @media (max-width: 640px) {
+      .resume-layout { grid-template-columns: 1fr; gap: 48px; }
+      .resume-sidebar { position: static; }
+      .r-entry { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Karan Chulliparambil</a>
+    <ul class="nav-links">
+      <li><a href="index.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="writing.html">Writing</a></li>
+      <li><a href="design.html">Design</a></li>
+      <li><a href="resume.html" class="active">Resume</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-header">
+      <p class="eyebrow fade-up">Resume</p>
+      <div class="hero-name fade-up">
+        <div class="solid">Experience &</div>
+        <div class="ghost">Education.</div>
+      </div>
+      <div class="resume-actions fade-up">
+        <a href="resume.pdf" target="_blank" class="btn btn-ink">Download PDF ↓</a>
+        <a href="mailto:chulkara2003@gmail.com" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="resume-layout">
+
+      <!-- SIDEBAR -->
+      <div class="resume-sidebar fade-up">
+        <div class="sb-block">
+          <h4>Contact</h4>
+          <div class="sb-item"><a href="mailto:chulkara2003@gmail.com">chulkara2003@gmail.com</a></div>
+          <div class="sb-item">New York, NY</div>
+          <div class="sb-item"><a href="https://www.linkedin.com/in/karan-chulliparambil" target="_blank">LinkedIn ↗</a></div>
+        </div>
+        <div class="sb-block">
+          <h4>Education</h4>
+          <div class="sb-item" style="font-weight:500;color:var(--ink);">New York University</div>
+          <div class="sb-item">B.A. Economics</div>
+          <div class="sb-item">Class of 2025</div>
+        </div>
+        <div class="sb-block">
+          <h4>Skills</h4>
+          <div class="skill-wrap">
+            <span class="tag">Python</span>
+            <span class="tag">Excel / VBA</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Financial Modeling</span>
+            <span class="tag">Stata</span>
+            <span class="tag">R</span>
+            <span class="tag">Bloomberg</span>
+          </div>
+        </div>
+        <div class="sb-block">
+          <h4>Interests</h4>
+          <div class="sb-item">Fintech · AI · Markets<br>Growth · Product Strategy</div>
+        </div>
+      </div>
+
+      <!-- MAIN -->
+      <div class="fade-up">
+        <div class="r-section">
+          <div class="r-section-title">Experience</div>
+
+          <div class="r-entry">
+            <div>
+              <div class="r-org">[Company Name]</div>
+              <div class="r-role">[Your Role]</div>
+              <ul class="r-bullets">
+                <li>Replace with your actual bullet — led X, built Y, resulted in Z% improvement</li>
+                <li>Use numbers and outcomes wherever possible to show impact</li>
+                <li>One more strong bullet here</li>
+              </ul>
+            </div>
+            <div class="r-date">Month 20XX – Month 20XX</div>
+          </div>
+
+          <div class="r-entry">
+            <div>
+              <div class="r-org">[Company Name]</div>
+              <div class="r-role">[Your Role]</div>
+              <ul class="r-bullets">
+                <li>Another bullet showing ownership and impact</li>
+                <li>Quantify everything — users, revenue, time saved</li>
+              </ul>
+            </div>
+            <div class="r-date">Month 20XX – Month 20XX</div>
+          </div>
+
+          <div class="r-entry">
+            <div>
+              <div class="r-org">[Company Name]</div>
+              <div class="r-role">[Your Role]</div>
+              <ul class="r-bullets">
+                <li>Strong bullet one</li>
+                <li>Strong bullet two</li>
+              </ul>
+            </div>
+            <div class="r-date">Month 20XX – Month 20XX</div>
+          </div>
+        </div>
+
+        <div class="r-section">
+          <div class="r-section-title">Education</div>
+          <div class="r-entry">
+            <div>
+              <div class="r-org">New York University</div>
+              <div class="r-role">B.A. Economics</div>
+              <ul class="r-bullets">
+                <li>Relevant coursework: Econometrics, Corporate Finance, Game Theory, Data Analysis</li>
+                <li>GPA: [X.XX] — include if strong</li>
+                <li>[Clubs, honors, or thesis topic if applicable]</li>
+              </ul>
+            </div>
+            <div class="r-date">May 2025</div>
+          </div>
+        </div>
+
+        <div class="r-section">
+          <div class="r-section-title">Selected projects</div>
+          <div class="r-entry">
+            <div>
+              <div class="r-org">[Project Name]</div>
+              <div class="r-role">Personal / Academic</div>
+              <ul class="r-bullets"><li>What you built, what tools, what outcome</li></ul>
+            </div>
+            <div class="r-date">20XX</div>
+          </div>
+          <div class="r-entry">
+            <div>
+              <div class="r-org">[Project Name]</div>
+              <div class="r-role">Personal / Academic</div>
+              <ul class="r-bullets"><li>What you built, what tools, what outcome</li></ul>
+            </div>
+            <div class="r-date">20XX</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Karan Chulliparambil</p>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/karan-chulliparambil" target="_blank">LinkedIn</a>
+      <a href="mailto:chulkara2003@gmail.com">Email</a>
+      <a href="resume.pdf" target="_blank">Resume PDF</a>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(e => e.forEach(x => {
+      if (x.isIntersecting) x.target.classList.add('visible');
+    }), { threshold: .04 });
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 80}ms`;
+      obs.observe(el);
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.page-header .fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 50 + i * 100);
+      });
+    }, 0);
+  </script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design — Karan Chulliparambil</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .grid-wrapper {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 48px 120px;
+    }
+
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 48px 24px;
+    }
+
+    .d-item { cursor: pointer; perspective: 900px; }
+    .d-item.wide { grid-column: span 2; }
+
+    .d-img {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      overflow: visible;
+      background: rgba(13,11,9,0.03);
+      border-radius: 2px;
+    }
+    .d-item.wide .d-img { aspect-ratio: 16/9; }
+
+    .d-face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .28s ease, transform .32s cubic-bezier(.34,1.3,.64,1);
+    }
+    .d-face-primary   { opacity: 1;  transform: scale(1) rotate(0deg); }
+    .d-face-secondary { opacity: 0;  transform: scale(.78) rotate(-10deg); }
+
+    .d-item:hover .d-face-primary   { opacity: 0; transform: scale(1.12) rotate(8deg); }
+    .d-item:hover .d-face-secondary { opacity: 1; transform: scale(1)    rotate(0deg); }
+
+    .d-placeholder {
+      font-size: 48px;
+      line-height: 1;
+      opacity: 0.28;
+      transition: opacity .3s ease;
+      user-select: none;
+    }
+    .d-item.wide .d-placeholder { font-size: 64px; }
+    .d-item:hover .d-placeholder  { opacity: 0.55; }
+
+    .d-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+      transition: transform .35s ease;
+      opacity: 0.72;
+    }
+    .d-item:hover .d-img img { transform: scale(1.04); opacity: 1; }
+
+    .d-title {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--dim);
+      letter-spacing: -0.01em;
+      margin-bottom: 3px;
+      transition: color .2s;
+    }
+    .d-item:hover .d-title { color: var(--ink); }
+    .d-meta { font-size: 11px; color: var(--faint); }
+
+    .d-img::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: 0; right: 0;
+      height: 1px;
+      background: var(--rule);
+      transform: scaleX(0);
+      transition: transform .3s ease;
+      transform-origin: left;
+    }
+    .d-item:hover .d-img::after { transform: scaleX(1); }
+
+    @media (max-width: 960px) {
+      .design-grid { grid-template-columns: repeat(2, 1fr); }
+      .grid-wrapper { padding: 0 24px 80px; }
+    }
+    @media (max-width: 560px) {
+      .design-grid { grid-template-columns: 1fr 1fr; gap: 32px 14px; }
+      .d-item.wide { grid-column: span 2; }
+      .d-placeholder { font-size: 32px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Karan Chulliparambil</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="writing.html">Writing</a></li>
+      <li><a href="design.html" class="active">Design</a></li>
+      
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="page-header">
+      <p class="eyebrow fade-up">Design</p>
+      <div class="hero-name fade-up">
+        <div class="solid">Visual</div>
+        <div class="ghost">Work.</div>
+      </div>
+      <p style="margin-top:36px;font-size:14px;color:var(--dim);max-width:360px;line-height:1.8;" class="fade-up">UI, branding, pitch decks, and creative projects. Hover to see more.</p>
+    </div>
+  </div>
+
+  <div class="grid-wrapper">
+    <p class="section-eyebrow fade-up" style="margin-bottom:40px;">Selected work</p>
+
+    <div class="design-grid">
+
+      <div class="d-item wide fade-up">
+        <div class="d-img">
+          <div class="d-face d-face-primary"><span class="d-placeholder">🖼️</span></div>
+          <div class="d-face d-face-secondary"><span class="d-placeholder">✨</span></div>
+        </div>
+        <div class="d-title">Featured Project — [Your Title]</div>
+        <div class="d-meta">UI Design · Figma · 2024</div>
+      </div>
+
+      <div class="d-item fade-up">
+        <div class="d-img">
+          <div class="d-face d-face-primary"><span class="d-placeholder">🎨</span></div>
+          <div class="d-face d-face-secondary"><span class="d-placeholder">🖌️</span></div>
+        </div>
+        <div class="d-title">[Brand Project]</div>
+        <div class="d-meta">Branding · 2024</div>
+      </div>
+
+      <div class="d-item fade-up">
+        <div class="d-img">
+          <div class="d-face d-face-primary"><span class="d-placeholder">📐</span></div>
+          <div class="d-face d-face-secondary"><span class="d-placeholder">🗂️</span></div>
+        </div>
+        <div class="d-title">[Layout Project]</div>
+        <div class="d-meta">Layout · 2023</div>
+      </div>
+
+      <div class="d-item fade-up">
+        <div class="d-img">
+          <div class="d-face d-face-primary"><span class="d-placeholder">💡</span></div>
+          <div class="d-face d-face-secondary"><span class="d-placeholder">🔦</span></div>
+        </div>
+        <div class="d-title">[Concept Work]</div>
+        <div class="d-meta">Concept · 2024</div>
+      </div>
+
+      <div class="d-item fade-up">
+        <div class="d-img">
+          <div class="d-face d-face-primary"><span class="d-placeholder">📊</span></div>
+          <div class="d-face d-face-secondary"><span class="d-placeholder">📈</span></div>
+        </div>
+        <div class="d-title">[Data Visualization]</div>
+        <div class="d-meta">Data · 2024</div>
+      </div>
+
+      <div class="d-item wide fade-up">
+        <div class="d-img">
+          <div class="d-face d-face-primary"><span class="d-placeholder">🗺️</span></div>
+          <div class="d-face d-face-secondary"><span class="d-placeholder">🧭</span></div>
+        </div>
+        <div class="d-title">[Pitch Deck / Strategy Slides]</div>
+        <div class="d-meta">Deck · PowerPoint · 2024</div>
+      </div>
+
+      <div class="d-item fade-up">
+        <div class="d-img">
+          <div class="d-face d-face-primary"><span class="d-placeholder">✍️</span></div>
+          <div class="d-face d-face-secondary"><span class="d-placeholder">🔡</span></div>
+        </div>
+        <div class="d-title">[Typography / Print]</div>
+        <div class="d-meta">Type · 2023</div>
+      </div>
+
+      <div class="d-item fade-up">
+        <div class="d-img">
+          <div class="d-face d-face-primary"><span class="d-placeholder">🌐</span></div>
+          <div class="d-face d-face-secondary"><span class="d-placeholder">💻</span></div>
+        </div>
+        <div class="d-title">[Web / App Design]</div>
+        <div class="d-meta">Web · Figma · 2024</div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Karan Chulliparambil</p>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/karan-chulliparambil" target="_blank">LinkedIn</a>
+      <a href="mailto:chulkara2003@gmail.com">Email</a>
+
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(e => e.forEach(x => {
+      if (x.isIntersecting) x.target.classList.add('visible');
+    }), { threshold: .04 });
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 50}ms`;
+      obs.observe(el);
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.page-header .fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 50 + i * 100);
+      });
+    }, 0);
+
+    document.querySelectorAll('.d-item').forEach(item => {
+      const img = item.querySelector('.d-img');
+      item.addEventListener('mousemove', e => {
+        const r = img.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        img.style.transform = `rotateX(${-dy * 6}deg) rotateY(${dx * 6}deg) scale(1.02)`;
+        img.style.transition = 'transform .08s ease';
+      });
+      item.addEventListener('mouseleave', () => {
+        img.style.transform = '';
+        img.style.transition = 'transform .4s ease';
+      });
+    });
+  </script>
+</body>
+</html>
