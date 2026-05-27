@@ -12,7 +12,7 @@
 
     body {
       margin: 0;
-      background: #0a0a08;
+      background: #e8e3da;
       font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
@@ -37,16 +37,15 @@
       object-position: center 60%;
     }
 
-    /* ---- SCRIM — lighter at top so text reads, darker at bottom ---- */
+    /* ---- SCRIM — very light wash so sketch stays visible ---- */
     .landing-scrim {
       position: absolute;
       inset: 0;
       background:
         linear-gradient(to bottom,
-          rgba(0,0,0,.62) 0%,
-          rgba(0,0,0,.38) 28%,
-          rgba(0,0,0,.18) 55%,
-          rgba(0,0,0,.55) 100%);
+          rgba(232,227,218,.45) 0%,
+          rgba(232,227,218,.1) 40%,
+          rgba(232,227,218,.0) 100%);
     }
 
     /* ---- NAV ---- */
@@ -71,13 +70,13 @@
       font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 11px;
       font-weight: 800;
-      color: rgba(255,255,255,.42);
+      color: rgba(30,15,50,.45);
       text-decoration: none;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       transition: color .2s;
     }
-    nav a:hover { color: rgba(255,255,255,.9); }
+    nav a:hover { color: rgba(30,15,50,.9); }
 
     /* ---- HERO TITLE — right below nav, full width ---- */
     .hero-title {
@@ -97,7 +96,7 @@
       line-height: 0.88;
       letter-spacing: -0.02em;
       white-space: nowrap;
-      color: #ffffff;
+      color: #1e0f32;
       text-transform: uppercase;
       /* font-size set by JS */
     }
@@ -183,8 +182,8 @@
 
   <div class="landing">
 
-    <!-- NYC background photo -->
-    <img class="landing-bg" src="hero-bg.jpg" alt="" />
+    <!-- Sketch background -->
+    <img class="landing-bg" src="sketch-recolored.jpg" alt="" />
     <div class="landing-scrim"></div>
 
     <!-- Nav: all links right -->
