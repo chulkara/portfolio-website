@@ -4,62 +4,265 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Karan Chulliparambil</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      margin: 0;
+      background: #0a0a08;
+      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* ---- FULL SCREEN ---- */
+    .landing {
+      position: relative;
+      width: 100vw;
+      height: 100svh;
+      min-height: 600px;
+      overflow: hidden;
+    }
+
+    /* ---- BACKGROUND PHOTO ---- */
+    .landing-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+    }
+
+    /* ---- SCRIM — lighter at top so text reads, darker at bottom ---- */
+    .landing-scrim {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(0,0,0,.62) 0%,
+          rgba(0,0,0,.38) 28%,
+          rgba(0,0,0,.18) 55%,
+          rgba(0,0,0,.55) 100%);
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 20;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+
+    .nav-group {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    nav a {
+      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: rgba(255,255,255,.42);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    nav a:hover { color: rgba(255,255,255,.9); }
+
+    /* ---- HERO TITLE — right below nav, full width ---- */
+    .hero-title {
+      position: absolute;
+      top: 52px;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 8px 28px 0;
+      line-height: 0.88;
+    }
+
+    .hero-name {
+      display: block;
+      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: #ffffff;
+      text-transform: uppercase;
+      /* font-size set by JS */
+    }
+
+    /* ---- BOTTOM COPY — bottom left, like faceformula ---- */
+    .hero-body {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 20;
+      padding: 0 32px 44px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .hero-copy {
+      max-width: 360px;
+    }
+
+    .hero-tagline {
+      font-size: clamp(22px, 3.2vw, 38px);
+      font-weight: 800;
+      color: rgba(255,255,255,.92);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+
+    .hero-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255,255,255,.42);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* page links bottom right */
+    .hero-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .hero-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: rgba(255,255,255,.3);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 0;
+      transition: color .2s;
+    }
+    .hero-link:hover { color: rgba(255,255,255,.85); }
+
+    .hl-num {
+      font-size: 9px;
+      color: rgba(255,255,255,.18);
+      letter-spacing: 0.1em;
+    }
+
+    .hl-arrow {
+      font-size: 11px;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .hero-link:hover .hl-arrow { opacity: 1; }
+
+    /* ---- MOBILE ---- */
+    @media (max-width: 640px) {
+      nav { padding: 0 18px; }
+      .hero-title { padding: 6px 18px 0; }
+      .hero-body { padding: 0 18px 28px; flex-direction: column; align-items: flex-start; gap: 24px; }
+      .hero-links { align-items: flex-start; }
+    }
+  </style>
 </head>
-<body style="margin:0;overflow:hidden;">
+<body>
 
   <div class="landing">
-    <video class="landing-video" autoplay muted loop playsinline preload="auto">
-      <source src="https://github.com/chulkara/portfolio-website/releases/download/v1.0/hero.mp4" type="video/mp4" />
-    </video>
+
+    <!-- NYC background photo -->
+    <img class="landing-bg" src="hero-bg.jpg" alt="" />
     <div class="landing-scrim"></div>
 
-    <!-- Nav -->
-    <nav class="landing-nav">
-      <a href="index.html" class="nav-logo">Karan Chulliparambil</a>
-      <ul class="nav-links">
+    <!-- Nav: links split left / right -->
+    <nav>
+      <ul class="nav-group">
         <li><a href="about.html">About</a></li>
         <li><a href="projects.html">Projects</a></li>
+      </ul>
+      <ul class="nav-group">
         <li><a href="writing.html">Writing</a></li>
         <li><a href="design.html">Design</a></li>
       </ul>
     </nav>
 
-    <!-- Bottom content -->
-    <div class="landing-body">
-      <div>
-        <p class="landing-eyebrow">NYU Economics &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; New York</p>
-        <div class="landing-name">
-          <div class="solid">Karan</div>
-          <div class="ghost">Chulliparambil.</div>
-        </div>
-      </div>
+    <!-- Massive name — full viewport width, top of page -->
+    <div class="hero-title">
+      <span class="hero-name" id="heroName">Karan — Chulliparambil</span>
+    </div>
 
-      <!-- seancai-inspired numbered page links -->
-      <div class="landing-links">
-        <a href="about.html" class="landing-link">
-          <span class="ll-num">01</span>
-          <span>About</span>
-          <span class="ll-arrow">↗</span>
-        </a>
-        <a href="projects.html" class="landing-link">
-          <span class="ll-num">02</span>
-          <span>Projects</span>
-          <span class="ll-arrow">↗</span>
-        </a>
-        <a href="writing.html" class="landing-link">
-          <span class="ll-num">03</span>
-          <span>Writing</span>
-          <span class="ll-arrow">↗</span>
-        </a>
-        <a href="design.html" class="landing-link">
-          <span class="ll-num">04</span>
-          <span>Design</span>
-          <span class="ll-arrow">↗</span>
-        </a>
+    <!-- Bottom copy — faceformula style -->
+    <div class="hero-body">
+      <div class="hero-copy">
+        <p class="hero-tagline">NYU Economics.<br>Class of 2025.</p>
+        <p class="hero-sub">New York City</p>
+      </div>
+      <div class="hero-links">
+        <a href="about.html" class="hero-link"><span class="hl-num">01</span><span>About</span><span class="hl-arrow">↗</span></a>
+        <a href="projects.html" class="hero-link"><span class="hl-num">02</span><span>Projects</span><span class="hl-arrow">↗</span></a>
+        <a href="writing.html" class="hero-link"><span class="hl-num">03</span><span>Writing</span><span class="hl-arrow">↗</span></a>
+        <a href="design.html" class="hero-link"><span class="hl-num">04</span><span>Design</span><span class="hl-arrow">↗</span></a>
       </div>
     </div>
+
   </div>
+
+  <script>
+    // Fit the name to exactly span the container width
+    function fitName() {
+      const el = document.getElementById('heroName');
+      const container = el.parentElement;
+      const maxW = container.clientWidth;
+      let lo = 10, hi = 1000;
+      while (hi - lo > 0.25) {
+        const mid = (lo + hi) / 2;
+        el.style.fontSize = mid + 'px';
+        el.scrollWidth > maxW ? (hi = mid) : (lo = mid);
+      }
+      el.style.fontSize = lo + 'px';
+    }
+
+    // Wait for Barlow to load before fitting
+    document.fonts.ready.then(() => {
+      fitName();
+      window.addEventListener('resize', fitName);
+    });
+
+    // Entrance animations
+    const heroName = document.getElementById('heroName');
+    const nav = document.querySelector('nav');
+    const heroBody = document.querySelector('.hero-body');
+
+    [heroName, nav, heroBody].forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = i === 0 ? 'translateY(20px)' : 'none';
+      el.style.transition = `opacity ${i === 0 ? '1s' : '.7s'} ease, transform 1s ease`;
+    });
+
+    setTimeout(() => {
+      nav.style.opacity = '1';
+      setTimeout(() => {
+        heroName.style.opacity = '1';
+        heroName.style.transform = 'none';
+        setTimeout(() => {
+          heroBody.style.opacity = '1';
+        }, 300);
+      }, 150);
+    }, 100);
+  </script>
 
 </body>
 </html>
