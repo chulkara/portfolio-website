@@ -6,14 +6,14 @@
   <title>Karan Chulliparambil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       margin: 0;
       background: #0a0a08;
-      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
     }
@@ -68,7 +68,7 @@
     }
 
     nav a {
-      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 11px;
       font-weight: 800;
       color: rgba(255,255,255,.42);
@@ -92,7 +92,7 @@
 
     .hero-name {
       display: block;
-      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-weight: 900;
       line-height: 0.88;
       letter-spacing: -0.02em;
@@ -225,7 +225,10 @@
     function fitName() {
       const el = document.getElementById('heroName');
       const container = el.parentElement;
-      const maxW = container.clientWidth;
+      const style = window.getComputedStyle(container);
+      const maxW = container.clientWidth
+        - parseFloat(style.paddingLeft)
+        - parseFloat(style.paddingRight);
       let lo = 10, hi = 1000;
       while (hi - lo > 0.25) {
         const mid = (lo + hi) / 2;
