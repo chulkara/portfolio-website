@@ -37,15 +37,15 @@
       object-position: center 60%;
     }
 
-    /* ---- SCRIM — heavier top for text, fades out ---- */
+    /* ---- SCRIM — heavy top over bright photo ---- */
     .landing-scrim {
       position: absolute;
       inset: 0;
       background:
         linear-gradient(to bottom,
-          rgba(0,0,0,.65) 0%,
-          rgba(0,0,0,.35) 30%,
-          rgba(0,0,0,.10) 60%,
+          rgba(0,0,0,.72) 0%,
+          rgba(0,0,0,.45) 25%,
+          rgba(0,0,0,.15) 55%,
           rgba(0,0,0,.0) 100%);
     }
 
@@ -170,29 +170,6 @@
     }
     .hero-link:hover .hl-arrow { opacity: 1; }
 
-    /* ---- LAMINATE GLARE ---- */
-    .landing-glare {
-      position: absolute;
-      left: -10%;
-      width: 120%;
-      height: 45%;
-      pointer-events: none;
-      z-index: 18;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(255,255,255,0.03) 15%,
-        rgba(255,255,255,0.13) 38%,
-        rgba(255,255,255,0.22) 50%,
-        rgba(255,255,255,0.13) 62%,
-        rgba(255,255,255,0.03) 85%,
-        transparent 100%
-      );
-      transform: skewY(-5deg);
-      top: -45%;
-      will-change: top;
-    }
-
     /* ---- MOBILE ---- */
     @media (max-width: 640px) {
       nav { padding: 0 18px; }
@@ -206,12 +183,10 @@
 
   <div class="landing">
 
-    <!-- Subway background -->
-    <img class="landing-bg" src="herobg.jpg" alt="" />
+    <!-- Sailboat background -->
+    <img class="landing-bg" src="hero-bg.jpg" alt="" />
     <div class="landing-scrim"></div>
 
-    <!-- Laminate glare — moves on scroll -->
-    <div class="landing-glare" id="landingGlare"></div>
 
     <!-- Nav: all links right -->
     <nav>
@@ -274,21 +249,6 @@
       }, 150);
     }, 100);
 
-    // ---- LAMINATE GLARE ----
-    const glareEl = document.getElementById('landingGlare');
-    let glarePos = -45;   // current rendered position (% of landing height)
-    let glareTarget = -45; // target position
-
-    window.addEventListener('wheel', (e) => {
-      glareTarget = Math.min(100, Math.max(-45, glareTarget + e.deltaY * 0.055));
-    }, { passive: true });
-
-    // Smooth lerp animation
-    (function animateGlare() {
-      glarePos += (glareTarget - glarePos) * 0.07;
-      glareEl.style.top = glarePos.toFixed(2) + '%';
-      requestAnimationFrame(animateGlare);
-    })();
   </script>
 
 </body>
