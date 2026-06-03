@@ -4,71 +4,321 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About — Karan Chulliparambil</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Rock+Salt&display=swap" rel="stylesheet">
   <style>
-    .hero-sub {
-      margin-top: 36px;
-      font-size: 10.5px;
-      font-weight: 500;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-      color: var(--faint);
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f0ebe0;
+      font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 220px;
-      gap: 80px;
-      align-items: start;
-    }
-    .about-body p {
-      font-size: 14.5px;
-      color: var(--muted);
-      line-height: 1.88;
-      margin-bottom: 22px;
-    }
-    .about-body p:last-child { margin-bottom: 0; }
-
-    .facts { display: flex; flex-direction: column; gap: 22px; }
-    .fact-label {
-      font-size: 9.5px;
-      font-weight: 500;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-      color: var(--faint);
-      margin-bottom: 3px;
-    }
-    .fact-val { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-    /* Explore — plain rows, no boxes */
-    .explore-row {
-      display: grid;
-      grid-template-columns: 160px 1fr auto;
+    nav {
+      display: flex;
       align-items: center;
-      gap: 24px;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--rule);
-      text-decoration: none;
-      color: inherit;
-      transition: opacity .2s;
+      justify-content: space-between;
+      padding: 28px 40px 24px;
+      border-bottom: 1px solid rgba(30,18,8,.12);
     }
-    .explore-row:first-of-type { border-top: 1px solid var(--rule); }
-    .explore-row:hover { opacity: .4; }
-    .explore-name { font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -.01em; }
-    .explore-desc { font-size: 13px; color: var(--dim); }
-    .explore-arrow { font-size: 13px; color: var(--faint); }
 
-    @media (max-width: 720px) {
-      .about-grid { grid-template-columns: 1fr; gap: 48px; }
-      .explore-row { grid-template-columns: 1fr auto; }
-      .explore-desc { display: none; }
+    .nav-home {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #1a1208;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Rock Salt', cursive;
+      font-size: 10px;
+      color: rgba(30,18,8,.4);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: rgba(30,18,8,.9); }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 40px;
+    }
+
+    .postcard {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      background: #faf6ee;
+      border: 1px solid rgba(30,18,8,.12);
+      box-shadow: 0 2px 40px rgba(30,18,8,.08), 0 1px 4px rgba(30,18,8,.06);
+      padding: 48px;
+    }
+
+    .postcard::before {
+      content: 'POST CARD';
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Rock Salt', cursive;
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      color: rgba(30,18,8,.08);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .postcard::after {
+      content: 'K — 001 — 2025';
+      position: absolute;
+      bottom: 16px;
+      left: 48px;
+      font-family: 'Rock Salt', cursive;
+      font-size: 7px;
+      letter-spacing: 0.15em;
+      color: rgba(30,18,8,.15);
+      pointer-events: none;
+    }
+
+    .postcard-inner {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0 40px;
+      min-height: 380px;
+    }
+
+    .postcard-message { padding: 16px 0; }
+
+    .message-label {
+      font-family: 'Rock Salt', cursive;
+      font-size: 7px;
+      letter-spacing: 0.25em;
+      color: rgba(30,18,8,.3);
+      margin-bottom: 24px;
+    }
+
+    .message-body p {
+      font-size: 14.5px;
+      font-weight: 400;
+      line-height: 1.78;
+      color: #1a1208;
+      margin-bottom: 18px;
+    }
+    .message-body p:last-child { margin-bottom: 0; }
+
+    .message-ps {
+      margin-top: 28px;
+      font-family: 'Rock Salt', cursive;
+      font-size: 9px;
+      color: rgba(30,18,8,.4);
+      line-height: 2.2;
+    }
+
+    .postcard-rule {
+      background: #c0392b;
+      width: 1px;
+      align-self: stretch;
+    }
+
+    .postcard-address {
+      padding: 16px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stamp-area {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .stamp {
+      width: 80px;
+      height: 96px;
+      background: #f0ebe0;
+      border: 1px solid rgba(30,18,8,.25);
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Perforated effect via outline dots */
+    .stamp::before {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      background-image: radial-gradient(circle, #f0ebe0 3px, transparent 3px);
+      background-size: 10px 10px;
+      background-position: 5px 5px;
+      pointer-events: none;
+    }
+
+    .stamp-inner {
+      width: 100%;
+      height: 100%;
+      background: #1a1208;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .stamp-value {
+      font-family: 'Rock Salt', cursive;
+      font-size: 10px;
+      color: #f0ebe0;
+      letter-spacing: 0.1em;
+    }
+
+    .stamp-label {
+      font-family: 'Rock Salt', cursive;
+      font-size: 5.5px;
+      color: rgba(240,235,224,.45);
+      letter-spacing: 0.18em;
+    }
+
+    .postmark-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 28px;
+    }
+
+    .postmark-circle {
+      width: 76px;
+      height: 76px;
+      border: 1.5px solid rgba(192,57,43,.55);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .postmark-city {
+      font-family: 'Rock Salt', cursive;
+      font-size: 5.5px;
+      color: #c0392b;
+      letter-spacing: 0.08em;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .postmark-line {
+      width: 44px;
+      height: 1px;
+      background: rgba(192,57,43,.45);
+    }
+
+    .postmark-year {
+      font-family: 'Rock Salt', cursive;
+      font-size: 5.5px;
+      color: #c0392b;
+      letter-spacing: 0.1em;
+    }
+
+    .cancel-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-left: 10px;
+      justify-content: center;
+    }
+
+    .cancel-line {
+      width: 32px;
+      height: 1.5px;
+      background: rgba(192,57,43,.4);
+      transform: skewY(-6deg);
+    }
+
+    .address-to { margin-bottom: 16px; }
+
+    .address-label {
+      font-family: 'Rock Salt', cursive;
+      font-size: 7px;
+      letter-spacing: 0.2em;
+      color: rgba(30,18,8,.28);
+      margin-bottom: 6px;
+    }
+
+    .address-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1208;
+      line-height: 1.55;
+    }
+
+    .address-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(30,18,8,.45);
+      margin-top: 3px;
+    }
+
+    .address-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(30,18,8,.09);
+      margin: 18px 0;
+    }
+
+    .address-from .address-text { font-size: 12px; font-weight: 500; }
+
+    .address-links {
+      margin-top: auto;
+      display: flex;
+      gap: 18px;
+      padding-top: 22px;
+    }
+
+    .address-link {
+      font-family: 'Rock Salt', cursive;
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      color: rgba(30,18,8,.3);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .address-link:hover { color: #c0392b; }
+
+    @media (max-width: 680px) {
+      nav { padding: 20px 20px 16px; }
+      .nav-links { gap: 18px; }
+      main { padding: 24px 16px; }
+      .postcard { padding: 28px 20px; }
+      .postcard-inner { grid-template-columns: 1fr; gap: 32px 0; }
+      .postcard-rule { display: none; }
+      .postcard-address { border-top: 1.5px solid rgba(192,57,43,.35); padding-top: 28px; }
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <a href="index.html" class="nav-logo">Karan Chulliparambil</a>
+    <a class="nav-home" href="index.html">KC</a>
     <ul class="nav-links">
       <li><a href="about.html" class="active">About</a></li>
       <li><a href="projects.html">Projects</a></li>
@@ -77,78 +327,73 @@
     </ul>
   </nav>
 
-  <div class="page">
-    <div class="page-header">
-      <div class="status-pill fade-up"><span class="dot"></span>Open to work</div>
-      <div class="hero-name fade-up">
-        <div class="solid">Karan</div>
-        <div class="ghost">Chulliparambil.</div>
+  <main>
+    <div class="postcard">
+      <div class="postcard-inner">
+
+        <div class="postcard-message">
+          <div class="message-label">Message</div>
+          <div class="message-body">
+            <p>I study economics at NYU — but you'll find me just as comfortable in a sketchbook as a spreadsheet. I'm drawn to the space between numbers and ideas: what markets miss, what cities optimize for, what systems quietly break.</p>
+            <p>Most of my work lives at intersections. Finance and design. Data and narrative. Rigor and instinct. I don't think these are opposites — I think they're the same curiosity wearing different clothes.</p>
+            <p>Currently in New York, open to what comes next. Looking for roles in finance, research, strategy, or anything that rewards thinking carefully and moving fast.</p>
+          </div>
+          <div class="message-ps">
+            — Karan<br>
+            <span style="font-size:6px;letter-spacing:0.2em;">NYU ECONOMICS · CLASS OF 2025</span>
+          </div>
+        </div>
+
+        <div class="postcard-rule"></div>
+
+        <div class="postcard-address">
+
+          <div class="stamp-area">
+            <div class="stamp">
+              <div class="stamp-inner">
+                <div class="stamp-value">NYC</div>
+                <div class="stamp-label">NEW YORK</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="postmark-wrap">
+            <div class="postmark-circle">
+              <div class="postmark-city">NEW YORK<br>NY</div>
+              <div class="postmark-line"></div>
+              <div class="postmark-year">2025</div>
+            </div>
+            <div class="cancel-lines">
+              <div class="cancel-line"></div>
+              <div class="cancel-line"></div>
+              <div class="cancel-line"></div>
+            </div>
+          </div>
+
+          <div class="address-to">
+            <div class="address-label">To</div>
+            <div class="address-text">Recruiters, Founders<br>& Interesting People</div>
+            <div class="address-sub">Anywhere worth going</div>
+          </div>
+
+          <div class="address-divider"></div>
+
+          <div class="address-from">
+            <div class="address-label">From</div>
+            <div class="address-text">Karan Chulliparambil</div>
+            <div class="address-sub">NYU, Economics '25<br>New York, NY</div>
+          </div>
+
+          <div class="address-links">
+            <a class="address-link" href="mailto:chulkara2003@gmail.com">Email</a>
+            <a class="address-link" href="https://linkedin.com/in/karanchulliparambil" target="_blank">LinkedIn</a>
+            <a class="address-link" href="projects.html">Projects →</a>
+          </div>
+
+        </div>
       </div>
-      <p class="hero-sub fade-up">NYU Economics &nbsp;·&nbsp; Class of 2025 &nbsp;·&nbsp; New York</p>
     </div>
+  </main>
 
-    <hr class="section-rule fade-up" />
-    <p class="section-eyebrow fade-up">About</p>
-
-    <div class="about-grid fade-up">
-      <div class="about-body">
-        <p>I'm an economics graduate from NYU with a focus on financial markets, data analysis, and product thinking. Drawn to problems where technology meets capital — how AI is reshaping finance, how data compounds into competitive advantage, how markets process information.</p>
-        <p>My work spans financial modeling, research automation, and building tools that cut through the manual parts of analysis. I care about precision in the work and clarity in how it's communicated.</p>
-        <p>Currently exploring roles in fintech, strategy, and growth — ideally at a company where rigor and velocity coexist.</p>
-      </div>
-      <div class="facts">
-        <div><div class="fact-label">Education</div><div class="fact-val">New York University</div></div>
-        <div><div class="fact-label">Degree</div><div class="fact-val">B.A. Economics</div></div>
-        <div><div class="fact-label">Year</div><div class="fact-val">Class of 2025</div></div>
-        <div><div class="fact-label">Based in</div><div class="fact-val">New York, NY</div></div>
-        <div><div class="fact-label">Interests</div><div class="fact-val">Fintech · AI · Markets · Product</div></div>
-        <div><div class="fact-label">Tools</div><div class="fact-val">Python · Excel · SQL · Bloomberg</div></div>
-      </div>
-    </div>
-
-    <hr class="section-rule fade-up" />
-    <p class="section-eyebrow fade-up">Explore</p>
-
-    <div class="fade-up">
-      <a href="projects.html" class="explore-row">
-        <span class="explore-name">Projects</span>
-        <span class="explore-desc">Work, side projects, and research.</span>
-        <span class="explore-arrow">↗</span>
-      </a>
-      <a href="writing.html" class="explore-row">
-        <span class="explore-name">Writing</span>
-        <span class="explore-desc">Essays, memos, and market notes.</span>
-        <span class="explore-arrow">↗</span>
-      </a>
-      <a href="design.html" class="explore-row">
-        <span class="explore-name">Design</span>
-        <span class="explore-desc">UI, branding, and visual work.</span>
-        <span class="explore-arrow">↗</span>
-      </a>
-    </div>
-  </div>
-
-  <footer>
-    <p>© 2025 Karan Chulliparambil</p>
-    <div class="footer-links">
-      <a href="https://www.linkedin.com/in/karan-chulliparambil" target="_blank">LinkedIn</a>
-      <a href="mailto:chulkara2003@gmail.com">Email</a>
-    </div>
-  </footer>
-
-  <script>
-    const obs = new IntersectionObserver(e => e.forEach(x => {
-      if (x.isIntersecting) x.target.classList.add('visible');
-    }), { threshold: .04 });
-    document.querySelectorAll('.fade-up').forEach((el, i) => {
-      el.style.transitionDelay = `${i * 55}ms`;
-      obs.observe(el);
-    });
-    setTimeout(() => {
-      document.querySelectorAll('.page-header .fade-up').forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), 50 + i * 100);
-      });
-    }, 0);
-  </script>
 </body>
 </html>
