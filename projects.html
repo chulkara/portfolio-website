@@ -156,7 +156,16 @@ body{
 .title-bar{
   display:flex;align-items:flex-end;justify-content:center;
   padding:110px 40px 40px;gap:40px;border-bottom:1px solid rgba(243,213,141,.16);
-  background:var(--police);
+  background:
+    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(229,157,44,.55), transparent 60%),
+    radial-gradient(ellipse 55% 60% at 5% 55%, rgba(23,37,63,.75), transparent 60%),
+    linear-gradient(180deg,
+      #2E4365 0%,
+      #2E4365 45%,
+      #3F4E75 60%,
+      #4A5878 75%,
+      #38495F 90%,
+      #2E4365 100%);
 }
 .title-bar .title{
   font-family:"Plus Jakarta Sans","Helvetica Neue",Arial,sans-serif;font-weight:900;
@@ -221,6 +230,7 @@ body{
 }
 .season-item.i-one-tap{background-image:url('img/one-tap-rejection.png?v=2')}
 .season-item.i-scent{background-image:url('img/scent-market.png?v=1')}
+.season-item.i-auction{background-image:url('img/invisible-auction.png?v=1')}
 /* dark scrim so caption stays legible on the image */
 .season-item.has-img::before{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -332,7 +342,13 @@ body{
           <a href="https://www.scent-market.com/" target="_blank" rel="noopener">Check It Out</a>
         </div>
       </div>
-      <a class="season-item" href="#"><h4>Escape Hatches</h4><span class="m">Writing · Oct</span></a>
+      <div class="season-item has-img i-auction" data-menu data-item-id="invisible-auction">
+        <h4>Invisible Auction Article</h4><span class="m">Writing · Sep</span>
+        <div class="card-menu">
+          <p class="summary">An essay on the hidden auctions that price every flight, every ad, every ride - and what happens when the market moves faster than the person paying for it.</p>
+          <a href="https://medium.com/@chullkaran/the-invisible-auction-e236a352fbc9?postPublishedType=initial" target="_blank" rel="noopener">Read It Here</a>
+        </div>
+      </div>
       <a class="season-item" href="#"><h4>Failure States</h4><span class="m">Design · Nov</span></a>
     </div>
   </div>

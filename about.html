@@ -47,7 +47,16 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
   padding:110px 40px 40px;
   display:flex;align-items:flex-end;justify-content:center;
   border-bottom:1px solid rgba(243,213,141,.16);
-  background:var(--police);
+  background:
+    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(229,157,44,.55), transparent 60%),
+    radial-gradient(ellipse 55% 60% at 5% 55%, rgba(23,37,63,.75), transparent 60%),
+    linear-gradient(180deg,
+      #2E4365 0%,
+      #2E4365 45%,
+      #3F4E75 60%,
+      #4A5878 75%,
+      #38495F 90%,
+      #2E4365 100%);
 }
 .hero-inner{max-width:1240px;margin:0 auto;text-align:center;width:100%}
 .hero h1{
