@@ -1,255 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Karan Chulliparambil</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Rock+Salt&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karan Chulliparambil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Rock+Salt&family=Fraunces:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:'Wagon';font-style:normal;font-weight:200;font-display:swap;
+  src:url('fonts/Wagon-ExtraLight.otf') format('opentype');
+}
+@font-face{
+  font-family:'Wagon';font-style:italic;font-weight:200;font-display:swap;
+  src:url('fonts/Wagon-ExtraLightItalic.otf') format('opentype');
+}
+@font-face{
+  font-family:'Wagon';font-style:normal;font-weight:700;font-display:swap;
+  src:url('fonts/Wagon-Bold.otf') format('opentype');
+}
+@font-face{
+  font-family:'Casta';font-style:normal;font-weight:100;font-display:swap;
+  src:url('fonts/Casta-Thin.otf') format('opentype');
+}
+@font-face{
+  font-family:'Casta';font-style:italic;font-weight:100;font-display:swap;
+  src:url('fonts/Casta-ThinSlanted.otf') format('opentype');
+}
+@font-face{
+  font-family:'Heming';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url('fonts/HemingVariable.ttf') format('truetype-variations');
+}
+@font-face{
+  font-family:'Clash Display';font-style:normal;font-weight:200 700;font-display:swap;
+  src:url('fonts/ClashDisplay-Variable.ttf') format('truetype-variations');
+}
+@font-face{
+  font-family:'Junicode';font-style:normal;font-weight:400;font-display:swap;
+  src:url('fonts/Junicode.ttf') format('truetype');
+}
+@font-face{
+  font-family:'Junicode';font-style:italic;font-weight:400;font-display:swap;
+  src:url('fonts/Junicode-Italic.ttf') format('truetype');
+}
+@font-face{
+  font-family:'Junicode';font-style:normal;font-weight:700;font-display:swap;
+  src:url('fonts/Junicode-Bold.ttf') format('truetype');
+}
+@font-face{
+  font-family:'Junicode';font-style:italic;font-weight:700;font-display:swap;
+  src:url('fonts/Junicode-BoldItalic.ttf') format('truetype');
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* PRIMARY PALETTE */
+  --marigold:#E59D2C;
+  --police:#2E4365;
+  --buff:#F3D58D;
+  --pearl:#EBDDC5;
+  /* aliases for backward compat */
+  --cream:var(--pearl);
+  --ink:#0C0C0C;
+  --ink-2:#1a1a1a;
+  --dim:rgba(235,221,197,.55);
+  --accent:#E3593C;
+  --sans:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
+  --serif:'Wagon','Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
+  --script:'Rock Salt',cursive;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weight:400;font-size:16.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
 
-    body {
-      margin: 0;
-      background: #0a0a08;
-      font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      overflow: hidden;
-    }
+/* ============ NAV — matches live site ============ */
+.nav{position:absolute;top:0;left:0;right:0;z-index:20;height:72px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 32px 14px;color:#fff}
+.nav ul{list-style:none;display:flex;gap:36px;font-family:'Clash Display','Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.nav a{color:#F3D58D;text-decoration:none;transition:opacity .2s;opacity:.9}
+.nav a:hover{opacity:1}
 
-    /* ---- FULL SCREEN ---- */
-    .landing {
-      position: relative;
-      width: 100vw;
-      height: 100svh;
-      min-height: 600px;
-      overflow: hidden;
-    }
+/* ============ HERO (police blue → marigold horizon) ============ */
+.hero{
+  position:relative;height:100vh;min-height:680px;overflow:hidden;
+  background:
+    /* marigold bloom, top-right (echoes the horizon) */
+    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(229,157,44,.55), transparent 60%),
+    /* deep steel pool, mid-left */
+    radial-gradient(ellipse 55% 60% at 5% 55%, rgba(23,37,63,.75), transparent 60%),
+    /* base: police blue up top, easing into a full marigold horizon at the bottom */
+    linear-gradient(180deg,
+      #2E4365 0%,
+      #2E4365 45%,
+      #3F4E75 58%,
+      #7D6D6E 72%,
+      #C8905A 85%,
+      #E59D2C 100%);
+  color:#f4f1ea;
+}
+/* subtle noise/cloud layer */
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.14), transparent 15%),
+    radial-gradient(circle at 55% 40%, rgba(255,255,255,.09), transparent 18%),
+    radial-gradient(circle at 78% 25%, rgba(255,255,255,.11), transparent 12%),
+    radial-gradient(circle at 20% 70%, rgba(255,255,255,.08), transparent 20%),
+    radial-gradient(circle at 82% 78%, rgba(255,255,255,.1), transparent 15%),
+    radial-gradient(circle at 40% 88%, rgba(255,255,255,.06), transparent 12%);
+  mix-blend-mode:screen;opacity:.7;
+}
+.hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding-top:82px;padding-bottom:60px}
 
-    /* ---- BACKGROUND PHOTO ---- */
-    .landing-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 60%;
-    }
+/* massive title — MATCHES LIVE SITE EXACTLY */
+.hero-title{
+  position:relative;padding:8px 28px 0;line-height:.88;width:100%;
+}
+.hero-name{
+  display:block;
+  font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:900;
+  line-height:.88;letter-spacing:-.02em;
+  white-space:nowrap;
+  color:#E59D2C;
+  text-transform:uppercase;
+  font-size:10px; /* JS fits this to container width */
+}
+/* keep info block padded from the edges */
+.info-block{padding:0 60px}
 
-    /* ---- SCRIM — heavy top over bright photo ---- */
-    .landing-scrim {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom,
-          rgba(0,0,0,.72) 0%,
-          rgba(0,0,0,.45) 25%,
-          rgba(0,0,0,.15) 55%,
-          rgba(0,0,0,.0) 100%);
-    }
+/* NIO-style info block */
+.info-block{
+  display:grid;grid-template-columns:1fr;gap:28px;
+  font-family:var(--sans);font-size:12px;letter-spacing:.02em;line-height:1.55;
+  color:#f4f1ea;
+}
+@media(min-width:800px){.info-block{grid-template-columns:auto 1fr;gap:60px;align-items:end}}
 
-    /* ---- NAV ---- */
-    nav {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      z-index: 20;
-      height: 72px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      padding: 0 32px 14px;
-    }
+.info-left{max-width:340px}
+.info-left .tag{opacity:.6;margin-bottom:14px;letter-spacing:.05em}
+.info-left .role{opacity:.85;line-height:1.5}
+.info-left .role strong{font-weight:600}
+.reach{display:flex;align-items:center;gap:16px}
+.reach-icon{color:#2E4365;opacity:.85;transition:opacity .2s;display:inline-flex}
+.reach-icon:hover{opacity:1}
+.reach-email{color:#2E4365;opacity:.9;text-decoration:none;font-size:13px;letter-spacing:.02em;border-bottom:1px solid rgba(46,67,101,.4);padding-bottom:2px;transition:opacity .2s,border-color .2s}
+.reach-email:hover{opacity:1;border-color:rgba(46,67,101,.9)}
 
-    .nav-group {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
+.info-schedule{max-width:560px}
+.info-schedule .cap{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-bottom:12px}
+.info-schedule table{width:100%;font-size:12px;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.info-schedule th{
+  text-align:left;font-weight:400;padding:6px 24px 6px 0;
+  border-bottom:1px solid rgba(244,241,234,.2);
+  font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.55;
+}
+.info-schedule td{padding:6px 24px 6px 0;border-bottom:1px solid rgba(244,241,234,.08);opacity:.8}
+.info-schedule tr:last-child td{border-bottom:none}
 
-    nav a {
-      font-family: 'Rock Salt', cursive;
-      font-size: 13px;
-      font-weight: 400;
-      color: rgba(255,255,255,.5);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      text-transform: none;
-      transition: color .2s;
-    }
-    nav a:hover { color: rgba(255,255,255,.95); }
+/* scroll cue */
+.scroll-cue{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:3;
+  font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#2E4365;opacity:.75;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  transition:opacity .4s ease;pointer-events:none;
+}
+.scroll-cue.hide{opacity:0}
+.scroll-cue .arrow{
+  width:1px;height:34px;background:#2E4365;position:relative;opacity:.6;
+  animation:drop 2.4s ease-in-out infinite;
+}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-    /* ---- HERO TITLE — right below nav, full width ---- */
-    .hero-title {
-      position: absolute;
-      top: 72px;
-      left: 0;
-      right: 0;
-      z-index: 20;
-      padding: 8px 28px 0;
-      line-height: 0.88;
-    }
+/* ============ FEATURED (Qaafi lead-in) ============ */
+.feat{padding:120px 40px 100px;background:#E59D2C;color:#2E4365}
+.feat-hdr{
+  max-width:1240px;margin:0 auto 70px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;
+  border-bottom:1px solid rgba(46,67,101,.22);padding-bottom:36px;
+}
+.feat-hdr .cap{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2E4365;opacity:.7}
+.feat-hdr h2{
+  font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:900;
+  font-size:clamp(56px,10vw,140px);
+  letter-spacing:-.03em;line-height:.9;text-transform:uppercase;
+  color:#2E4365;
+}
+.feat-block{
+  max-width:1240px;margin:0 auto;
+  display:grid;grid-template-columns:1fr;gap:60px;
+}
+@media(min-width:900px){.feat-block{grid-template-columns:1.1fr .9fr;gap:80px;align-items:center}}
+.feat-img{
+  aspect-ratio:4/5;
+  background:linear-gradient(135deg,#E0F3FA,#B8DBE8 60%,#8FC4D9);
+  border-radius:6px;position:relative;overflow:hidden;
+  box-shadow:0 30px 60px -20px rgba(12,12,12,.2);
+}
+.feat-img::after{
+  content:"Tell us why.";position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);font-weight:500;letter-spacing:-.05em;
+  font-size:clamp(36px,4vw,60px);color:var(--ink);
+}
+.feat-txt .kicker{font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#2E4365;opacity:.7;margin-bottom:18px}
+.feat-txt h3{font-family:var(--serif);font-size:clamp(34px,4.4vw,54px);font-weight:700;letter-spacing:-.03em;line-height:1.02;margin-bottom:22px;color:#2E4365}
+.feat-txt h3 em{font-style:italic}
+.feat-txt p{font-size:16.5px;color:#2E4365;opacity:.85;line-height:1.6;margin-bottom:14px;max-width:34em}
+.feat-txt .read{display:inline-block;margin-top:14px;font-family:'Clash Display','Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;font-size:14px;color:#2E4365;text-decoration:none;border-bottom:1px solid #2E4365;padding-bottom:3px;letter-spacing:.06em;text-transform:uppercase;transform-origin:left center;transition:transform .28s ease,letter-spacing .28s ease}
+.feat-txt .read:hover{transform:scale(1.08);letter-spacing:.08em}
 
-    .hero-name {
-      display: block;
-      font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-weight: 900;
-      line-height: 0.88;
-      letter-spacing: -0.02em;
-      white-space: nowrap;
-      color: #ffffff;
-      text-transform: uppercase;
-      /* font-size set by JS */
-    }
+/* ============ WORK CARDS (Nami-style hover) ============ */
+.workgrid{padding:120px 40px 140px;background:#2E4365;color:#F4EFE4;border-top:1px solid rgba(0,0,0,.08)}
+.wg-hdr{
+  max-width:1240px;margin:0 auto 80px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;
+  border-bottom:1px solid rgba(244,239,228,.16);padding-bottom:36px;
+}
+.wg-hdr .cap{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#F4EFE4;opacity:.55}
+.wg-hdr h2{
+  font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:900;
+  font-size:clamp(44px,9vw,130px);
+  letter-spacing:-.03em;line-height:.9;text-transform:uppercase;
+  white-space:nowrap;
 
-    /* ---- BOTTOM COPY — bottom left, like faceformula ---- */
-    .hero-body {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      z-index: 20;
-      padding: 0 32px 44px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-    }
+  /* Clean marigold on police blue — no deboss (that treatment moves to the footer) */
+  color:#E59D2C;
+}
 
-    .hero-copy {
-      max-width: 360px;
-    }
+.cards{
+  max-width:1240px;margin:0 auto;padding:0 40px;
+  display:grid;gap:24px;grid-template-columns:repeat(2,minmax(0,1fr));
+}
+@media(min-width:900px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}}
 
-    .hero-tagline {
-      font-size: clamp(22px, 3.2vw, 38px);
-      font-weight: 800;
-      color: rgba(255,255,255,.92);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 14px;
-    }
+.card{
+  position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;
+  background:#e2ddd0;cursor:pointer;transition:transform .3s ease;
+  box-shadow:0 12px 30px -14px rgba(12,12,12,.16);
+}
+.card:hover{transform:translateY(-4px)}
+.card .bg{position:absolute;inset:0;transition:transform .5s ease}
+.card:hover .bg{transform:scale(1.06)}
+.card .caption{
+  position:absolute;left:0;right:0;bottom:0;padding:18px 20px;color:#2E4365;
+  z-index:3;transition:transform .3s ease;
+}
+.card .caption h4{font-family:var(--sans);font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.15;margin-bottom:4px}
+.card .caption .meta{font-family:var(--sans);font-size:11px;letter-spacing:.06em;opacity:.7;text-transform:uppercase}
+.card::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,transparent 65%,rgba(233,197,112,.6) 100%);
+}
 
-    .hero-sub {
-      font-size: 11px;
-      font-weight: 400;
-      color: rgba(255,255,255,.42);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
+/* hover overlay (Nami style — reveal a note) */
+.card .over{
+  position:absolute;inset:0;z-index:4;padding:20px;
+  background:rgba(12,12,12,.86);color:#f4f1ea;
+  display:flex;flex-direction:column;justify-content:space-between;
+  opacity:0;transition:opacity .32s ease;
+}
+.card:hover .over{opacity:1}
+.card .over .k{font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55}
+.card .over p{font-family:var(--serif);font-style:italic;font-weight:700;font-size:19px;line-height:1.32;letter-spacing:-.01em}
+.card .over .go{font-family:'Clash Display','Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;font-size:13px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
 
-    /* page links bottom right */
-    .hero-links {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-    }
+/* per-card backgrounds — buff */
+.card.c1 .bg,
+.card.c2 .bg,
+.card.c3 .bg,
+.card.c4 .bg{background:linear-gradient(135deg,#F5DA98,#F3D58D 55%,#E9C570)}
 
-    .hero-link {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: rgba(255,255,255,.3);
-      font-size: 10.5px;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 0;
-      transition: color .2s;
-    }
-    .hero-link:hover { color: rgba(255,255,255,.85); }
-
-    .hl-num {
-      font-size: 9px;
-      color: rgba(255,255,255,.18);
-      letter-spacing: 0.1em;
-    }
-
-    .hl-arrow {
-      font-size: 11px;
-      opacity: 0;
-      transition: opacity .2s;
-    }
-    .hero-link:hover .hl-arrow { opacity: 1; }
-
-    /* ---- MOBILE ---- */
-    @media (max-width: 640px) {
-      nav { padding: 0 18px; }
-      .hero-title { padding: 6px 18px 0; }
-      .hero-body { padding: 0 18px 28px; flex-direction: column; align-items: flex-start; gap: 24px; }
-      .hero-links { align-items: flex-start; }
-    }
-  </style>
+/* ============ FOOT ============ */
+.foot{padding:100px 40px 60px;background:var(--cream);border-top:1px solid rgba(12,12,12,.12);text-align:center}
+.foot-reach{display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:40px}
+.foot-reach .reach-icon{color:#2E4365;opacity:.85;transition:opacity .2s;display:inline-flex}
+.foot-reach .reach-icon:hover{opacity:1}
+.foot-reach .reach-email{
+  font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:500;font-size:14px;letter-spacing:.01em;
+  color:#2E4365;text-decoration:none;opacity:.9;
+  border-bottom:1px solid rgba(46,67,101,.4);padding-bottom:2px;transition:opacity .2s;
+}
+.foot-reach .reach-email:hover{opacity:1}
+.foot .credit{
+  font-family:'Wagon','Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-weight:200;
+  font-size:clamp(14px,1.5vw,18px);
+  letter-spacing:.02em;line-height:1.2;
+  color:var(--cream);
+  text-shadow:
+    0 -1px 1px rgba(0,0,0,.18),
+    0 1px 0 rgba(255,255,255,.7),
+    0 2px 2px rgba(255,255,255,.25);
+}
+.foot .meta{font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#2E4365;opacity:.5;margin-top:20px;display:block}
+</style>
 </head>
 <body>
 
-  <div class="landing">
+<nav class="nav">
+  <div></div>
+  <ul>
+    <li><a href="about.html">About</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="writing.html">Writing</a></li>
+    <li><a href="design.html">Design</a></li>
+  </ul>
+</nav>
 
-    <!-- Sailboat background -->
-    <img class="landing-bg" src="hero-bg.jpg" alt="" />
-    <div class="landing-scrim"></div>
-
-
-    <!-- Nav: all links right -->
-    <nav>
-      <ul class="nav-group"></ul>
-      <ul class="nav-group">
-        <li><a href="about.html">About</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="writing.html">Writing</a></li>
-        <li><a href="design.html">Design</a></li>
-      </ul>
-    </nav>
-
-    <!-- Massive name — full viewport width, top of page -->
+<!-- ============ HERO (editorial) ============ -->
+<section class="hero">
+  <div class="hero-inner">
     <div class="hero-title">
       <span class="hero-name" id="heroName">Karan <span style="font-weight:300;position:relative;top:-0.06em;">—</span> Chulliparambil</span>
     </div>
 
-
+    <div class="info-block">
+      <div class="info-left">
+        <div class="reach">
+          <a href="https://www.linkedin.com/in/kchulliparambil/" target="_blank" rel="noopener" class="reach-icon" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="mailto:krc8916@nyu.edu" class="reach-email">krc8916@nyu.edu</a>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script>
-    // Fit the name to exactly span the container width
-    function fitName() {
-      const el = document.getElementById('heroName');
-      const container = el.parentElement;
-      const style = window.getComputedStyle(container);
-      const maxW = container.clientWidth
-        - parseFloat(style.paddingLeft)
-        - parseFloat(style.paddingRight);
-      let lo = 10, hi = 1000;
-      while (hi - lo > 0.25) {
-        const mid = (lo + hi) / 2;
-        el.style.fontSize = mid + 'px';
-        el.scrollWidth > maxW ? (hi = mid) : (lo = mid);
-      }
-      el.style.fontSize = lo + 'px';
-    }
+  <div class="scroll-cue" id="scrollCue">
+    <span>Scroll</span>
+    <span class="arrow"></span>
+  </div>
+</section>
 
-    // Wait for Barlow to load before fitting
-    document.fonts.ready.then(() => {
-      fitName();
-      window.addEventListener('resize', fitName);
-    });
+<!-- ============ FEATURED ============ -->
+<section class="feat" id="featured">
+  <div class="feat-hdr">
+    <span class="cap" id="seasonLbl">Fall 2026</span>
+    <h2>Featured</h2>
+  </div>
+  <div class="feat-block">
+    <div class="feat-img"></div>
+    <div class="feat-txt">
+      <p class="kicker">One-tap rejection feedback</p>
+      <h3>Tell us <em>why</em>.</h3>
+      <p>Every AI product gets told it's wrong dozens of times a day, at the exact moment the user knows precisely what's wrong with it. Almost every AI product throws that away.</p>
+      <p>This is a case study on a one-tap capture pattern designed for the moment before frustration is gone. Free text gets 3% engagement. Buttons get 61%. Here's why that matters.</p>
+      <a class="read" href="feedback-feature.html">Read the piece →</a>
+    </div>
+  </div>
+</section>
 
-    // Entrance animations
-    const heroName = document.getElementById('heroName');
-    const nav = document.querySelector('nav');
+<!-- ============ WORK CARDS (Nami-style hover) ============ -->
+<section class="workgrid" id="work">
+  <div class="wg-hdr">
+    <span class="cap" id="workSeasonLbl">Fall 2026</span>
+    <h2>Recent Work</h2>
+  </div>
+  <div class="cards">
 
-    [nav, heroName].forEach((el, i) => {
-      el.style.opacity = '0';
-      el.style.transform = i === 1 ? 'translateY(20px)' : 'none';
-      el.style.transition = `opacity ${i === 1 ? '1s' : '.7s'} ease, transform 1s ease`;
-    });
+    <a class="card c1" href="feedback-feature.html">
+      <div class="bg"></div>
+      <div class="caption">
+        <h4>Tell us why.</h4>
+        <span class="meta">Whirl AI · 2026</span>
+      </div>
+      <div class="over">
+        <span class="k">On feedback</span>
+        <p>"A complaint you can count is a complaint you can kill."</p>
+        <span class="go">Read →</span>
+      </div>
+    </a>
 
-    setTimeout(() => {
-      nav.style.opacity = '1';
-      setTimeout(() => {
-        heroName.style.opacity = '1';
-        heroName.style.transform = 'none';
-      }, 150);
-    }, 100);
+    <a class="card c2" href="#">
+      <div class="bg"></div>
+      <div class="caption">
+        <h4>The reading queue.</h4>
+        <span class="meta">Personal · 2025</span>
+      </div>
+      <div class="over">
+        <span class="k">On finishing</span>
+        <p>"An anti-productivity reader for the way people actually finish books."</p>
+        <span class="go">Read →</span>
+      </div>
+    </a>
 
-  </script>
+    <a class="card c3" href="#">
+      <div class="bg"></div>
+      <div class="caption">
+        <h4>Console rebuild.</h4>
+        <span class="meta">Snowflake ref · 2024</span>
+      </div>
+      <div class="over">
+        <span class="k">On exit surveys</span>
+        <p>"The tabs users asked for, discovered in the friction of leaving."</p>
+        <span class="go">Read →</span>
+      </div>
+    </a>
 
+    <a class="card c4" href="#">
+      <div class="bg"></div>
+      <div class="caption">
+        <h4>Failure states.</h4>
+        <span class="meta">In progress · 2026</span>
+      </div>
+      <div class="over">
+        <span class="k">On breaking</span>
+        <p>"Graceful failure is the honest test of a product's manners."</p>
+        <span class="go">Soon →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ============ FOOT ============ -->
+<footer class="foot">
+  <div class="foot-reach">
+    <a href="https://www.linkedin.com/in/kchulliparambil/" target="_blank" rel="noopener" class="reach-icon" aria-label="LinkedIn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+    </a>
+    <a href="mailto:krc8916@nyu.edu" class="reach-email">krc8916@nyu.edu</a>
+  </div>
+  <div class="credit">Designed by Karan Chulliparambil</div>
+  <span class="meta">© 2026 · All rights reserved</span>
+</footer>
+
+<script>
+// Hide scroll cue once user scrolls
+(function(){
+  var cue=document.getElementById('scrollCue');
+  if(!cue) return;
+  function onScroll(){
+    if(window.scrollY>40) cue.classList.add('hide');
+    else cue.classList.remove('hide');
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+})();
+
+// Seasonal label for Featured section
+(function(){
+  var el=document.getElementById('seasonLbl');
+  if(!el) return;
+  var now=new Date();
+  var m=now.getMonth(); // 0=Jan
+  var y=now.getFullYear();
+  var season;
+  if(m>=8 && m<=10) season='Fall';           // Sep, Oct, Nov
+  else if(m===11 || m<=1) season='Winter';   // Dec, Jan, Feb
+  else if(m>=2 && m<=4) season='Spring';     // Mar, Apr, May
+  else season='Summer';                       // Jun, Jul, Aug
+  // for Winter spanning years, use the Dec year (or Jan/Feb year — Dec year is the "start")
+  var displayY=(m===11)?y:(season==='Winter'?y:y);
+  var label=season+' '+displayY;
+  el.textContent=label;
+  var work=document.getElementById('workSeasonLbl');
+  if(work) work.textContent=label;
+})();
+
+// Fit the name to exactly span the container width — same as live site
+function fitName(){
+  var el=document.getElementById('heroName');
+  if(!el) return;
+  var container=el.parentElement;
+  var style=window.getComputedStyle(container);
+  var maxW=container.clientWidth
+    - parseFloat(style.paddingLeft)
+    - parseFloat(style.paddingRight);
+  var lo=10, hi=1000;
+  while(hi-lo>0.25){
+    var mid=(lo+hi)/2;
+    el.style.fontSize=mid+'px';
+    el.scrollWidth>maxW ? (hi=mid) : (lo=mid);
+  }
+  el.style.fontSize=lo+'px';
+}
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(function(){
+    fitName();
+    window.addEventListener('resize', fitName);
+  });
+} else {
+  window.addEventListener('load', fitName);
+  window.addEventListener('resize', fitName);
+}
+</script>
 </body>
 </html>

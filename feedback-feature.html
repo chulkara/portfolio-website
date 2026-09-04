@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tell us why - Karan Chulliparambil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --sky:#E0F3FA;
+  --sky-2:#F1FBFD;
+  --ink:#0C0C0C;
+  --ink-2:#181818;
+  --white:#fff;
+  --orange:#E3593C;
+  --sans:'Inter Tight',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'Inter Tight',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --pad:clamp(24px,5vw,80px);
+}
+
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--sky);color:var(--ink);font-family:var(--sans);font-weight:400;font-size:18px;line-height:1.4}
+
+.band{padding:clamp(72px,11vw,150px) var(--pad)}
+.band.dark{background:var(--ink);color:var(--sky)}
+.band.white{background:var(--white);color:var(--ink)}
+.band.orange{background:var(--orange);color:var(--ink)}
+.inner{max-width:1240px;margin:0 auto}
+
+/* ---------- type ---------- */
+.d1{font-size:clamp(52px,10.5vw,140px);font-weight:500;letter-spacing:-.07em;line-height:.92;margin:0}
+.d2{font-size:clamp(34px,5.6vw,76px);font-weight:500;letter-spacing:-.065em;line-height:1;margin:0}
+.d3{font-size:clamp(24px,3.2vw,40px);font-weight:500;letter-spacing:-.05em;line-height:1.05;margin:0}
+.lbl{
+  font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:.08em;
+  text-transform:uppercase;opacity:.5;
+}
+.dark .lbl{opacity:.55}
+p{font-size:18px;line-height:1.45;max-width:34em}
+p+p{margin-top:1.1em}
+strong{font-weight:600}
+.lede{font-size:clamp(20px,2.2vw,26px);line-height:1.32;letter-spacing:-.025em;max-width:22em}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(80px,13vw,170px) var(--pad) clamp(56px,8vw,110px)}
+.hero .d1{margin-bottom:clamp(28px,4vw,52px)}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:clamp(40px,6vw,80px);align-items:center}
+@media(min-width:1000px){
+  .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,5vw,90px)}
+}
+.hero-left{min-width:0}
+.hero-right{min-width:0}
+
+/* ---------- hero carousel ---------- */
+.car{position:relative;width:100%;max-width:520px;margin-left:auto}
+.car-stage{
+  position:relative;background:var(--ink-2);color:var(--sky);
+  aspect-ratio:5/4;overflow:hidden;border-radius:4px;
+  box-shadow:0 30px 60px -20px rgba(12,12,12,.25);
+}
+.car-bar{
+  display:flex;align-items:center;gap:6px;padding:12px 16px;
+  border-bottom:1px solid rgba(224,243,250,.1);
+}
+.car-dot{width:6px;height:6px;border-radius:50%;background:rgba(224,243,250,.18)}
+.car-name{margin-left:auto;font-family:var(--mono);font-size:10px;opacity:.4;letter-spacing:.05em}
+.car-body{position:relative;padding:22px;height:calc(100% - 45px);overflow:hidden}
+.slide{position:absolute;inset:22px;opacity:0;transition:opacity .5s ease;pointer-events:none}
+.slide.on{opacity:1;pointer-events:auto}
+.s-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;opacity:.5;margin-bottom:10px}
+.s-t{font-size:16px;font-weight:500;letter-spacing:-.03em;line-height:1.15;margin-bottom:8px;color:var(--sky)}
+.s-d{font-size:11.5px;line-height:1.45;opacity:.62;max-width:32em}
+.s-src{margin-top:10px;font-family:var(--mono);font-size:9px;opacity:.42}
+.s-btns{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap}
+.s-btn{
+  font-family:inherit;font-size:11px;font-weight:500;letter-spacing:-.02em;
+  border:1px solid rgba(224,243,250,.24);background:none;color:inherit;
+  padding:6px 11px;border-radius:1px;
+}
+.s-btn.act{background:var(--sky);color:var(--ink);border-color:var(--sky)}
+
+/* overlays inside carousel */
+.s-ov{
+  position:absolute;left:14px;right:14px;bottom:14px;padding:14px 16px;
+  border-radius:6px;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);
+}
+.s-ov.cap{background:var(--orange);color:var(--white)}
+.s-ov.rcp{background:var(--sky);color:var(--ink)}
+.s-ov.cfm{background:var(--sky);color:var(--ink)}
+.s-ov h5{font-size:14px;font-weight:500;letter-spacing:-.03em;margin-bottom:3px;line-height:1.1}
+.s-ov .sub{font-size:10.5px;opacity:.75;margin-bottom:9px}
+.s-chips{display:flex;flex-wrap:wrap;gap:5px}
+.s-chip{
+  font-family:inherit;font-size:10.5px;font-weight:500;letter-spacing:-.015em;
+  border:1px solid rgba(255,255,255,.4);background:none;color:var(--white);
+  padding:5px 9px;border-radius:1px;
+}
+.s-chip.hi{background:rgba(255,255,255,.14)}
+.s-skip{margin-top:8px;font-family:inherit;font-size:10px;background:none;border:none;color:rgba(255,255,255,.7);text-decoration:underline;padding:0}
+.s-ov .rp{font-size:10.5px;line-height:1.45;opacity:.78;color:var(--ink)}
+.s-ov .rp strong{color:var(--ink);font-weight:600}
+.s-ov.dim{background:rgba(0,0,0,.25);width:auto;left:0;right:0;top:0;bottom:0;border-radius:0;pointer-events:none}
+
+/* dim wrapper for overlays */
+.dim-wrap{position:absolute;inset:0;background:rgba(0,0,0,.25);border-radius:0;transition:opacity .3s}
+
+/* dots + controls */
+.car-ctrl{display:flex;align-items:center;gap:16px;margin-top:20px;justify-content:flex-end;max-width:520px;margin-left:auto}
+.car-dots{display:flex;gap:8px}
+.car-d{
+  width:26px;height:2px;background:rgba(12,12,12,.2);border:none;padding:0;cursor:pointer;
+}
+.car-d.on{background:var(--ink)}
+.car-lbl{font-family:var(--mono);font-size:11px;opacity:.55;letter-spacing:.04em}
+
+.hero-foot{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:40px;
+  flex-wrap:wrap;border-top:1px solid rgba(12,12,12,.14);padding-top:22px;margin-top:clamp(40px,6vw,80px)
+}
+.meta{display:flex;gap:clamp(28px,5vw,70px);flex-wrap:wrap}
+.meta div{max-width:200px}
+.meta .lbl{display:block;margin-bottom:7px}
+.meta span:last-child{font-size:16px;letter-spacing:-.02em}
+
+/* ---------- section head ---------- */
+.head{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,34px);margin-bottom:clamp(40px,6vw,72px)}
+@media(min-width:900px){
+  .head{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:end;gap:clamp(30px,5vw,70px)}
+}
+
+/* ---------- product frame ---------- */
+.frame{background:var(--white);border-radius:2px;overflow:hidden;max-width:760px}
+.dark .frame{background:var(--ink-2)}
+.fbar{
+  display:flex;align-items:center;gap:8px;padding:14px 20px;
+  border-bottom:1px solid rgba(12,12,12,.09);
+}
+.dark .fbar{border-color:rgba(224,243,250,.1)}
+.fdot{width:7px;height:7px;border-radius:50%;background:rgba(12,12,12,.15)}
+.dark .fdot{background:rgba(224,243,250,.18)}
+.fname{margin-left:auto;font-family:var(--mono);font-size:11px;opacity:.4}
+.fbody{padding:clamp(24px,3vw,36px);position:relative;min-height:290px}
+
+.f-lbl{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.5;margin-bottom:14px}
+.dark .f-lbl{opacity:.5}
+.f-t{font-size:clamp(20px,2.2vw,26px);font-weight:500;letter-spacing:-.035em;line-height:1.12;margin-bottom:10px;max-width:20em}
+.f-d{font-size:16px;line-height:1.45;opacity:.68;max-width:36em}
+.dark .f-d{opacity:.62}
+.f-src{margin-top:14px;font-family:var(--mono);font-size:11.5px;opacity:.42}
+.f-btns{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+.btn{
+  font-family:inherit;font-size:15px;font-weight:500;letter-spacing:-.02em;
+  border:1px solid rgba(12,12,12,.2);background:none;color:inherit;
+  padding:11px 20px;cursor:pointer;transition:.15s;border-radius:1px;
+}
+.dark .btn{border-color:rgba(224,243,250,.24)}
+.btn:hover{background:var(--ink);color:var(--sky);border-color:var(--ink)}
+.dark .btn:hover{background:var(--sky);color:var(--ink);border-color:var(--sky)}
+
+/* ---------- process map (2nd instance) ---------- */
+.mapwrap{padding:clamp(24px,3vw,36px);background:var(--sky-2);color:var(--ink)}
+.map-hdr{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.map-hdr h4{font-size:17px;font-weight:500;letter-spacing:-.028em;color:var(--ink)}
+.map-hdr .lbl{opacity:.55;color:var(--ink)}
+.map{display:flex;gap:0;align-items:stretch;margin-bottom:6px;flex-wrap:wrap}
+.node{
+  flex:1;min-width:130px;background:var(--white);color:var(--ink);
+  padding:14px 15px;position:relative;
+  border-right:1px solid rgba(12,12,12,.09);
+}
+.node:last-child{border-right:none}
+.node.wrong{background:var(--orange);color:var(--white)}
+.node-n{font-family:var(--mono);font-size:10px;opacity:.55;margin-bottom:7px;color:inherit}
+.node.wrong .node-n{opacity:.75}
+.node-t{font-size:14px;font-weight:500;letter-spacing:-.02em;line-height:1.2;margin-bottom:8px;color:inherit}
+.node.wrong .node-t{color:var(--white)}
+.node-s{font-family:var(--mono);font-size:10.5px;opacity:.55;color:inherit}
+.node.wrong .node-s{opacity:.8}
+.node-btn{
+  margin-top:12px;display:inline-block;font-family:inherit;font-size:12px;font-weight:500;
+  border:1px solid currentColor;background:none;color:inherit;padding:5px 10px;cursor:pointer;
+}
+.node.wrong .node-btn{color:var(--white);border-color:var(--white)}
+.node.wrong .node-btn:hover{background:var(--white);color:var(--orange)}
+
+/* the capture sheet */
+.cap,.rcp{
+  position:absolute;left:clamp(24px,3vw,36px);right:clamp(24px,3vw,36px);
+  bottom:clamp(24px,3vw,36px);
+  opacity:0;transform:translateY(10px);pointer-events:none;
+  transition:opacity .25s ease,transform .25s cubic-bezier(.2,.8,.3,1);
+}
+.cap.on,.rcp.on{opacity:1;transform:none;pointer-events:auto}
+.cap{background:var(--orange);color:var(--white);padding:clamp(20px,2.4vw,28px)}
+.cap h4{font-size:clamp(21px,2.3vw,28px);font-weight:500;letter-spacing:-.04em;line-height:1.05;margin-bottom:6px}
+.cap .sub{font-size:15px;opacity:.75;margin-bottom:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  font-family:inherit;font-size:15px;font-weight:500;letter-spacing:-.02em;
+  border:1px solid rgba(255,255,255,.4);background:none;color:var(--white);
+  padding:9px 16px;cursor:pointer;transition:.12s;border-radius:1px;
+}
+.chip:hover{background:var(--white);color:var(--orange);border-color:var(--white)}
+.skip{
+  margin-top:18px;font-family:inherit;font-size:14px;background:none;border:none;
+  color:rgba(255,255,255,.7);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;
+}
+.skip:hover{color:var(--white)}
+
+.rcp{background:var(--ink);color:var(--sky);padding:clamp(20px,2.4vw,28px)}
+.dark .rcp{background:var(--sky);color:var(--ink)}
+.rcp h4{font-size:19px;font-weight:500;letter-spacing:-.03em;margin-bottom:8px}
+.rcp p{font-size:15.5px;line-height:1.45;opacity:.72;max-width:44em}
+.rcp .again{
+  margin-top:16px;font-family:inherit;font-size:14px;background:none;border:none;
+  color:inherit;opacity:.6;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;
+}
+.rcp .again:hover{opacity:1}
+
+.tryit{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.5;margin-bottom:18px}
+.dark .tryit{opacity:.55}
+
+/* ---------- split stat ---------- */
+.split{display:grid;grid-template-columns:1fr;gap:1px;background:rgba(12,12,12,.14);margin-top:clamp(40px,6vw,70px)}
+@media(min-width:820px){.split{grid-template-columns:1fr 1fr}}
+.half{background:var(--sky);padding:clamp(30px,4vw,54px)}
+.half:last-child{background:var(--white)}
+.half .lbl{margin-bottom:26px;display:block}
+.mock{background:var(--white);padding:16px 18px;margin-bottom:30px;min-height:76px;display:flex;align-items:center;border:1px solid rgba(12,12,12,.09)}
+.half:last-child .mock{background:var(--sky);border-color:rgba(12,12,12,.06)}
+.mock-ph{font-size:16px;opacity:.35}
+.mock-chips{display:flex;flex-wrap:wrap;gap:7px}
+.mock-chip{font-size:14px;border:1px solid rgba(12,12,12,.2);padding:6px 13px}
+.half p{font-size:16.5px;line-height:1.42;opacity:.7;max-width:26em}
+.half p.stat{font-size:clamp(64px,9vw,124px);font-weight:500;letter-spacing:-.07em;line-height:.86;margin-bottom:16px;opacity:1;max-width:none}
+
+/* ---------- chart ---------- */
+.chart{margin-top:clamp(40px,6vw,70px);max-width:940px}
+.chart-h{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid rgba(224,243,250,.16)}
+.chart-h .d3{max-width:14em}
+.bars{display:flex;align-items:flex-end;gap:clamp(6px,1vw,14px);height:clamp(180px,26vw,300px);margin-top:clamp(40px,5vw,66px);position:relative}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;position:relative}
+.bar i{display:block;width:100%;background:var(--orange);transition:height .8s cubic-bezier(.25,1,.35,1)}
+.bar.after i{background:rgba(224,243,250,.16)}
+.bar b{position:absolute;top:-26px;font-family:var(--mono);font-size:13px;font-weight:400;opacity:.55}
+.ship{position:absolute;top:-40px;bottom:0;border-left:1px dashed var(--orange)}
+.ship span{position:absolute;top:-22px;left:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--orange);white-space:nowrap}
+.xaxis{display:flex;gap:clamp(6px,1vw,14px);margin-top:14px;padding-top:14px;border-top:1px solid rgba(224,243,250,.16)}
+.xaxis span{flex:1;text-align:center;font-family:var(--mono);font-size:11.5px;opacity:.4}
+
+/* ---------- orange quote section ---------- */
+.quote{font-size:clamp(28px,4.4vw,58px);font-weight:500;letter-spacing:-.055em;line-height:1.02;max-width:17em;color:var(--white)}
+.orange .lbl{opacity:.75;color:var(--white)}
+.qbody{margin-top:clamp(34px,5vw,60px);display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,44px)}
+@media(min-width:900px){.qbody{grid-template-columns:1fr 1fr}}
+.qbody p{max-width:32em;font-size:17px;color:var(--white)}
+.qbody p strong{color:var(--white)}
+.cite{margin-top:clamp(30px,4vw,54px);padding-top:20px;border-top:1px solid rgba(255,255,255,.28);font-family:var(--mono);font-size:12px;color:var(--white);opacity:.7}
+
+/* ---------- decisions ---------- */
+.dec{
+  display:grid;grid-template-columns:1fr;gap:10px;
+  padding:clamp(26px,3.4vw,44px) 0;border-top:1px solid rgba(12,12,12,.14);
+}
+@media(min-width:820px){
+  .dec{grid-template-columns:56px minmax(0,1fr) minmax(0,1.25fr);gap:clamp(20px,4vw,56px);align-items:start}
+}
+.dec:last-of-type{border-bottom:1px solid rgba(12,12,12,.14)}
+.dec-n{font-family:var(--mono);font-size:13px;opacity:.4;padding-top:6px}
+.dec h3{font-size:clamp(21px,2.4vw,30px);font-weight:500;letter-spacing:-.045em;line-height:1.08;max-width:14em}
+.dec p{font-size:16.5px;line-height:1.45;opacity:.7}
+
+/* ---------- footer ---------- */
+footer{padding:clamp(50px,7vw,90px) var(--pad);border-top:1px solid rgba(12,12,12,.14)}
+.foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;max-width:1240px;margin:0 auto}
+.foot p{font-size:15px;opacity:.6;max-width:40em}
+.foot a{color:inherit}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="inner">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <h1 class="d1" style="white-space:nowrap">Tell us why.</h1>
+        <p class="lede">Every AI product gets told it's wrong dozens of times a day, at the exact moment the user knows precisely what's wrong with it. Almost every AI product throws that away.</p>
+      </div>
+      <div class="hero-right">
+        <div class="car" id="car">
+          <div class="car-stage">
+            <div class="car-bar">
+              <span class="car-dot"></span><span class="car-dot"></span><span class="car-dot"></span>
+              <span class="car-name">Whirl AI - CR-4471</span>
+            </div>
+            <div class="car-body">
+
+              <!-- Slide 1: Finding -->
+              <div class="slide on" data-i="0">
+                <p class="s-lbl">Whirl found a problem</p>
+                <p class="s-t">The expense system will silently drop records</p>
+                <p class="s-d">Adding a second approver produces a list instead of a single name. Concur expects one name and discards the rest - without showing an error.</p>
+                <p class="s-src">INT-Concur-PO-Sync · 3 prior incidents · 94% confidence</p>
+                <div class="s-btns">
+                  <button class="s-btn">Looks right</button>
+                  <button class="s-btn">This is wrong</button>
+                </div>
+              </div>
+
+              <!-- Slide 2: Capture open -->
+              <div class="slide" data-i="1">
+                <p class="s-lbl">Whirl found a problem</p>
+                <p class="s-t">The expense system will silently drop records</p>
+                <p class="s-d">Adding a second approver produces a list instead of a single name. Concur expects one name and discards the rest - without showing an error.</p>
+                <p class="s-src">INT-Concur-PO-Sync · 3 prior incidents · 94% confidence</p>
+                <div class="s-btns">
+                  <button class="s-btn">Looks right</button>
+                  <button class="s-btn act">This is wrong</button>
+                </div>
+                <div class="s-ov cap">
+                  <h5>What did we get wrong?</h5>
+                  <p class="sub">One tap. This goes straight to the team.</p>
+                  <div class="s-chips">
+                    <button class="s-chip">We already fixed that</button>
+                    <button class="s-chip">Wrong system</button>
+                    <button class="s-chip">Not actually a risk</button>
+                    <button class="s-chip">Out of date</button>
+                  </div>
+                  <button class="s-skip">Skip - just dismiss it</button>
+                </div>
+              </div>
+
+              <!-- Slide 3: Confirm -->
+              <div class="slide" data-i="2">
+                <p class="s-lbl">Whirl found a problem</p>
+                <p class="s-t">The expense system will silently drop records</p>
+                <p class="s-d">Adding a second approver produces a list instead of a single name. Concur expects one name and discards the rest - without showing an error.</p>
+                <p class="s-src">INT-Concur-PO-Sync · 3 prior incidents · 94% confidence</p>
+                <div class="s-btns">
+                  <button class="s-btn act">Looks right</button>
+                  <button class="s-btn">This is wrong</button>
+                </div>
+                <div class="s-ov cfm">
+                  <h5>Noted.</h5>
+                  <p class="rp">Confirmations are stored too. Without them there's no denominator - you'd know how often the product was called wrong, but not out of how many.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="car-ctrl">
+            <span class="car-lbl" id="carLbl">Finding</span>
+            <div class="car-dots" id="carDots">
+              <button class="car-d on" data-i="0" aria-label="Finding"></button>
+              <button class="car-d" data-i="1" aria-label="Capture"></button>
+              <button class="car-d" data-i="2" aria-label="Confirm"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <div class="meta">
+        <div><span class="lbl">Feature</span><span>One-tap rejection feedback</span></div>
+        <div><span class="lbl">Built for</span><span>Whirl AI - enterprise IT agents</span></div>
+        <div><span class="lbl">By</span><span>Karan Chulliparambil</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var slides=document.querySelectorAll('#car .slide');
+  var dots=document.querySelectorAll('#carDots .car-d');
+  var lbl=document.getElementById('carLbl');
+  var labels=['Finding','Capture','Confirm'];
+  var i=0, timer;
+  function go(n){
+    i=n;
+    slides.forEach(function(s,x){s.classList.toggle('on',x===n)});
+    dots.forEach(function(d,x){d.classList.toggle('on',x===n)});
+    lbl.textContent=labels[n];
+  }
+  function next(){go((i+1)%slides.length)}
+  function start(){timer=setInterval(next,3000)}
+  function stop(){clearInterval(timer)}
+  dots.forEach(function(d){d.addEventListener('click',function(){stop();go(+d.dataset.i);start()})});
+  document.getElementById('car').addEventListener('mouseenter',stop);
+  document.getElementById('car').addEventListener('mouseleave',start);
+  start();
+})();
+</script>
+
+<!-- ============ THE MOMENT ============ -->
+<section class="band dark">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">01 - The moment</p>
+        <h2 class="d2" style="margin-top:18px">Catch them<br>while they're<br>annoyed.</h2>
+      </div>
+      <div>
+        <p style="opacity:.72">Whirl AI reads a company's systems and warns you what will break if you change something. Sometimes it's wrong. When it is, the person reading it knows <strong>exactly</strong> why - right then, for about four seconds.</p>
+        <p style="opacity:.72">That is the only moment they will ever be able to tell you precisely what went wrong. A survey next week gets you nothing.</p>
+      </div>
+    </div>
+
+    <p class="tryit">Try it - click "This is wrong"</p>
+
+    <div class="frame">
+      <div class="fbar">
+        <span class="fdot"></span><span class="fdot"></span><span class="fdot"></span>
+        <span class="fname">Whirl AI - CR-4471</span>
+      </div>
+      <div class="fbody">
+        <p class="f-lbl">Whirl found a problem</p>
+        <p class="f-t">The expense system will silently drop records</p>
+        <p class="f-d">Adding a second approver produces a list instead of a single name. The connection to Concur expects one name, and discards anything it doesn't understand - without showing an error.</p>
+        <p class="f-src">INT-Concur-PO-Sync · 3 prior incidents · 94% confidence</p>
+        <div class="f-btns">
+          <button class="btn" onclick="conf(1)">Looks right</button>
+          <button class="btn" onclick="open_(1)">This is wrong</button>
+        </div>
+
+        <div class="cap" id="cap1">
+          <h4>What did we get wrong?</h4>
+          <p class="sub">One tap. This goes straight to the team.</p>
+          <div class="chips">
+            <button class="chip" onclick="pick(1,'We already fixed that')">We already fixed that</button>
+            <button class="chip" onclick="pick(1,'Wrong system')">Wrong system</button>
+            <button class="chip" onclick="pick(1,'Not actually a risk')">Not actually a risk</button>
+            <button class="chip" onclick="pick(1,'Out of date')">Out of date</button>
+          </div>
+          <button class="skip" onclick="skip(1)">Skip - just dismiss it</button>
+        </div>
+
+        <div class="rcp" id="rcp1">
+          <h4 id="rh1">Logged.</h4>
+          <p id="rp1"></p>
+          <button class="again" onclick="reset_(1)">Run it again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAP NOT TYPE ============ -->
+<section class="band">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">02 - The decision</p>
+        <h2 class="d2" style="margin-top:18px">Four buttons<br>instead of a<br>text box.</h2>
+      </div>
+      <div>
+        <p style="opacity:.72">The obvious design is a box that says "tell us more." It feels generous. It is the wrong answer, for two reasons.</p>
+        <p style="opacity:.72">Almost nobody types in it - they're mid-task and annoyed, not writing a bug report. And <strong>the handful of paragraphs you do get can't be counted</strong>, which means you can never prove anything got better.</p>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="half">
+        <span class="lbl">The obvious version</span>
+        <div class="mock"><span class="mock-ph">Tell us what went wrong…</span></div>
+        <p class="stat">3%</p>
+        <p>type anything at all. What you get back is prose - impossible to count, impossible to compare week to week, impossible to prove you fixed.</p>
+      </div>
+      <div class="half">
+        <span class="lbl">This version</span>
+        <div class="mock">
+          <div class="mock-chips">
+            <span class="mock-chip">Already fixed</span>
+            <span class="mock-chip">Wrong system</span>
+            <span class="mock-chip">Not a risk</span>
+          </div>
+        </div>
+        <p class="stat">61%</p>
+        <p>tap something. Every tap is the same shape as every other tap - which means it becomes a number, and a number can go down.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECOND INSTANCE ============ -->
+<section class="band dark">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">03 - The same feature, elsewhere</p>
+        <h2 class="d2" style="margin-top:18px">It's a pattern,<br>not a one-off.</h2>
+      </div>
+      <div>
+        <p style="opacity:.72">The same feature works on anything the AI produces. Here it is on the current-state map - where the AI drew a step that doesn't exist anymore.</p>
+        <p style="opacity:.72">The reasons are different because the mistake is different. That's the point: <strong>the shape stays the same, the vocabulary follows the surface.</strong></p>
+      </div>
+    </div>
+
+    <p class="tryit">Try it - click "This is wrong" on step 03</p>
+
+    <div class="frame">
+      <div class="fbar">
+        <span class="fdot"></span><span class="fdot"></span><span class="fdot"></span>
+        <span class="fname">Whirl AI - Procure-to-Pay · as-is</span>
+      </div>
+      <div class="fbody">
+        <p class="f-lbl">Whirl mapped the current process</p>
+        <div class="mapwrap">
+          <div class="map-hdr">
+            <h4>Purchase order approval - today</h4>
+            <p class="lbl">4 steps · 3 systems</p>
+          </div>
+          <div class="map">
+            <div class="node"><div class="node-n">STEP 01</div><div class="node-t">Requisition raised</div><div class="node-s">SAP Ariba</div></div>
+            <div class="node"><div class="node-n">STEP 02</div><div class="node-t">Manager approval</div><div class="node-s">SAP Ariba</div></div>
+            <div class="node wrong">
+              <div class="node-n">STEP 03</div>
+              <div class="node-t">Finance review</div>
+              <div class="node-s">manual · email</div>
+              <button class="node-btn" onclick="open_(2)">This is wrong</button>
+            </div>
+            <div class="node"><div class="node-n">STEP 04</div><div class="node-t">PO issued</div><div class="node-s">S/4HANA</div></div>
+          </div>
+        </div>
+
+        <div class="cap" id="cap2">
+          <h4>What's wrong with this step?</h4>
+          <p class="sub">Different surface, same one-tap. Reasons match the thing being questioned.</p>
+          <div class="chips">
+            <button class="chip" onclick="pick(2,'That step is retired')">That step is retired</button>
+            <button class="chip" onclick="pick(2,'Wrong order')">Wrong order</button>
+            <button class="chip" onclick="pick(2,'Missing a step')">Missing a step</button>
+            <button class="chip" onclick="pick(2,'Another team owns this')">Another team owns this</button>
+          </div>
+          <button class="skip" onclick="skip(2)">Skip</button>
+        </div>
+
+        <div class="rcp" id="rcp2">
+          <h4 id="rh2">Logged.</h4>
+          <p id="rp2"></p>
+          <button class="again" onclick="reset_(2)">Run it again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE PAYOFF ============ -->
+<section class="band dark">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">04 - The payoff</p>
+        <h2 class="d2" style="margin-top:18px">A complaint<br>you can count<br>is a complaint<br>you can kill.</h2>
+      </div>
+      <div>
+        <p style="opacity:.72">Once every dismissal is one of a handful of shapes, the team gets something they've never had: a measure of how wrong the product is, by reason, over time.</p>
+        <p style="opacity:.72">And when they fix something, <strong>they can watch the reason disappear.</strong> That's the point. Not the chart - the proof.</p>
+      </div>
+    </div>
+
+    <div class="chart">
+      <div class="chart-h">
+        <p class="d3">"Out of date" - times tapped per week</p>
+        <p class="lbl">Eight weeks</p>
+      </div>
+      <div class="bars" id="bars">
+        <div class="ship" style="left:calc(50% + 3px)"><span>Fix shipped</span></div>
+        <div class="bar"><b>31</b><i data-h="62%"></i></div>
+        <div class="bar"><b>38</b><i data-h="76%"></i></div>
+        <div class="bar"><b>44</b><i data-h="88%"></i></div>
+        <div class="bar"><b>50</b><i data-h="100%"></i></div>
+        <div class="bar after"><b>19</b><i data-h="38%"></i></div>
+        <div class="bar after"><b>6</b><i data-h="12%"></i></div>
+        <div class="bar after"><b>2</b><i data-h="5%"></i></div>
+        <div class="bar after"><b>1</b><i data-h="3%"></i></div>
+      </div>
+      <div class="xaxis">
+        <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span>
+      </div>
+      <p style="opacity:.6;margin-top:36px;font-size:17px">People kept saying findings were stale. One data source was refreshing weekly instead of hourly. Nobody ran a study - the product told on itself, because someone made it one tap instead of a paragraph.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROOF ============ -->
+<section class="band orange">
+  <div class="inner">
+    <p class="lbl" style="margin-bottom:clamp(28px,4vw,50px)">05 - This already worked once</p>
+    <p class="quote">"When a customer is clicking a button in anger, they are more than happy to give you a piece of their mind."</p>
+    <div class="qbody">
+      <div>
+        <p><strong>Snowflake</strong> rebuilt their console and customers said it was slow. Engineers assumed a speed problem and started optimising code.</p>
+        <p>But they had put a button in the new version that let people go back to the old one - and asked why on the way out. They stored the answers and counted the words.</p>
+      </div>
+      <div>
+        <p><strong>One word kept spiking: "tabs."</strong> Nothing was slow. Users just had to click back to a list page every time they wanted to switch between two things they were working on.</p>
+        <p>They added tabs. The word disappeared from the complaints. A performance problem that was never a performance problem, found by a button.</p>
+      </div>
+    </div>
+    <p class="cite">James, front-end engineer at Snowflake - on rebuilding the Snowflake console</p>
+  </div>
+</section>
+
+<!-- ============ DECISIONS ============ -->
+<section class="band">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">06 - Decisions</p>
+        <h2 class="d2" style="margin-top:18px">Five choices,<br>and why.</h2>
+      </div>
+    </div>
+
+    <div class="dec">
+      <p class="dec-n">01</p>
+      <h3>It fires at rejection, never on a timer</h3>
+      <p>The prompt only appears when someone actively says the product is wrong. Never on a schedule, never on page load, never after a task went fine. Feedback asked for at a random moment is noise. Feedback asked for at the moment of friction is a diagnosis.</p>
+    </div>
+
+    <div class="dec">
+      <p class="dec-n">02</p>
+      <h3>Tapping, not typing</h3>
+      <p>Four fixed reasons instead of an open box. This trades richness for countability, on purpose. You lose the eloquent paragraph from the one person who writes essays. You gain a number you can watch move.</p>
+    </div>
+
+    <div class="dec">
+      <p class="dec-n">03</p>
+      <h3>Skipping is one tap and always visible</h3>
+      <p>There is a plain skip that dismisses without answering, and it is never hidden or greyed out. A feedback prompt that traps you produces angry garbage - people will click anything to get out. Making it easy to leave is what keeps the data honest.</p>
+    </div>
+
+    <div class="dec">
+      <p class="dec-n">04</p>
+      <h3>You get a receipt</h3>
+      <p>After tapping, the person is told what happened to their answer - that the finding is gone, and that this reason has come up before. Most feedback UI is a black hole, which teaches people it isn't worth using. One sentence back is what makes them do it a second time.</p>
+    </div>
+
+    <div class="dec">
+      <p class="dec-n">05</p>
+      <h3>Confirming is captured too</h3>
+      <p>"Looks right" is also a tap, also stored. Without it you only ever measure failure and have no denominator - you would know forty people said something was wrong, but not whether that is out of fifty or five thousand.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HONEST ============ -->
+<section class="band dark">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">07 - What I'd want to be wrong about</p>
+        <h2 class="d2" style="margin-top:18px">The parts I'm<br>not sure about.</h2>
+      </div>
+      <div>
+        <p style="opacity:.72">The reasons are a guess. I picked them by imagining the ways an AI finding can be wrong, not by watching anyone. In practice the right list is discovered in the first month, and the honest version of this ships with a rough list and a fast way to change it.</p>
+        <p style="opacity:.72">The 3% and 61% are industry-typical for open-text versus tap-to-answer prompts. They are not measured on this product, and I would want to verify them here before quoting them to anyone.</p>
+        <p style="opacity:.72">One more thing I'd want to work through with the Whirl AI team is which reasons are too broad. If a reason is too broad, every rejection lands in the same bucket and the chart tells you nothing. <strong>"Wrong system" is doing a lot of work in my version and would probably need splitting.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <p>A self-directed product design concept. Not affiliated with Whirl AI or Snowflake.</p>
+    <p><a href="mailto:chullkaran@gmail.com">chullkaran@gmail.com</a></p>
+  </div>
+</footer>
+
+<script>
+function el(id,n){return document.getElementById(id+n)}
+function open_(n){el('cap',n).classList.add('on');el('rcp',n).classList.remove('on')}
+function reset_(n){el('cap',n).classList.remove('on');el('rcp',n).classList.remove('on')}
+function say(n,h,p){el('cap',n).classList.remove('on');el('rh',n).textContent=h;el('rp',n).innerHTML=p;el('rcp',n).classList.add('on')}
+function skip(n){say(n,'Dismissed.','No reason recorded - that is fine. <strong>Skipping stays one tap</strong>, because a prompt you cannot escape produces answers nobody means.')}
+function pick(n,r){
+  const msg = n===1
+    ? 'The finding is removed from this change. <strong>This is the 7th time this reason has come up this week</strong>, which is enough for it to reach the team’s board on Monday.'
+    : 'The step is removed from the map, and Whirl will not draw it again for this process. <strong>Two other users had already said the same thing.</strong>';
+  say(n,'Logged as “'+r+'”',msg);
+}
+function conf(n){say(n,'Noted.','Confirmations are stored too. <strong>Without them there is no denominator</strong> - you would know how often the product was called wrong, but not out of how many.')}
+
+const bars=document.getElementById('bars');
+if(bars){
+  const its=[...bars.querySelectorAll('.bar i')];
+  its.forEach(b=>b.style.height='0%');
+  new IntersectionObserver((e,o)=>{e.forEach(x=>{if(x.isIntersecting){
+    its.forEach((b,i)=>setTimeout(()=>b.style.height=b.dataset.h,i*80));o.disconnect();}})},{threshold:.35}).observe(bars);
+}
+</script>
+</body>
+</html>
