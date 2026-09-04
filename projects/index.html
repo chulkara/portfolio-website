@@ -364,6 +364,24 @@ body{
   </div>
 </section>
 
+<!-- ============ PAST WORK (same design as Fall 2026) ============ -->
+<section class="season">
+  <button class="season-bar" id="pastBar" aria-expanded="false" aria-controls="pastPanel">
+    <span>Past Work</span>
+    <span class="arrow" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 7L17 17M17 17H9M17 17V9"/></svg>
+    </span>
+  </button>
+  <div class="season-panel" id="pastPanel">
+    <div class="season-grid">
+      <div class="season-item"><h4>Coming Soon</h4><span class="m">Placeholder</span></div>
+      <div class="season-item"><h4>Coming Soon</h4><span class="m">Placeholder</span></div>
+      <div class="season-item"><h4>Coming Soon</h4><span class="m">Placeholder</span></div>
+      <div class="season-item"><h4>Coming Soon</h4><span class="m">Placeholder</span></div>
+    </div>
+  </div>
+</section>
+
 <div class="page-dim" id="pageDim"></div>
 <footer class="foot">© 2026 Karan Chulliparambil</footer>
 
@@ -516,13 +534,16 @@ body{
 
 // Season expandable
 (function(){
-  var bar=document.getElementById('seasonBar');
-  var panel=document.getElementById('seasonPanel');
-  if(!bar || !panel) return;
-  bar.addEventListener('click',function(){
-    var open=bar.classList.toggle('open');
-    panel.classList.toggle('open',open);
-    bar.setAttribute('aria-expanded', open ? 'true' : 'false');
+  // wire multiple expandable bars
+  [['seasonBar','seasonPanel'],['pastBar','pastPanel']].forEach(function(pair){
+    var bar=document.getElementById(pair[0]);
+    var panel=document.getElementById(pair[1]);
+    if(!bar || !panel) return;
+    bar.addEventListener('click',function(){
+      var open=bar.classList.toggle('open');
+      panel.classList.toggle('open',open);
+      bar.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
   });
 })();
 </script>
