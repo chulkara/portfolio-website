@@ -75,8 +75,19 @@ body{
 [data-menu].menu-right .card-menu{left:100%}
 [data-menu].menu-left .card-menu{right:100%}
 [data-menu].menu-open .card-menu{opacity:1;pointer-events:auto}
-[data-menu].menu-open{z-index:30;overflow:visible}
+[data-menu].menu-open{z-index:40;overflow:visible;position:relative}
 [data-menu]{position:relative}
+
+/* season-item menus mirror a full grid cell — separated by the grid gap */
+.season-item.menu-right .card-menu{left:calc(100% + 16px)}
+.season-item.menu-left .card-menu{right:calc(100% + 16px)}
+
+/* page dim overlay for modal-style focus */
+.page-dim{
+  position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:25;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.page-dim.on{opacity:1;pointer-events:auto}
 .card-menu a{
   font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
   font-size:14px;letter-spacing:.08em;text-transform:uppercase;
@@ -180,12 +191,13 @@ body{
   position:relative;z-index:2;transition:color .3s ease;
 }
 
-/* image variant — for the featured block with a real preview */
+/* image variant — for blocks with a real preview */
 .season-item.has-img{
   background:#0C0C0C;
-  background-image:url('img/one-tap-rejection.png?v=2');
   background-size:cover;background-position:center;
 }
+.season-item.i-one-tap{background-image:url('img/one-tap-rejection.png?v=2')}
+.season-item.i-scent{background-image:url('img/scent-market.png?v=1')}
 /* dark scrim so caption stays legible on the image */
 .season-item.has-img::before{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -231,19 +243,15 @@ body{
   <div class="strip-scroll" id="stripScroll">
     <div class="strip-inner">
 
-      <div class="card c1" data-menu>
+      <div class="card c1" data-target="one-tap">
         <div class="bg"></div>
         <div class="cap"><h4>One Tap Rejection UI/UX</h4><span class="meta">Design · Sep</span></div>
-        <div class="card-menu">
-          <a href="https://chulkara.github.io/portfolio-website/feedback-feature.html">Presentation</a>
-          <a href="https://www.figma.com/design/Gq6pfducDLDlaXo0k4wmsl/Whirl-AI-UI-UX-Feedback-Feature?node-id=0-1&t=YE8qcF7loH0y25S1-1" target="_blank" rel="noopener">Figma Link</a>
-        </div>
       </div>
 
-      <a class="card c2" href="#">
+      <div class="card c2" data-target="scent-market">
         <div class="bg"></div>
-        <div class="cap"><h4>The reading queue.</h4><span class="meta">Personal · 6 images</span></div>
-      </a>
+        <div class="cap"><h4>Scent Market</h4><span class="meta">Entrepreneurship · Fall</span></div>
+      </div>
 
       <a class="card c3" href="#">
         <div class="bg"></div>
@@ -288,20 +296,26 @@ body{
   </button>
   <div class="season-panel" id="seasonPanel">
     <div class="season-grid">
-      <div class="season-item has-img" data-menu>
+      <div class="season-item has-img i-one-tap" data-menu data-item-id="one-tap">
         <h4>One-Tap Rejection UI/UX</h4><span class="m">Design · Sep</span>
         <div class="card-menu">
           <a href="https://chulkara.github.io/portfolio-website/feedback-feature.html">Presentation</a>
           <a href="https://www.figma.com/design/Gq6pfducDLDlaXo0k4wmsl/Whirl-AI-UI-UX-Feedback-Feature?node-id=0-1&t=YE8qcF7loH0y25S1-1" target="_blank" rel="noopener">Figma Link</a>
         </div>
       </div>
-      <a class="season-item" href="#"><h4>The Reading Queue</h4><span class="m">Design · Oct</span></a>
+      <div class="season-item has-img i-scent" data-menu data-item-id="scent-market">
+        <h4>Scent Market</h4><span class="m">Entrepreneurship · Fall</span>
+        <div class="card-menu">
+          <a href="https://www.scent-market.com/" target="_blank" rel="noopener">Check It Out</a>
+        </div>
+      </div>
       <a class="season-item" href="#"><h4>Escape Hatches</h4><span class="m">Writing · Oct</span></a>
       <a class="season-item" href="#"><h4>Failure States</h4><span class="m">Design · Nov</span></a>
     </div>
   </div>
 </section>
 
+<div class="page-dim" id="pageDim"></div>
 <footer class="foot">© 2026 Karan Chulliparambil</footer>
 
 <script>
@@ -365,32 +379,57 @@ body{
   },{passive:true});
 })();
 
-// Card menu — open attached panel to right if card is on left half, left if on right half
+// Card menu + top-card redirect to Fall 2026 item
 (function(){
+  var dim=document.getElementById('pageDim');
+  function closeAll(){
+    var all=document.querySelectorAll('[data-menu].menu-open');
+    all.forEach(function(c){c.classList.remove('menu-open','menu-left','menu-right')});
+    if(dim) dim.classList.remove('on');
+  }
+  function openItemMenu(item){
+    closeAll();
+    var rect=item.getBoundingClientRect();
+    var midpoint=window.innerWidth/2;
+    if((rect.left+rect.width/2) < midpoint) item.classList.add('menu-right');
+    else item.classList.add('menu-left');
+    item.classList.add('menu-open');
+    if(dim) dim.classList.add('on');
+  }
   document.addEventListener('click',function(e){
-    var card=e.target.closest('[data-menu]');
-    var openCard=document.querySelector('[data-menu].menu-open');
-
     // clicked inside a menu link — let it navigate
     if(e.target.closest('.card-menu')) return;
 
-    if(card){
-      // if clicking a different card, close the previous one
-      if(openCard && openCard!==card) openCard.classList.remove('menu-open','menu-left','menu-right');
-      // toggle
-      if(card.classList.contains('menu-open')){
-        card.classList.remove('menu-open','menu-left','menu-right');
-      } else {
-        var rect=card.getBoundingClientRect();
-        var midpoint=window.innerWidth/2;
-        // if the card's center is on the left half, open to the right; else open to the left
-        if((rect.left+rect.width/2) < midpoint) card.classList.add('menu-right');
-        else card.classList.add('menu-left');
-        card.classList.add('menu-open');
+    // top gallery card with data-target — redirect to Fall 2026 item
+    var top=e.target.closest('[data-target]');
+    if(top){
+      var id=top.dataset.target;
+      var target=document.querySelector('[data-item-id="'+id+'"]');
+      var panel=document.getElementById('seasonPanel');
+      var bar=document.getElementById('seasonBar');
+      if(!target) return;
+      // open the season panel if closed
+      if(panel && !panel.classList.contains('open') && bar){
+        bar.classList.add('open');
+        panel.classList.add('open');
+        bar.setAttribute('aria-expanded','true');
       }
-    } else if(openCard){
-      // click outside any card — close
-      openCard.classList.remove('menu-open','menu-left','menu-right');
+      // scroll to it, then open its menu
+      setTimeout(function(){
+        target.scrollIntoView({behavior:'smooth',block:'center'});
+        setTimeout(function(){openItemMenu(target)},650);
+      },120);
+      return;
+    }
+
+    // regular data-menu toggle
+    var card=e.target.closest('[data-menu]');
+    if(card){
+      var wasOpen=card.classList.contains('menu-open');
+      closeAll();
+      if(!wasOpen) openItemMenu(card);
+    } else {
+      closeAll();
     }
   });
 })();
