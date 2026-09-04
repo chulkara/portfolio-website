@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:'Wagon';font-style:normal;font-weight:200;font-display:swap;src:url('fonts/Wagon-ExtraLight.otf') format('opentype');}
-@font-face{font-family:'Wagon';font-style:italic;font-weight:200;font-display:swap;src:url('fonts/Wagon-ExtraLightItalic.otf') format('opentype');}
-@font-face{font-family:'Wagon';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/Wagon-Bold.otf') format('opentype');}
-@font-face{font-family:'Clash Display';font-style:normal;font-weight:200 700;font-display:swap;src:url('fonts/ClashDisplay-Variable.ttf') format('truetype-variations');}
+@font-face{font-family:'Wagon';font-style:normal;font-weight:200;font-display:swap;src:url('/fonts/Wagon-ExtraLight.otf') format('opentype');}
+@font-face{font-family:'Wagon';font-style:italic;font-weight:200;font-display:swap;src:url('/fonts/Wagon-ExtraLightItalic.otf') format('opentype');}
+@font-face{font-family:'Wagon';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/Wagon-Bold.otf') format('opentype');}
+@font-face{font-family:'Clash Display';font-style:normal;font-weight:200 700;font-display:swap;src:url('/fonts/ClashDisplay-Variable.ttf') format('truetype-variations');}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -133,9 +133,9 @@ body{
 .card .cap .meta{display:none}
 
 /* per-card variations */
-.card.c1 .bg{background:#0C0C0C url('img/one-tap-rejection.png?v=2') center/cover no-repeat}
-.card.c2 .bg{background:#0C0C0C url('img/scent-market.png?v=1') center/cover no-repeat}
-.card.c3 .bg{background:#0C0C0C url('img/invisible-auction.png?v=1') center/cover no-repeat}
+.card.c1 .bg{background:#0C0C0C url('/img/one-tap-rejection.png?v=2') center/cover no-repeat}
+.card.c2 .bg{background:#0C0C0C url('/img/scent-market.png?v=1') center/cover no-repeat}
+.card.c3 .bg{background:#0C0C0C url('/img/invisible-auction.png?v=1') center/cover no-repeat}
 .card.c4 .bg{background:linear-gradient(135deg,var(--tertiary),#EAC26F 55%,#D6A34C)}
 
 /* marigold hover multiply wash — full card */
@@ -242,9 +242,9 @@ body{
   background:#0C0C0C;
   background-size:cover;background-position:center;
 }
-.season-item.i-one-tap{background-image:url('img/one-tap-rejection.png?v=2')}
-.season-item.i-scent{background-image:url('img/scent-market.png?v=1')}
-.season-item.i-auction{background-image:url('img/invisible-auction.png?v=1')}
+.season-item.i-one-tap{background-image:url('/img/one-tap-rejection.png?v=2')}
+.season-item.i-scent{background-image:url('/img/scent-market.png?v=1')}
+.season-item.i-auction{background-image:url('/img/invisible-auction.png?v=1')}
 /* dark scrim so caption stays legible on the image */
 .season-item.has-img::before{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;

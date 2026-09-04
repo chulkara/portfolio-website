@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Rock+Salt&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:'Wagon';font-style:normal;font-weight:200;font-display:swap;src:url('fonts/Wagon-ExtraLight.otf') format('opentype');}
-@font-face{font-family:'Wagon';font-style:italic;font-weight:200;font-display:swap;src:url('fonts/Wagon-ExtraLightItalic.otf') format('opentype');}
-@font-face{font-family:'Wagon';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/Wagon-Bold.otf') format('opentype');}
-@font-face{font-family:'Clash Display';font-style:normal;font-weight:200 700;font-display:swap;src:url('fonts/ClashDisplay-Variable.ttf') format('truetype-variations');}
+@font-face{font-family:'Wagon';font-style:normal;font-weight:200;font-display:swap;src:url('/fonts/Wagon-ExtraLight.otf') format('opentype');}
+@font-face{font-family:'Wagon';font-style:italic;font-weight:200;font-display:swap;src:url('/fonts/Wagon-ExtraLightItalic.otf') format('opentype');}
+@font-face{font-family:'Wagon';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/Wagon-Bold.otf') format('opentype');}
+@font-face{font-family:'Clash Display';font-style:normal;font-weight:200 700;font-display:swap;src:url('/fonts/ClashDisplay-Variable.ttf') format('truetype-variations');}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -95,7 +95,7 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 .bio-photo{
   width:100%;max-width:340px;aspect-ratio:3/4;
   background:var(--police) center/cover no-repeat;
-  background-image:url('img/karan.jpg');
+  background-image:url('/img/karan.jpg');
   box-shadow:0 20px 40px -18px rgba(var(--primary-rgb),.35);
 }
 .bio-side .li{color:var(--police);opacity:.8;transition:opacity .2s;display:inline-flex}

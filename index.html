@@ -10,47 +10,47 @@
 <style>
 @font-face{
   font-family:'Wagon';font-style:normal;font-weight:200;font-display:swap;
-  src:url('fonts/Wagon-ExtraLight.otf') format('opentype');
+  src:url('/fonts/Wagon-ExtraLight.otf') format('opentype');
 }
 @font-face{
   font-family:'Wagon';font-style:italic;font-weight:200;font-display:swap;
-  src:url('fonts/Wagon-ExtraLightItalic.otf') format('opentype');
+  src:url('/fonts/Wagon-ExtraLightItalic.otf') format('opentype');
 }
 @font-face{
   font-family:'Wagon';font-style:normal;font-weight:700;font-display:swap;
-  src:url('fonts/Wagon-Bold.otf') format('opentype');
+  src:url('/fonts/Wagon-Bold.otf') format('opentype');
 }
 @font-face{
   font-family:'Casta';font-style:normal;font-weight:100;font-display:swap;
-  src:url('fonts/Casta-Thin.otf') format('opentype');
+  src:url('/fonts/Casta-Thin.otf') format('opentype');
 }
 @font-face{
   font-family:'Casta';font-style:italic;font-weight:100;font-display:swap;
-  src:url('fonts/Casta-ThinSlanted.otf') format('opentype');
+  src:url('/fonts/Casta-ThinSlanted.otf') format('opentype');
 }
 @font-face{
   font-family:'Heming';font-style:normal;font-weight:100 900;font-display:swap;
-  src:url('fonts/HemingVariable.ttf') format('truetype-variations');
+  src:url('/fonts/HemingVariable.ttf') format('truetype-variations');
 }
 @font-face{
   font-family:'Clash Display';font-style:normal;font-weight:200 700;font-display:swap;
-  src:url('fonts/ClashDisplay-Variable.ttf') format('truetype-variations');
+  src:url('/fonts/ClashDisplay-Variable.ttf') format('truetype-variations');
 }
 @font-face{
   font-family:'Junicode';font-style:normal;font-weight:400;font-display:swap;
-  src:url('fonts/Junicode.ttf') format('truetype');
+  src:url('/fonts/Junicode.ttf') format('truetype');
 }
 @font-face{
   font-family:'Junicode';font-style:italic;font-weight:400;font-display:swap;
-  src:url('fonts/Junicode-Italic.ttf') format('truetype');
+  src:url('/fonts/Junicode-Italic.ttf') format('truetype');
 }
 @font-face{
   font-family:'Junicode';font-style:normal;font-weight:700;font-display:swap;
-  src:url('fonts/Junicode-Bold.ttf') format('truetype');
+  src:url('/fonts/Junicode-Bold.ttf') format('truetype');
 }
 @font-face{
   font-family:'Junicode';font-style:italic;font-weight:700;font-display:swap;
-  src:url('fonts/Junicode-BoldItalic.ttf') format('truetype');
+  src:url('/fonts/Junicode-BoldItalic.ttf') format('truetype');
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -306,9 +306,9 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 }
 
 /* per-card backgrounds — match Projects page */
-.card.c1 .bg{background:#0C0C0C url('img/one-tap-rejection.png?v=2') center/cover no-repeat}
-.card.c2 .bg{background:#0C0C0C url('img/scent-market.png?v=1') center/cover no-repeat}
-.card.c3 .bg{background:#0C0C0C url('img/invisible-auction.png?v=1') center/cover no-repeat}
+.card.c1 .bg{background:#0C0C0C url('/img/one-tap-rejection.png?v=2') center/cover no-repeat}
+.card.c2 .bg{background:#0C0C0C url('/img/scent-market.png?v=1') center/cover no-repeat}
+.card.c3 .bg{background:#0C0C0C url('/img/invisible-auction.png?v=1') center/cover no-repeat}
 .card.c4 .bg{background:linear-gradient(135deg,var(--tertiary),#EAC26F 55%,#D6A34C)}
 
 /* ============ FOOT ============ */
@@ -373,7 +373,7 @@ body.theme-3 .picker-dropdown .dot[data-theme="theme-3"]{
 <nav class="nav">
   <div class="palette-picker" id="palettePicker">
     <button class="picker-toggle" id="pickerToggle" aria-label="Choose color palette" aria-expanded="false">
-      <img src="img/palette-icon.png" alt="">
+      <img src="/img/palette-icon.png" alt="">
     </button>
     <div class="picker-dropdown" id="pickerDropdown" role="menu">
       <button class="dot" data-theme="theme-1" aria-label="Palette 1"></button>
