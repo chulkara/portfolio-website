@@ -467,6 +467,37 @@ body{
   });
 })();
 
+// Handle #hash on page load — if linked from another page, open the corresponding block
+(function(){
+  function openFromHash(){
+    var hash=(window.location.hash||'').substring(1);
+    if(!hash) return;
+    var target=document.querySelector('[data-item-id="'+hash+'"]');
+    if(!target) return;
+    var panel=document.getElementById('seasonPanel');
+    var bar=document.getElementById('seasonBar');
+    var dim=document.getElementById('pageDim');
+    if(panel && !panel.classList.contains('open') && bar){
+      bar.classList.add('open');
+      panel.classList.add('open');
+      bar.setAttribute('aria-expanded','true');
+    }
+    setTimeout(function(){
+      target.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(function(){
+        var rect=target.getBoundingClientRect();
+        var midpoint=window.innerWidth/2;
+        if((rect.left+rect.width/2) < midpoint) target.classList.add('menu-right');
+        else target.classList.add('menu-left');
+        target.classList.add('menu-open');
+        if(dim) dim.classList.add('on');
+      },700);
+    },300);
+  }
+  window.addEventListener('load',openFromHash);
+  window.addEventListener('hashchange',openFromHash);
+})();
+
 // Season expandable
 (function(){
   var bar=document.getElementById('seasonBar');
