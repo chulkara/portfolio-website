@@ -68,9 +68,14 @@ body{
   position:absolute;top:0;bottom:0;width:100%;
   background:var(--secondary);color:var(--police);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
-  padding:20px;text-align:center;
+  padding:28px 22px;text-align:center;
   opacity:0;pointer-events:none;transition:opacity .3s ease;
   z-index:20;
+}
+.card-menu .summary{
+  font-family:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
+  font-weight:500;font-size:14px;line-height:1.45;letter-spacing:-.01em;
+  color:var(--police);opacity:.9;max-width:26em;
 }
 [data-menu].menu-right .card-menu{left:100%}
 [data-menu].menu-left .card-menu{right:100%}
@@ -109,13 +114,19 @@ body{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#2E4365;opacity:.6;
 }
 
-/* per-card variations, all buff-family */
-.card.c1 .bg{background:linear-gradient(135deg,#F5DA98,#F3D58D 55%,#E9C570)}
-.card.c2 .bg{background:linear-gradient(135deg,#FBE2A2,#F0CC7A 55%,#D9B057)}
+/* per-card variations */
+.card.c1 .bg{background:#0C0C0C url('img/one-tap-rejection.png?v=2') center/cover no-repeat}
+.card.c2 .bg{background:#0C0C0C url('img/scent-market.png?v=1') center/cover no-repeat}
 .card.c3 .bg{background:linear-gradient(135deg,#F8D890,#EDC66C 55%,#DBAA48)}
 .card.c4 .bg{background:linear-gradient(135deg,#F3D58D,#EAC26F 55%,#D6A34C)}
 .card.c5 .bg{background:linear-gradient(135deg,#F9DFA0,#F0CD7F 55%,#DBAB55)}
 .card.c6 .bg{background:linear-gradient(135deg,#F5D888,#E9C062 55%,#CFA145)}
+
+/* image cards get a darker scrim + buff text for legibility */
+.card.c1 .caption,
+.card.c2 .caption{color:var(--tertiary)}
+.card.c1::after,
+.card.c2::after{background:linear-gradient(180deg,transparent 45%,rgba(12,12,12,.7) 100%)}
 
 /* nav arrows — centered vertically on either side of the gallery */
 .arrows button{
@@ -299,6 +310,7 @@ body{
       <div class="season-item has-img i-one-tap" data-menu data-item-id="one-tap">
         <h4>One-Tap Rejection UI/UX</h4><span class="m">Design · Sep</span>
         <div class="card-menu">
+          <p class="summary">A one-tap capture pattern for the moment users know exactly what an AI product got wrong. Free-text feedback dies at 3% - buttons get 61%.</p>
           <a href="https://chulkara.github.io/portfolio-website/feedback-feature.html">Presentation</a>
           <a href="https://www.figma.com/design/Gq6pfducDLDlaXo0k4wmsl/Whirl-AI-UI-UX-Feedback-Feature?node-id=0-1&t=YE8qcF7loH0y25S1-1" target="_blank" rel="noopener">Figma Link</a>
         </div>
@@ -306,6 +318,7 @@ body{
       <div class="season-item has-img i-scent" data-menu data-item-id="scent-market">
         <h4>Scent Market</h4><span class="m">Entrepreneurship · Fall</span>
         <div class="card-menu">
+          <p class="summary">An entrepreneurship venture curating fragrance for a modern buyer. Built and launched from concept to live storefront this fall.</p>
           <a href="https://www.scent-market.com/" target="_blank" rel="noopener">Check It Out</a>
         </div>
       </div>
