@@ -57,10 +57,33 @@ body{
 .strip-inner{display:flex;gap:20px;align-items:flex-end}
 .card{
   flex:0 0 260px;scroll-snap-align:start;
-  aspect-ratio:3/4;position:relative;overflow:hidden;
+  aspect-ratio:3/4;position:relative;
   background:linear-gradient(135deg,#F5DA98,#F3D58D 55%,#E9C570);
   transition:transform .35s ease;
+  cursor:pointer;
 }
+.card > .bg,.card > .cap,.card::after{overflow:hidden}
+/* attached menu — slides out to the side */
+.card-menu{
+  position:absolute;top:0;bottom:0;width:100%;
+  background:var(--secondary);color:var(--police);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  padding:20px;text-align:center;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+  z-index:20;
+}
+.card.menu-right .card-menu{left:100%}
+.card.menu-left .card-menu{right:100%}
+.card.menu-open .card-menu{opacity:1;pointer-events:auto}
+.card.menu-open{z-index:30}
+.card-menu a{
+  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
+  font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--police);text-decoration:none;
+  border-bottom:1px solid var(--police);padding-bottom:3px;
+  transition:opacity .2s;opacity:.85;
+}
+.card-menu a:hover{opacity:1}
 .card:hover{transform:translateY(-6px)}
 .card .bg{position:absolute;inset:0;transition:transform .5s ease}
 .card:hover .bg{transform:scale(1.05)}
@@ -202,10 +225,14 @@ body{
   <div class="strip-scroll" id="stripScroll">
     <div class="strip-inner">
 
-      <a class="card c1" href="feedback-feature.html">
+      <div class="card c1" data-menu>
         <div class="bg"></div>
         <div class="cap"><h4>One Tap Rejection UI/UX</h4><span class="meta">Design · Sep</span></div>
-      </a>
+        <div class="card-menu">
+          <a href="https://chulkara.github.io/portfolio-website/feedback-feature.html">Presentation</a>
+          <a href="https://www.figma.com/design/Gq6pfducDLDlaXo0k4wmsl/Whirl-AI-UI-UX-Feedback-Feature?node-id=0-1&t=YE8qcF7loH0y25S1-1" target="_blank" rel="noopener">Figma Link</a>
+        </div>
+      </div>
 
       <a class="card c2" href="#">
         <div class="bg"></div>
@@ -278,20 +305,81 @@ body{
   el.textContent=s+' '+y;
 })();
 
-// Arrow scroll — carousel with wrap-around
+// Infinite carousel — duplicate cards on both sides, silently reset when drifting to edges
 (function(){
   var strip=document.getElementById('stripScroll');
+  var inner=strip.querySelector('.strip-inner');
   var prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn');
-  var step=280;
-  function atEnd(){return strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4}
-  function atStart(){return strip.scrollLeft <= 4}
-  next.addEventListener('click',function(){
-    if(atEnd()) strip.scrollTo({left:0,behavior:'smooth'});
-    else strip.scrollBy({left:step,behavior:'smooth'});
-  });
-  prev.addEventListener('click',function(){
-    if(atStart()) strip.scrollTo({left:strip.scrollWidth,behavior:'smooth'});
-    else strip.scrollBy({left:-step,behavior:'smooth'});
+  if(!inner) return;
+
+  // Clone the card set 2 more times so we have [copy, ORIGINAL, copy]
+  var originalHTML=inner.innerHTML;
+  inner.innerHTML=originalHTML+originalHTML+originalHTML;
+
+  var step=280; // card width + gap
+  var midStart=0;
+
+  function measure(){
+    // one set width = total width / 3
+    midStart=inner.scrollWidth/3;
+  }
+
+  // start scroll in the middle set (no animation)
+  function initPosition(){
+    measure();
+    strip.scrollTo({left:midStart,behavior:'auto'});
+  }
+  window.addEventListener('load',initPosition);
+  window.addEventListener('resize',function(){measure();strip.scrollTo({left:midStart,behavior:'auto'})});
+  initPosition();
+
+  next.addEventListener('click',function(){strip.scrollBy({left:step,behavior:'smooth'})});
+  prev.addEventListener('click',function(){strip.scrollBy({left:-step,behavior:'smooth'})});
+
+  // when scroll drifts into the outer copies, silently jump back to the middle
+  var resetTimer;
+  strip.addEventListener('scroll',function(){
+    clearTimeout(resetTimer);
+    resetTimer=setTimeout(function(){
+      var oneSet=inner.scrollWidth/3;
+      if(strip.scrollLeft < oneSet*0.5){
+        // drifted into left copy — jump forward by one set
+        strip.scrollTo({left:strip.scrollLeft+oneSet,behavior:'auto'});
+      } else if(strip.scrollLeft > oneSet*1.5){
+        // drifted into right copy — jump back by one set
+        strip.scrollTo({left:strip.scrollLeft-oneSet,behavior:'auto'});
+      }
+    },500);
+  },{passive:true});
+})();
+
+// Card menu — open attached panel to right if card is on left half, left if on right half
+(function(){
+  document.addEventListener('click',function(e){
+    var card=e.target.closest('.card[data-menu]');
+    var openCard=document.querySelector('.card.menu-open');
+
+    // clicked inside a menu link — let it navigate
+    if(e.target.closest('.card-menu')) return;
+
+    if(card){
+      // if clicking a different card, close the previous one
+      if(openCard && openCard!==card) openCard.classList.remove('menu-open','menu-left','menu-right');
+      // toggle
+      if(card.classList.contains('menu-open')){
+        card.classList.remove('menu-open','menu-left','menu-right');
+      } else {
+        var rect=card.getBoundingClientRect();
+        var midpoint=window.innerWidth/2;
+        // if the card's center is on the left half, open to the right; else open to the left
+        if((rect.left+rect.width/2) < midpoint) card.classList.add('menu-right');
+        else card.classList.add('menu-left');
+        card.classList.add('menu-open');
+      }
+    } else if(openCard){
+      // click outside any card — close
+      openCard.classList.remove('menu-open','menu-left','menu-right');
+    }
   });
 })();
 
