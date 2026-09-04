@@ -54,12 +54,16 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* PRIMARY PALETTE */
-  --marigold:#E59D2C;
-  --police:#2E4365;
-  --buff:#F3D58D;
-  --pearl:#EBDDC5;
-  /* aliases for backward compat */
+  /* Palette hierarchy */
+  --primary:#2E4365;   /* Police Blue */
+  --secondary:#E59D2C; /* Marigold */
+  --tertiary:#F3D58D;  /* Buff */
+  --quaternary:#EBDDC5;/* Pearl */
+  /* aliases */
+  --marigold:var(--secondary);
+  --police:var(--primary);
+  --buff:var(--tertiary);
+  --pearl:var(--quaternary);
   --cream:var(--pearl);
   --ink:#0C0C0C;
   --ink-2:#1a1a1a;
@@ -74,8 +78,10 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 
 /* ============ NAV — matches live site ============ */
 .nav{position:absolute;top:0;left:0;right:0;z-index:20;height:72px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 32px 14px;color:#fff}
+.nav .brand{font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--secondary);text-decoration:none;transition:opacity .2s;opacity:.9}
+.nav .brand:hover{opacity:1}
 .nav ul{list-style:none;display:flex;gap:36px;font-family:'Clash Display','Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
-.nav a{color:#F3D58D;text-decoration:none;transition:opacity .2s;opacity:.9}
+.nav a{color:var(--tertiary);text-decoration:none;transition:opacity .2s;opacity:.9}
 .nav a:hover{opacity:1}
 
 /* ============ HERO (police blue → marigold horizon) ============ */
@@ -300,7 +306,7 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 <body>
 
 <nav class="nav">
-  <div></div>
+  <a href="index.html" class="brand">K &mdash; C</a>
   <ul>
     <li><a href="about.html">About</a></li>
     <li><a href="projects.html">Projects</a></li>
