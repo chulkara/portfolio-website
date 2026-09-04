@@ -36,12 +36,12 @@ body{
 
 /* ============ NAV ============ */
 .nav{position:absolute;top:0;left:0;right:0;z-index:20;height:72px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 32px 14px}
-.nav .brand{font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--secondary);text-decoration:none;transition:opacity .2s;opacity:.9}
+.nav .brand{font-family:'Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:900;font-size:16px;letter-spacing:-.01em;text-transform:uppercase;color:var(--secondary);text-decoration:none;transition:opacity .2s;opacity:.9}
 .nav .brand:hover{opacity:1}
 .nav ul{list-style:none;display:flex;gap:36px;font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
-.nav a{color:var(--tertiary);text-decoration:none;transition:opacity .2s,background .2s,color .2s;opacity:.9;padding:6px 12px;border:1px solid transparent;border-radius:2px}
+.nav a{color:var(--tertiary);text-decoration:none;transition:opacity .2s,color .2s;opacity:.9}
 .nav a:hover{opacity:1}
-.nav a.current{color:var(--secondary);opacity:1;background:transparent;border-color:var(--secondary)}
+.nav a.current{color:var(--secondary);opacity:1}
 
 /* ============ CENTRAL GALLERY STRIP ============ */
 .strip{
@@ -94,18 +94,55 @@ body{
 
 /* ============ TITLE BAR (above gallery) ============ */
 .title-bar{
-  display:flex;align-items:flex-end;justify-content:space-between;
+  display:flex;align-items:flex-end;justify-content:center;
   padding:110px 40px 40px;gap:40px;border-bottom:1px solid rgba(243,213,141,.16);
-}
-.title-bar .lbl{
-  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
-  font-size:clamp(24px,3.4vw,44px);letter-spacing:.02em;text-transform:uppercase;
-  color:#F3D58D;line-height:.9;
 }
 .title-bar .title{
   font-family:"Plus Jakarta Sans","Helvetica Neue",Arial,sans-serif;font-weight:900;
   font-size:clamp(70px,13vw,180px);letter-spacing:-.035em;line-height:.85;
-  text-transform:uppercase;color:#F3D58D;text-align:right;
+  text-transform:uppercase;color:var(--secondary);text-align:center;
+}
+
+/* ============ SEASON BAR (below gallery) ============ */
+.season{padding:20px 40px 60px}
+.season-bar{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:20px 28px;border:1px solid rgba(243,213,141,.35);
+  background:transparent;color:var(--tertiary);cursor:pointer;
+  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
+  font-size:clamp(20px,2.8vw,32px);letter-spacing:.06em;text-transform:uppercase;
+  transition:background .2s,border-color .2s,color .2s;
+}
+.season-bar:hover{background:rgba(243,213,141,.05);border-color:var(--tertiary)}
+.season-bar.open{background:rgba(243,213,141,.06);border-color:var(--secondary);color:var(--secondary)}
+.season-bar .arrow{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid currentColor;
+  transition:transform .3s ease;
+}
+.season-bar.open .arrow{transform:rotate(45deg)}
+.season-panel{
+  max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;
+}
+.season-panel.open{max-height:2000px;padding-top:20px}
+.season-grid{
+  display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr));
+}
+@media(min-width:900px){.season-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.season-item{
+  aspect-ratio:3/4;background:var(--secondary);color:var(--police);
+  padding:20px;display:flex;flex-direction:column;justify-content:flex-end;
+  text-decoration:none;transition:transform .3s ease;
+}
+.season-item:hover{transform:translateY(-4px)}
+.season-item h4{
+  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:700;
+  font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--police);margin-bottom:4px;
+}
+.season-item .m{
+  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--police);opacity:.65;
 }
 
 /* ============ FOOT ============ */
@@ -126,7 +163,6 @@ body{
 
 <!-- ============ TITLE BAR (above gallery) ============ -->
 <div class="title-bar">
-  <span class="lbl" id="seasonLbl">Fall 2026</span>
   <h1 class="title">Projects</h1>
 </div>
 
@@ -178,6 +214,24 @@ body{
   </div>
 </section>
 
+<!-- ============ SEASON BAR (below gallery, expandable) ============ -->
+<section class="season">
+  <button class="season-bar" id="seasonBar" aria-expanded="false" aria-controls="seasonPanel">
+    <span id="seasonLbl">Fall 2026</span>
+    <span class="arrow" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+    </span>
+  </button>
+  <div class="season-panel" id="seasonPanel">
+    <div class="season-grid">
+      <a class="season-item" href="feedback-feature.html"><h4>Tell us why.</h4><span class="m">Whirl AI · Sep</span></a>
+      <a class="season-item" href="#"><h4>The reading queue.</h4><span class="m">Personal · Oct</span></a>
+      <a class="season-item" href="#"><h4>Escape hatches.</h4><span class="m">Essay · Oct</span></a>
+      <a class="season-item" href="#"><h4>Failure states.</h4><span class="m">In progress · Nov</span></a>
+    </div>
+  </div>
+</section>
+
 <footer class="foot">© 2026 Karan Chulliparambil</footer>
 
 <script>
@@ -200,6 +254,18 @@ body{
   var step=280;
   prev.addEventListener('click',function(){strip.scrollBy({left:-step,behavior:'smooth'})});
   next.addEventListener('click',function(){strip.scrollBy({left:step,behavior:'smooth'})});
+})();
+
+// Season expandable
+(function(){
+  var bar=document.getElementById('seasonBar');
+  var panel=document.getElementById('seasonPanel');
+  if(!bar || !panel) return;
+  bar.addEventListener('click',function(){
+    var open=bar.classList.toggle('open');
+    panel.classList.toggle('open',open);
+    bar.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
 })();
 </script>
 
