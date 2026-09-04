@@ -104,15 +104,19 @@ body{
 .card:hover{transform:translateY(-6px)}
 .card .bg{position:absolute;inset:0;transition:transform .5s ease}
 .card:hover .bg{transform:scale(1.05)}
-.card .cap{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;text-align:center;background:linear-gradient(0deg,rgba(46,67,101,.02),transparent)}
+.card .cap{
+  position:absolute;inset:0;z-index:3;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:22px;color:var(--secondary);
+  transition:color .3s ease;
+}
+.card:hover .cap{color:var(--police)}
 .card .cap h4{
-  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:700;
-  font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:#2E4365;margin-bottom:4px;
+  font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:900;font-size:clamp(22px,3vw,40px);
+  letter-spacing:-.02em;line-height:.98;text-transform:uppercase;
 }
-.card .cap .meta{
-  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#2E4365;opacity:.6;
-}
+.card .cap .meta{display:none}
 
 /* per-card variations */
 .card.c1 .bg{background:#0C0C0C url('img/one-tap-rejection.png?v=2') center/cover no-repeat}
@@ -122,11 +126,19 @@ body{
 .card.c5 .bg{background:linear-gradient(135deg,#F9DFA0,#F0CD7F 55%,#DBAB55)}
 .card.c6 .bg{background:linear-gradient(135deg,#F5D888,#E9C062 55%,#CFA145)}
 
-/* image cards get a darker scrim + buff text for legibility */
-.card.c1 .caption,
-.card.c2 .caption{color:var(--tertiary)}
-.card.c1::after,
-.card.c2::after{background:linear-gradient(180deg,transparent 45%,rgba(12,12,12,.7) 100%)}
+/* marigold hover multiply wash — full card */
+.card::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:var(--secondary);mix-blend-mode:multiply;
+  opacity:0;transition:opacity .35s ease;
+}
+.card:hover::after{opacity:.9}
+/* base darken for image cards so marigold title stays legible */
+.card.c1::before,
+.card.c2::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(12,12,12,.25),rgba(12,12,12,.5));
+}
 
 /* nav arrows — centered vertically on either side of the gallery */
 .arrows button{
@@ -318,7 +330,7 @@ body{
       <div class="season-item has-img i-scent" data-menu data-item-id="scent-market">
         <h4>Scent Market</h4><span class="m">Entrepreneurship · Fall</span>
         <div class="card-menu">
-          <p class="summary">An entrepreneurship venture curating fragrance for a modern buyer. Built and launched from concept to live storefront this fall.</p>
+          <p class="summary">The authenticated fragrance marketplace - a secondhand storefront where every bottle is verified before it ships. Built and launched from concept.</p>
           <a href="https://www.scent-market.com/" target="_blank" rel="noopener">Check It Out</a>
         </div>
       </div>
