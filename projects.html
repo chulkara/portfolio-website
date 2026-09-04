@@ -134,16 +134,44 @@ body{
   aspect-ratio:3/4;background:var(--secondary);color:var(--police);
   padding:20px;display:flex;flex-direction:column;justify-content:flex-end;
   text-decoration:none;transition:transform .3s ease;
+  position:relative;overflow:hidden;
 }
 .season-item:hover{transform:translateY(-4px)}
 .season-item h4{
   font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:700;
   font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--police);margin-bottom:4px;
+  position:relative;z-index:2;transition:color .3s ease;
 }
 .season-item .m{
   font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--police);opacity:.65;
+  position:relative;z-index:2;transition:color .3s ease;
 }
+
+/* image variant — for the featured block with a real preview */
+.season-item.has-img{
+  background:#0C0C0C;
+  background-image:url('img/one-tap-rejection.png');
+  background-size:cover;background-position:center;
+}
+/* dark scrim so caption stays legible on the image */
+.season-item.has-img::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,transparent 45%,rgba(12,12,12,.6) 100%);
+  transition:opacity .3s ease;
+}
+/* marigold hover overlay */
+.season-item.has-img::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:var(--secondary);
+  mix-blend-mode:multiply;opacity:0;transition:opacity .3s ease;
+}
+.season-item.has-img h4,
+.season-item.has-img .m{color:var(--secondary)}
+.season-item.has-img:hover::after{opacity:.9}
+.season-item.has-img:hover h4,
+.season-item.has-img:hover .m{color:var(--police)}
+.season-item.has-img .m{opacity:.85}
 
 /* ============ FOOT ============ */
 .foot{padding:60px 40px 36px;background:#2E4365;border-top:1px solid rgba(243,213,141,.14);text-align:center;font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#F3D58D;opacity:.55}
@@ -224,7 +252,7 @@ body{
   </button>
   <div class="season-panel" id="seasonPanel">
     <div class="season-grid">
-      <a class="season-item" href="feedback-feature.html"><h4>One-Tap Rejection UI/UX</h4><span class="m">Design</span></a>
+      <a class="season-item has-img" href="feedback-feature.html"><h4>One-Tap Rejection UI/UX</h4><span class="m">Design</span></a>
       <a class="season-item" href="#"><h4>The Reading Queue</h4><span class="m">Design</span></a>
       <a class="season-item" href="#"><h4>Escape Hatches</h4><span class="m">Writing</span></a>
       <a class="season-item" href="#"><h4>Failure States</h4><span class="m">Design</span></a>
