@@ -72,10 +72,11 @@ body{
   opacity:0;pointer-events:none;transition:opacity .3s ease;
   z-index:20;
 }
-.card.menu-right .card-menu{left:100%}
-.card.menu-left .card-menu{right:100%}
-.card.menu-open .card-menu{opacity:1;pointer-events:auto}
-.card.menu-open{z-index:30}
+[data-menu].menu-right .card-menu{left:100%}
+[data-menu].menu-left .card-menu{right:100%}
+[data-menu].menu-open .card-menu{opacity:1;pointer-events:auto}
+[data-menu].menu-open{z-index:30;overflow:visible}
+[data-menu]{position:relative}
 .card-menu a{
   font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
   font-size:14px;letter-spacing:.08em;text-transform:uppercase;
@@ -149,9 +150,14 @@ body{
 }
 .season-bar.open .arrow{transform:rotate(45deg)}
 .season-panel{
-  max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease,padding .3s ease,overflow 0s .4s;
 }
-.season-panel.open{max-height:2000px;padding-top:20px}
+.season-panel.open{
+  max-height:2000px;padding-top:20px;
+  overflow:visible;
+  transition:max-height .4s ease,padding .3s ease,overflow 0s 0s;
+}
 .season-grid{
   display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr));
 }
@@ -282,7 +288,13 @@ body{
   </button>
   <div class="season-panel" id="seasonPanel">
     <div class="season-grid">
-      <a class="season-item has-img" href="feedback-feature.html"><h4>One-Tap Rejection UI/UX</h4><span class="m">Design · Sep</span></a>
+      <div class="season-item has-img" data-menu>
+        <h4>One-Tap Rejection UI/UX</h4><span class="m">Design · Sep</span>
+        <div class="card-menu">
+          <a href="https://chulkara.github.io/portfolio-website/feedback-feature.html">Presentation</a>
+          <a href="https://www.figma.com/design/Gq6pfducDLDlaXo0k4wmsl/Whirl-AI-UI-UX-Feedback-Feature?node-id=0-1&t=YE8qcF7loH0y25S1-1" target="_blank" rel="noopener">Figma Link</a>
+        </div>
+      </div>
       <a class="season-item" href="#"><h4>The Reading Queue</h4><span class="m">Design · Oct</span></a>
       <a class="season-item" href="#"><h4>Escape Hatches</h4><span class="m">Writing · Oct</span></a>
       <a class="season-item" href="#"><h4>Failure States</h4><span class="m">Design · Nov</span></a>
@@ -356,8 +368,8 @@ body{
 // Card menu — open attached panel to right if card is on left half, left if on right half
 (function(){
   document.addEventListener('click',function(e){
-    var card=e.target.closest('.card[data-menu]');
-    var openCard=document.querySelector('.card.menu-open');
+    var card=e.target.closest('[data-menu]');
+    var openCard=document.querySelector('[data-menu].menu-open');
 
     // clicked inside a menu link — let it navigate
     if(e.target.closest('.card-menu')) return;
