@@ -242,40 +242,60 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 
 .card{
   position:relative;aspect-ratio:3/4;overflow:hidden;
-  background:#e2ddd0;cursor:pointer;transition:transform .3s ease;
+  background:#0C0C0C;cursor:pointer;transition:transform .3s ease;
   box-shadow:0 12px 30px -14px rgba(12,12,12,.16);
 }
 .card:hover{transform:translateY(-4px)}
 .card .bg{position:absolute;inset:0;transition:transform .5s ease}
 .card:hover .bg{transform:scale(1.06)}
 .card .caption{
-  position:absolute;left:0;right:0;bottom:0;padding:18px 20px;color:#2E4365;
-  z-index:3;transition:transform .3s ease;
+  position:absolute;inset:0;z-index:3;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:24px;color:var(--secondary);
+  transition:opacity .3s ease;
 }
-.card .caption h4{font-family:var(--sans);font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.15;margin-bottom:4px}
-.card .caption .meta{font-family:var(--sans);font-size:11px;letter-spacing:.06em;opacity:.7;text-transform:uppercase}
-.card::after{
-  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:linear-gradient(180deg,transparent 65%,rgba(233,197,112,.6) 100%);
+.card:hover .caption{opacity:0}
+.card .caption h4{
+  font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:900;font-size:clamp(22px,2.4vw,32px);
+  letter-spacing:-.02em;line-height:.98;text-transform:uppercase;
+}
+.card .caption .meta{display:none}
+
+/* base dark scrim on image cards so marigold title pops */
+.card.c1::before,
+.card.c2::before,
+.card.c3::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(12,12,12,.25),rgba(12,12,12,.55));
 }
 
-/* hover overlay (Nami style — reveal a note) */
+/* hover overlay — fade to black, buff summary centered, "CHECK IT OUT" bottom-right */
 .card .over{
-  position:absolute;inset:0;z-index:4;padding:20px;
-  background:rgba(12,12,12,.86);color:#f4f1ea;
-  display:flex;flex-direction:column;justify-content:space-between;
+  position:absolute;inset:0;z-index:4;padding:26px 24px 60px;
+  background:rgba(12,12,12,.94);color:var(--tertiary);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
   opacity:0;transition:opacity .32s ease;
 }
 .card:hover .over{opacity:1}
-.card .over .k{font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.55}
-.card .over p{font-family:var(--serif);font-style:italic;font-weight:700;font-size:19px;line-height:1.32;letter-spacing:-.01em}
-.card .over .go{font-family:'Clash Display','Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600;font-size:13px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.card .over .k{display:none}
+.card .over p{
+  font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:500;font-size:15px;line-height:1.5;letter-spacing:-.01em;
+  color:var(--tertiary);opacity:.95;max-width:22em;font-style:normal;
+}
+.card .over .go{
+  position:absolute;bottom:20px;right:22px;
+  font-family:'Clash Display','Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-weight:600;font-size:12px;color:var(--tertiary);letter-spacing:.08em;text-transform:uppercase;
+  border-bottom:1px solid var(--tertiary);padding-bottom:2px;
+}
 
-/* per-card backgrounds — buff */
-.card.c1 .bg,
-.card.c2 .bg,
-.card.c3 .bg,
-.card.c4 .bg{background:linear-gradient(135deg,#F5DA98,#F3D58D 55%,#E9C570)}
+/* per-card backgrounds — match Projects page */
+.card.c1 .bg{background:#0C0C0C url('img/one-tap-rejection.png?v=2') center/cover no-repeat}
+.card.c2 .bg{background:#0C0C0C url('img/scent-market.png?v=1') center/cover no-repeat}
+.card.c3 .bg{background:#0C0C0C url('img/invisible-auction.png?v=1') center/cover no-repeat}
+.card.c4 .bg{background:linear-gradient(135deg,#F3D58D,#EAC26F 55%,#D6A34C)}
 
 /* ============ FOOT ============ */
 .foot{padding:100px 40px 60px;background:var(--cream);border-top:1px solid rgba(12,12,12,.12);text-align:center}
@@ -368,53 +388,37 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 
     <a class="card c1" href="feedback-feature.html">
       <div class="bg"></div>
-      <div class="caption">
-        <h4>Tell us why.</h4>
-        <span class="meta">Whirl AI · 2026</span>
-      </div>
+      <div class="caption"><h4>One Tap Rejection UX/UI</h4></div>
       <div class="over">
-        <span class="k">On feedback</span>
-        <p>"A complaint you can count is a complaint you can kill."</p>
-        <span class="go">Read →</span>
+        <p>A one-tap capture pattern for the moment users know exactly what an AI product got wrong. Free-text feedback dies at 3% - buttons get 61%.</p>
+        <span class="go">Check It Out</span>
       </div>
     </a>
 
-    <a class="card c2" href="#">
+    <a class="card c2" href="https://www.scent-market.com/" target="_blank" rel="noopener">
       <div class="bg"></div>
-      <div class="caption">
-        <h4>The reading queue.</h4>
-        <span class="meta">Personal · 2025</span>
-      </div>
+      <div class="caption"><h4>Scent Market</h4></div>
       <div class="over">
-        <span class="k">On finishing</span>
-        <p>"An anti-productivity reader for the way people actually finish books."</p>
-        <span class="go">Read →</span>
+        <p>The authenticated fragrance marketplace - a secondhand storefront where every bottle is verified before it ships. Built and launched from concept.</p>
+        <span class="go">Check It Out</span>
       </div>
     </a>
 
-    <a class="card c3" href="#">
+    <a class="card c3" href="https://medium.com/@chullkaran/the-invisible-auction-e236a352fbc9?postPublishedType=initial" target="_blank" rel="noopener">
       <div class="bg"></div>
-      <div class="caption">
-        <h4>Console rebuild.</h4>
-        <span class="meta">Snowflake ref · 2024</span>
-      </div>
+      <div class="caption"><h4>Invisible Auction Article</h4></div>
       <div class="over">
-        <span class="k">On exit surveys</span>
-        <p>"The tabs users asked for, discovered in the friction of leaving."</p>
-        <span class="go">Read →</span>
+        <p>An essay on the hidden auctions that price every flight, every ad, every ride - and what happens when the market moves faster than the person paying for it.</p>
+        <span class="go">Check It Out</span>
       </div>
     </a>
 
-    <a class="card c4" href="#">
+    <a class="card c4" href="projects.html">
       <div class="bg"></div>
-      <div class="caption">
-        <h4>Failure states.</h4>
-        <span class="meta">In progress · 2026</span>
-      </div>
+      <div class="caption"><h4>Failure States</h4></div>
       <div class="over">
-        <span class="k">On breaking</span>
-        <p>"Graceful failure is the honest test of a product's manners."</p>
-        <span class="go">Soon →</span>
+        <p>In progress. A study on graceful failure states for agent products - how the interface should behave when the model doesn't know.</p>
+        <span class="go">Check It Out</span>
       </div>
     </a>
 
