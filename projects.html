@@ -51,7 +51,7 @@ body{
 .strip-scroll{
   overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
   scrollbar-width:none;-ms-overflow-style:none;
-  padding:20px 40px 40px;
+  padding:20px 80px 40px;
 }
 .strip-scroll::-webkit-scrollbar{display:none}
 .strip-inner{display:flex;gap:20px;align-items:flex-end}
@@ -82,15 +82,18 @@ body{
 .card.c5 .bg{background:linear-gradient(135deg,#F9DFA0,#F0CD7F 55%,#DBAB55)}
 .card.c6 .bg{background:linear-gradient(135deg,#F5D888,#E9C062 55%,#CFA145)}
 
-/* nav arrows */
-.arrows{display:flex;gap:12px;justify-content:flex-end;padding:0 40px;margin-top:24px}
+/* nav arrows — centered vertically on either side of the gallery */
 .arrows button{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:5;
   width:44px;height:44px;border-radius:50%;border:1px solid rgba(243,213,141,.35);
-  background:none;color:#F3D58D;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:background .2s,border-color .2s;
+  background:rgba(46,67,101,.7);backdrop-filter:blur(4px);
+  color:var(--tertiary);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .2s,border-color .2s,transform .2s;
   font-family:inherit;
 }
-.arrows button:hover{background:rgba(243,213,141,.08);border-color:#F3D58D}
+.arrows button:hover{background:rgba(243,213,141,.15);border-color:var(--tertiary)}
+.arrows button.prev{left:20px}
+.arrows button.next{right:20px}
 
 /* ============ TITLE BAR (above gallery) ============ */
 .title-bar{
@@ -132,7 +135,7 @@ body{
 @media(min-width:900px){.season-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .season-item{
   aspect-ratio:3/4;background:var(--secondary);color:var(--police);
-  padding:20px;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:20px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;
   text-decoration:none;transition:transform .3s ease;
   position:relative;overflow:hidden;
 }
@@ -151,7 +154,7 @@ body{
 /* image variant — for the featured block with a real preview */
 .season-item.has-img{
   background:#0C0C0C;
-  background-image:url('img/one-tap-rejection.png');
+  background-image:url('img/one-tap-rejection.png?v=2');
   background-size:cover;background-position:center;
 }
 /* dark scrim so caption stays legible on the image */
@@ -233,10 +236,10 @@ body{
   </div>
 
   <div class="arrows">
-    <button aria-label="Previous" id="prevBtn">
+    <button class="prev" aria-label="Previous" id="prevBtn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
-    <button aria-label="Next" id="nextBtn">
+    <button class="next" aria-label="Next" id="nextBtn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18l6-6-6-6"/></svg>
     </button>
   </div>
@@ -252,10 +255,10 @@ body{
   </button>
   <div class="season-panel" id="seasonPanel">
     <div class="season-grid">
-      <a class="season-item has-img" href="feedback-feature.html"><h4>One-Tap Rejection UI/UX</h4><span class="m">Design</span></a>
-      <a class="season-item" href="#"><h4>The Reading Queue</h4><span class="m">Design</span></a>
-      <a class="season-item" href="#"><h4>Escape Hatches</h4><span class="m">Writing</span></a>
-      <a class="season-item" href="#"><h4>Failure States</h4><span class="m">Design</span></a>
+      <a class="season-item has-img" href="feedback-feature.html"><h4>One-Tap Rejection UI/UX</h4><span class="m">Design · Sep</span></a>
+      <a class="season-item" href="#"><h4>The Reading Queue</h4><span class="m">Design · Oct</span></a>
+      <a class="season-item" href="#"><h4>Escape Hatches</h4><span class="m">Writing · Oct</span></a>
+      <a class="season-item" href="#"><h4>Failure States</h4><span class="m">Design · Nov</span></a>
     </div>
   </div>
 </section>
@@ -275,13 +278,21 @@ body{
   el.textContent=s+' '+y;
 })();
 
-// Arrow scroll
+// Arrow scroll — carousel with wrap-around
 (function(){
   var strip=document.getElementById('stripScroll');
   var prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn');
   var step=280;
-  prev.addEventListener('click',function(){strip.scrollBy({left:-step,behavior:'smooth'})});
-  next.addEventListener('click',function(){strip.scrollBy({left:step,behavior:'smooth'})});
+  function atEnd(){return strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4}
+  function atStart(){return strip.scrollLeft <= 4}
+  next.addEventListener('click',function(){
+    if(atEnd()) strip.scrollTo({left:0,behavior:'smooth'});
+    else strip.scrollBy({left:step,behavior:'smooth'});
+  });
+  prev.addEventListener('click',function(){
+    if(atStart()) strip.scrollTo({left:strip.scrollWidth,behavior:'smooth'});
+    else strip.scrollBy({left:-step,behavior:'smooth'});
+  });
 })();
 
 // Season expandable
