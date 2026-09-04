@@ -107,14 +107,14 @@ body{
 .season{padding:20px 40px 60px}
 .season-bar{
   width:100%;display:flex;align-items:center;justify-content:space-between;
-  padding:20px 28px;border:1px solid rgba(243,213,141,.35);
-  background:transparent;color:var(--tertiary);cursor:pointer;
+  padding:20px 28px;border:1px solid var(--secondary);
+  background:transparent;color:var(--secondary);cursor:pointer;
   font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
   font-size:clamp(20px,2.8vw,32px);letter-spacing:.06em;text-transform:uppercase;
-  transition:background .2s,border-color .2s,color .2s;
+  transition:background .2s;
 }
-.season-bar:hover{background:rgba(243,213,141,.05);border-color:var(--tertiary)}
-.season-bar.open{background:rgba(243,213,141,.06);border-color:var(--secondary);color:var(--secondary)}
+.season-bar:hover{background:rgba(229,157,44,.08)}
+.season-bar.open{background:rgba(229,157,44,.1)}
 .season-bar .arrow{
   display:inline-flex;align-items:center;justify-content:center;
   width:38px;height:38px;border-radius:50%;
@@ -173,7 +173,7 @@ body{
 
       <a class="card c1" href="feedback-feature.html">
         <div class="bg"></div>
-        <div class="cap"><h4>Tell us why.</h4><span class="meta">Whirl AI · 4 images</span></div>
+        <div class="cap"><h4>One Tap Rejection UI/UX</h4><span class="meta">Design · Sep</span></div>
       </a>
 
       <a class="card c2" href="#">
@@ -219,15 +219,15 @@ body{
   <button class="season-bar" id="seasonBar" aria-expanded="false" aria-controls="seasonPanel">
     <span id="seasonLbl">Fall 2026</span>
     <span class="arrow" aria-hidden="true">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 7L17 17M17 17H9M17 17V9"/></svg>
     </span>
   </button>
   <div class="season-panel" id="seasonPanel">
     <div class="season-grid">
-      <a class="season-item" href="feedback-feature.html"><h4>Tell us why.</h4><span class="m">Whirl AI · Sep</span></a>
-      <a class="season-item" href="#"><h4>The reading queue.</h4><span class="m">Personal · Oct</span></a>
-      <a class="season-item" href="#"><h4>Escape hatches.</h4><span class="m">Essay · Oct</span></a>
-      <a class="season-item" href="#"><h4>Failure states.</h4><span class="m">In progress · Nov</span></a>
+      <a class="season-item" href="feedback-feature.html"><h4>One-Tap Rejection UI/UX</h4><span class="m">Design</span></a>
+      <a class="season-item" href="#"><h4>The Reading Queue</h4><span class="m">Design</span></a>
+      <a class="season-item" href="#"><h4>Escape Hatches</h4><span class="m">Writing</span></a>
+      <a class="season-item" href="#"><h4>Failure States</h4><span class="m">Design</span></a>
     </div>
   </div>
 </section>

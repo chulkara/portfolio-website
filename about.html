@@ -44,29 +44,17 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 
 /* ============ HERO ============ */
 .hero{
-  position:relative;min-height:70vh;overflow:hidden;
-  background:
-    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(229,157,44,.4), transparent 60%),
-    radial-gradient(ellipse 55% 60% at 5% 55%, rgba(23,37,63,.55), transparent 60%),
-    linear-gradient(180deg,
-      #2E4365 0%,
-      #2E4365 55%,
-      #3F4E75 68%,
-      #7D6D6E 80%,
-      #C8905A 92%,
-      #E59D2C 100%);
-  color:#f4f1ea;
-  padding-top:82px;padding-bottom:80px;
+  background:var(--police);
+  padding:110px 40px 40px;
+  display:flex;align-items:flex-end;justify-content:center;
+  border-bottom:1px solid rgba(243,213,141,.16);
 }
-.hero-inner{position:relative;z-index:2;padding:60px 40px 0;max-width:1240px;margin:0 auto}
-.hero .cap{
-  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
-  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#F3D58D;opacity:.9;margin-bottom:24px;
-}
+.hero-inner{max-width:1240px;margin:0 auto;text-align:center;width:100%}
 .hero h1{
   font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:900;font-size:clamp(80px,15vw,220px);
-  letter-spacing:-.03em;line-height:.88;text-transform:uppercase;color:var(--secondary);
+  font-weight:900;font-size:clamp(70px,13vw,180px);
+  letter-spacing:-.035em;line-height:.85;text-transform:uppercase;
+  color:var(--secondary);text-align:center;
 }
 
 /* ============ BIO ============ */
@@ -192,7 +180,6 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 <!-- ============ WHAT I DO ============ -->
 <section class="what">
   <div class="what-hdr">
-    <span class="cap">Practice</span>
     <h2>What I Do</h2>
   </div>
   <div class="what-inner">
