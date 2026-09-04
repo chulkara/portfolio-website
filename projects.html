@@ -15,19 +15,34 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Palette hierarchy */
-  --primary:#2E4365;   /* Police Blue */
-  --secondary:#E59D2C; /* Marigold */
-  --tertiary:#F3D58D;  /* Buff */
-  --quaternary:#EBDDC5;/* Pearl */
-  /* aliases */
+  --ink:#0C0C0C;
+}
+/* THEMES — swappable palettes */
+body.theme-1{
+  --primary:#2E4365; --primary-rgb:46,67,101;
+  --secondary:#E59D2C; --secondary-rgb:229,157,44;
+  --tertiary:#F3D58D; --tertiary-rgb:243,213,141;
+  --quaternary:#EBDDC5; --quaternary-rgb:235,221,197;
+}
+body.theme-2{
+  --primary:#241412; --primary-rgb:36,20,18;
+  --secondary:#932C25; --secondary-rgb:147,44,37;
+  --tertiary:#253633; --tertiary-rgb:37,54,51;
+  --quaternary:#8E9A9B; --quaternary-rgb:142,154,155;
+}
+body.theme-3{
+  --primary:#EAC891; --primary-rgb:234,200,145;
+  --secondary:#8A8635; --secondary-rgb:138,134,53;
+  --tertiary:#AE431E; --tertiary-rgb:174,67,30;
+  --quaternary:#D06224; --quaternary-rgb:208,98,36;
+}
+body{
   --marigold:var(--secondary);
   --police:var(--primary);
   --buff:var(--tertiary);
   --pearl:var(--quaternary);
-  --ink:#0C0C0C;
 }
-html,body{background:#2E4365;color:#F3D58D}
+html,body{background:var(--primary);color:var(--tertiary)}
 body{
   font-family:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;font-weight:400;
   -webkit-font-smoothing:antialiased;
@@ -58,7 +73,7 @@ body{
 .card{
   flex:0 0 260px;scroll-snap-align:start;
   aspect-ratio:3/4;position:relative;overflow:hidden;
-  background:linear-gradient(135deg,#F5DA98,#F3D58D 55%,#E9C570);
+  background:linear-gradient(135deg,#F5DA98,var(--tertiary) 55%,#E9C570);
   transition:transform .35s ease;
   cursor:pointer;
 }
@@ -121,7 +136,7 @@ body{
 .card.c1 .bg{background:#0C0C0C url('img/one-tap-rejection.png?v=2') center/cover no-repeat}
 .card.c2 .bg{background:#0C0C0C url('img/scent-market.png?v=1') center/cover no-repeat}
 .card.c3 .bg{background:#0C0C0C url('img/invisible-auction.png?v=1') center/cover no-repeat}
-.card.c4 .bg{background:linear-gradient(135deg,#F3D58D,#EAC26F 55%,#D6A34C)}
+.card.c4 .bg{background:linear-gradient(135deg,var(--tertiary),#EAC26F 55%,#D6A34C)}
 
 /* marigold hover multiply wash — full card */
 .card::after{
@@ -141,30 +156,30 @@ body{
 /* nav arrows — centered vertically on either side of the gallery */
 .arrows button{
   position:absolute;top:50%;transform:translateY(-50%);z-index:5;
-  width:44px;height:44px;border-radius:50%;border:1px solid rgba(243,213,141,.35);
-  background:rgba(46,67,101,.7);backdrop-filter:blur(4px);
+  width:44px;height:44px;border-radius:50%;border:1px solid rgba(var(--tertiary-rgb),.35);
+  background:rgba(var(--primary-rgb),.7);backdrop-filter:blur(4px);
   color:var(--tertiary);cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:background .2s,border-color .2s,transform .2s;
   font-family:inherit;
 }
-.arrows button:hover{background:rgba(243,213,141,.15);border-color:var(--tertiary)}
+.arrows button:hover{background:rgba(var(--tertiary-rgb),.15);border-color:var(--tertiary)}
 .arrows button.prev{left:20px}
 .arrows button.next{right:20px}
 
 /* ============ TITLE BAR (above gallery) ============ */
 .title-bar{
   display:flex;align-items:flex-end;justify-content:center;
-  padding:110px 40px 40px;gap:40px;border-bottom:1px solid rgba(243,213,141,.16);
+  padding:110px 40px 40px;gap:40px;border-bottom:1px solid rgba(var(--tertiary-rgb),.16);
   background:
-    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(229,157,44,.55), transparent 60%),
+    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(var(--secondary-rgb),.55), transparent 60%),
     radial-gradient(ellipse 55% 60% at 5% 55%, rgba(23,37,63,.75), transparent 60%),
     linear-gradient(180deg,
-      #2E4365 0%,
-      #2E4365 45%,
+      var(--primary) 0%,
+      var(--primary) 45%,
       #3F4E75 60%,
       #4A5878 75%,
       #38495F 90%,
-      #2E4365 100%);
+      var(--primary) 100%);
 }
 .title-bar .title{
   font-family:"Plus Jakarta Sans","Helvetica Neue",Arial,sans-serif;font-weight:900;
@@ -182,8 +197,8 @@ body{
   font-size:clamp(20px,2.8vw,32px);letter-spacing:.06em;text-transform:uppercase;
   transition:background .2s;
 }
-.season-bar:hover{background:rgba(229,157,44,.08)}
-.season-bar.open{background:rgba(229,157,44,.1)}
+.season-bar:hover{background:rgba(var(--secondary-rgb),.08)}
+.season-bar.open{background:rgba(var(--secondary-rgb),.1)}
 .season-bar .arrow{
   display:inline-flex;align-items:center;justify-content:center;
   width:38px;height:38px;border-radius:50%;
@@ -250,10 +265,11 @@ body{
 .season-item.has-img .m{opacity:.85}
 
 /* ============ FOOT ============ */
-.foot{padding:60px 40px 36px;background:#2E4365;border-top:1px solid rgba(243,213,141,.14);text-align:center;font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#F3D58D;opacity:.55}
+.foot{padding:60px 40px 36px;background:var(--primary);border-top:1px solid rgba(var(--tertiary-rgb),.14);text-align:center;font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--tertiary);opacity:.55}
 </style>
 </head>
-<body>
+<body class="theme-1">
+<script>(function(){try{var t=localStorage.getItem('theme');if(t)document.body.className=t;}catch(e){}})();</script>
 
 <nav class="nav">
   <a href="index.html" class="brand">K &mdash; C</a>

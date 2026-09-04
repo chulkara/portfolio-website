@@ -15,20 +15,35 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Palette hierarchy */
-  --primary:#2E4365;   /* Police Blue */
-  --secondary:#E59D2C; /* Marigold */
-  --tertiary:#F3D58D;  /* Buff */
-  --quaternary:#EBDDC5;/* Pearl */
-  /* aliases */
+  --ink:#0C0C0C;
+  --sans:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
+  --serif:'Wagon','Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
+}
+/* THEMES — swappable palettes */
+body.theme-1{
+  --primary:#2E4365; --primary-rgb:46,67,101;
+  --secondary:#E59D2C; --secondary-rgb:229,157,44;
+  --tertiary:#F3D58D; --tertiary-rgb:243,213,141;
+  --quaternary:#EBDDC5; --quaternary-rgb:235,221,197;
+}
+body.theme-2{
+  --primary:#241412; --primary-rgb:36,20,18;
+  --secondary:#932C25; --secondary-rgb:147,44,37;
+  --tertiary:#253633; --tertiary-rgb:37,54,51;
+  --quaternary:#8E9A9B; --quaternary-rgb:142,154,155;
+}
+body.theme-3{
+  --primary:#EAC891; --primary-rgb:234,200,145;
+  --secondary:#8A8635; --secondary-rgb:138,134,53;
+  --tertiary:#AE431E; --tertiary-rgb:174,67,30;
+  --quaternary:#D06224; --quaternary-rgb:208,98,36;
+}
+body{
   --marigold:var(--secondary);
   --police:var(--primary);
   --buff:var(--tertiary);
   --pearl:var(--quaternary);
-  --cream:var(--pearl);
-  --ink:#0C0C0C;
-  --sans:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
-  --serif:'Wagon','Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;
+  --cream:var(--quaternary);
 }
 html{scroll-behavior:smooth}
 body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-weight:400;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
@@ -46,17 +61,17 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 .hero{
   padding:110px 40px 40px;
   display:flex;align-items:flex-end;justify-content:center;
-  border-bottom:1px solid rgba(243,213,141,.16);
+  border-bottom:1px solid rgba(var(--tertiary-rgb),.16);
   background:
-    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(229,157,44,.55), transparent 60%),
+    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(var(--secondary-rgb),.55), transparent 60%),
     radial-gradient(ellipse 55% 60% at 5% 55%, rgba(23,37,63,.75), transparent 60%),
     linear-gradient(180deg,
-      #2E4365 0%,
-      #2E4365 45%,
+      var(--primary) 0%,
+      var(--primary) 45%,
       #3F4E75 60%,
       #4A5878 75%,
       #38495F 90%,
-      #2E4365 100%);
+      var(--primary) 100%);
 }
 .hero-inner{max-width:1240px;margin:0 auto;text-align:center;width:100%}
 .hero h1{
@@ -81,7 +96,7 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
   width:100%;max-width:340px;aspect-ratio:3/4;
   background:var(--police) center/cover no-repeat;
   background-image:url('img/karan.jpg');
-  box-shadow:0 20px 40px -18px rgba(46,67,101,.35);
+  box-shadow:0 20px 40px -18px rgba(var(--primary-rgb),.35);
 }
 .bio-side .li{color:var(--police);opacity:.8;transition:opacity .2s;display:inline-flex}
 .bio-side .li:hover{opacity:1}
@@ -92,7 +107,7 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 .what-hdr{
   max-width:1240px;margin:0 auto 70px;
   display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;
-  padding-bottom:36px;border-bottom:1px solid rgba(46,67,101,.22);
+  padding-bottom:36px;border-bottom:1px solid rgba(var(--primary-rgb),.22);
 }
 .what-hdr .cap{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--police);opacity:.7}
 .what-hdr h2{
@@ -111,8 +126,8 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 .now .cap{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--buff);opacity:.85;margin-bottom:20px}
 .now h2{font-family:var(--serif);font-weight:700;font-size:clamp(30px,4vw,52px);letter-spacing:-.03em;line-height:1.05;color:var(--buff);margin-bottom:30px;max-width:20em}
 .now ul{list-style:none}
-.now li{padding:16px 0;border-top:1px solid rgba(235,221,197,.14);font-size:16.5px;line-height:1.55;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.now li:last-child{border-bottom:1px solid rgba(235,221,197,.14)}
+.now li{padding:16px 0;border-top:1px solid rgba(var(--quaternary-rgb),.14);font-size:16.5px;line-height:1.55;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.now li:last-child{border-bottom:1px solid rgba(var(--quaternary-rgb),.14)}
 .now li strong{font-weight:600;color:var(--buff)}
 .now li .meta{font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px;letter-spacing:.09em;text-transform:uppercase;opacity:.55;padding-top:5px}
 
@@ -136,7 +151,7 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 .foot-reach .reach-email{
   font-family:"Plus Jakarta Sans",sans-serif;font-weight:500;font-size:14px;letter-spacing:.01em;
   color:var(--police);text-decoration:none;opacity:.9;
-  border-bottom:1px solid rgba(46,67,101,.4);padding-bottom:2px;transition:opacity .2s;
+  border-bottom:1px solid rgba(var(--primary-rgb),.4);padding-bottom:2px;transition:opacity .2s;
 }
 .foot-reach .reach-email:hover{opacity:1}
 .foot .credit{
@@ -147,7 +162,8 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 .foot .meta{font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--police);opacity:.5;margin-top:20px;display:block}
 </style>
 </head>
-<body>
+<body class="theme-1">
+<script>(function(){try{var t=localStorage.getItem('theme');if(t)document.body.className=t;}catch(e){}})();</script>
 
 <nav class="nav">
   <a href="index.html" class="brand">K &mdash; C</a>
