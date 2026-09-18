@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earnings Analyzer — Karan Chulliparambil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0C0C0C;
+  --paper:#EBDDC5;
+  --marigold:#E84033;
+  --slate:#4B5563;
+  --muted:#8B7B60;
+  --line:#3a342a;
+  /* Product's own brand — used inside mocks */
+  --brand-cream:#F5F1EC;
+  --brand-ink:#0A0E1A;
+  --brand-cobalt:#1E32DC;
+  --brand-line:rgba(10,14,26,0.08);
+  --brand-line-2:rgba(10,14,26,0.14);
+  --brand-text-2:#5B6270;
+  --brand-green:#16A34A;
+}
+html,body{background:var(--ink);color:var(--paper);font-family:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;line-height:1.55}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;letter-spacing:.02em}
+
+.wrap{max-width:960px;margin:0 auto;padding:80px 24px 120px}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.hdr{margin-bottom:56px;border-bottom:1px solid var(--line);padding-bottom:44px}
+.hdr .cap{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:20px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.9;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.hdr .cap::before{content:'';display:inline-block;width:36px;height:1px;background:var(--marigold)}
+.hdr h1{font-family:'Manrope','Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(56px,9vw,108px);letter-spacing:-.045em;line-height:.95;text-transform:none;margin-bottom:24px}
+.hdr .lead{font-size:clamp(18px,1.8vw,22px);max-width:640px;opacity:.85;line-height:1.5;font-weight:300}
+.hdr .meta{display:flex;flex-wrap:wrap;gap:24px 48px;margin-top:40px;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.75}
+.hdr .meta strong{color:var(--paper);opacity:1;font-family:'Plus Jakarta Sans',sans-serif;font-style:normal;font-weight:500;display:block;margin-top:4px;letter-spacing:0;font-size:15px}
+
+/* ── Hero mock — actual product aesthetic ─────────────────────────── */
+.hero-viz{margin:0 0 84px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--brand-cream);color:var(--brand-ink);padding:38px 42px 44px;position:relative;font-family:'Inter','Plus Jakarta Sans',sans-serif}
+.viz-frame{display:flex;align-items:center;gap:10px;padding-bottom:24px;margin-bottom:32px;border-bottom:1px solid var(--brand-line)}
+.viz-dot{width:11px;height:11px;border-radius:50%;background:#c8c4bc}
+.viz-dot.r{background:#e84033}.viz-dot.y{background:#e8a233}.viz-dot.g{background:#41c17a}
+.viz-url{margin-left:14px;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:16px;color:var(--brand-text-2);opacity:.75}
+
+.viz-eyebrow{display:flex;align-items:center;gap:14px;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:18px;color:var(--brand-cobalt);margin-bottom:32px}
+.viz-eyebrow::before{content:'';display:inline-block;width:40px;height:1px;background:var(--brand-cobalt)}
+
+.viz-hero-grid{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;position:relative;padding-bottom:28px;border-bottom:1px solid var(--brand-line-2)}
+.viz-hero-grid::after{content:'';position:absolute;right:-30px;top:-40px;width:280px;height:96px;background:radial-gradient(circle at 48px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px),radial-gradient(circle at 138px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px),radial-gradient(circle at 228px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px);pointer-events:none;z-index:-1}
+.viz-company{font-family:'Manrope',sans-serif;font-weight:800;font-size:64px;letter-spacing:-.04em;line-height:.95;color:var(--brand-ink);margin-bottom:10px}
+.viz-ticker{font-family:'Instrument Serif',Georgia,serif;font-size:20px;color:var(--brand-cobalt);letter-spacing:.08em;margin-bottom:14px}
+.viz-meta{display:flex;gap:10px;align-items:center;font-size:15px;color:var(--brand-text-2)}
+.viz-tag{font-family:'Instrument Serif',Georgia,serif;font-style:italic;color:var(--brand-cobalt);padding:3px 10px;border:1px solid rgba(30,50,220,0.3);border-radius:3px;font-size:13px}
+.viz-score{text-align:right;min-width:200px}
+.viz-score-num{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:76px;line-height:1;color:var(--brand-ink);font-variant-numeric:tabular-nums;letter-spacing:-.025em;margin-bottom:12px}
+.viz-score-label{display:inline-flex;align-items:center;gap:8px;font-family:'Manrope',sans-serif;font-weight:700;font-size:17px;color:var(--brand-green);margin-bottom:6px}
+.viz-score-dot{width:9px;height:9px;border-radius:50%;background:var(--brand-green);box-shadow:0 0 0 4px rgba(22,163,74,0.14)}
+.viz-score-scale{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:15px;color:var(--brand-text-2);opacity:.75}
+
+.viz-headline{font-family:'Manrope',sans-serif;font-weight:500;font-size:24px;line-height:1.25;letter-spacing:-.02em;color:var(--brand-ink);margin-top:36px;max-width:640px}
+
+.viz-signal{display:grid;grid-template-columns:56px 1fr;gap:24px;margin-top:52px;padding-top:32px;border-top:1px solid var(--brand-line)}
+.viz-section-num{font-family:'Instrument Serif',Georgia,serif;font-size:20px;color:var(--brand-cobalt);padding-top:6px}
+.viz-section-title{font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin-bottom:16px;color:var(--brand-ink)}
+.viz-lead{font-family:'Inter',sans-serif;font-size:17px;line-height:1.55;color:var(--brand-ink);max-width:560px}
+.viz-lead strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--brand-cobalt);font-size:1.05em;font-variant-numeric:tabular-nums}
+.viz-lead .drop{font-family:'Manrope',sans-serif;font-weight:800;font-size:64px;float:left;line-height:.85;margin:2px 8px 0 -2px;color:var(--brand-cobalt);letter-spacing:-.04em}
+.viz-spark{display:inline-block;vertical-align:middle;margin:0 6px;color:var(--brand-cobalt)}
+
+/* ── Sections ───────────────────────────────────────────────────────── */
+section{margin-bottom:96px}
+h2{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:22px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.9;margin-bottom:24px;font-weight:400;display:flex;align-items:center;gap:12px}
+h2::before{content:'';display:inline-block;width:36px;height:1px;background:var(--marigold);opacity:.8}
+h3{font-family:'Manrope',sans-serif;font-size:32px;font-weight:700;letter-spacing:-.02em;margin-bottom:22px;line-height:1.15;max-width:800px}
+p{margin-bottom:20px;font-size:18px;max-width:720px;font-weight:300}
+p:last-child{margin-bottom:0}
+strong{color:var(--paper);font-weight:500}
+
+/* Two-column decisions grid */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px 48px;margin-top:32px}
+.two-col > div{padding-top:24px;border-top:1px solid var(--line)}
+.two-col h4{font-family:'Manrope',sans-serif;font-size:20px;font-weight:600;margin-bottom:12px;letter-spacing:-.015em}
+.two-col p{font-size:15.5px;margin-bottom:0;line-height:1.6;opacity:.82}
+.two-col code{font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px;color:var(--paper);opacity:.9}
+
+.callout{background:rgba(232,64,51,0.05);border-left:2px solid var(--marigold);padding:22px 26px;border-radius:0 4px 4px 0;margin:32px 0;max-width:760px}
+.callout p{margin:0;font-size:17px;opacity:.92;font-weight:300}
+
+/* Architecture pipeline */
+.arch{background:#0A0F19;border:1px solid var(--line);border-radius:6px;padding:36px 32px;margin:36px 0;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:2;overflow-x:auto;white-space:pre;max-width:820px}
+.arch .k{color:var(--marigold)}.arch .s{color:var(--muted)}.arch .g{color:#7fb3ff}
+
+/* Numbered list */
+.numbered{list-style:none;counter-reset:step;margin-top:16px}
+.numbered li{counter-increment:step;position:relative;padding-left:64px;margin-bottom:26px;max-width:720px}
+.numbered li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:2px;font-family:'Instrument Serif',Georgia,serif;font-size:18px;color:var(--marigold);letter-spacing:0}
+.numbered li b{color:var(--paper);font-weight:600;display:block;margin-bottom:6px;font-family:'Manrope',sans-serif;font-size:18px}
+.numbered li{font-size:16px;line-height:1.55;opacity:.85}
+
+/* Metrics row */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:32px;border-radius:4px;overflow:hidden}
+.metric{background:var(--ink);padding:28px 22px}
+.metric .v{font-family:'Manrope',sans-serif;font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.metric .v.pos{color:#7fb3ff}
+.metric .l{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;opacity:.7;margin-top:14px}
+
+/* CTA row */
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border:1px solid var(--paper);color:var(--paper);text-decoration:none;font-family:'Manrope',sans-serif;font-size:14px;font-weight:500;letter-spacing:.04em;transition:all .2s;border-radius:3px}
+.cta:hover{background:var(--paper);color:var(--ink)}
+.cta.primary{background:var(--marigold);border-color:var(--marigold)}
+.cta.primary:hover{background:transparent;color:var(--marigold)}
+
+.back{margin-top:96px;padding-top:36px;border-top:1px solid var(--line);text-align:center}
+.back a{color:var(--paper);text-decoration:none;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;opacity:.7;transition:opacity .2s}
+.back a:hover{opacity:1}
+
+@media (max-width:720px){
+  .wrap{padding:56px 20px 80px}
+  .two-col{grid-template-columns:1fr;gap:28px}
+  .metrics{grid-template-columns:1fr 1fr}
+  .numbered li{padding-left:48px}
+  h3{font-size:24px}
+  .hero-viz{padding:24px 22px 30px}
+  .viz-hero-grid{grid-template-columns:1fr;gap:16px}
+  .viz-hero-grid::after{display:none}
+  .viz-score{text-align:left}
+  .viz-company{font-size:44px}
+  .viz-score-num{font-size:56px}
+  .viz-signal{grid-template-columns:1fr;gap:8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ── Header ─────────────────────────────────────────────────────── -->
+  <div class="hdr">
+    <p class="cap">Personal · Fall 2026</p>
+    <h1>Earnings<br>Analyzer.</h1>
+    <p class="lead">A one-page filing brief that turns a 40-page SEC 10-Q into a sentiment score, an AI-authored one-sentence headline, and an editorial spread of what management said — in under 30 seconds.</p>
+    <div class="meta">
+      <div><span>Role</span><strong>Product · Engineering · Design</strong></div>
+      <div><span>Stack</span><strong>Python · Flask · Turso · Groq (gpt-oss-120b) · SEC EDGAR</strong></div>
+      <div><span>Live</span><strong><a href="https://earnings-analyzer-m7n9.onrender.com" target="_blank" rel="noopener" style="color:inherit;border-bottom:1px solid rgba(235,221,197,0.35);text-decoration:none">earnings-analyzer-m7n9.onrender.com</a></strong></div>
+      <div><span>Built</span><strong>Mar 2025 · Redesigned Sept 2026</strong></div>
+    </div>
+  </div>
+
+  <!-- ── Hero mock — editorial Filing Brief ─────────────────────────── -->
+  <div class="hero-viz">
+    <div class="viz-frame">
+      <span class="viz-dot r"></span><span class="viz-dot y"></span><span class="viz-dot g"></span>
+      <span class="viz-url">earnings-analyzer-m7n9.onrender.com/r/a53259ef6c1d</span>
+    </div>
+
+    <div class="viz-eyebrow">Filing Brief · 10-Q · 2026-07-31</div>
+
+    <div class="viz-hero-grid">
+      <div>
+        <div class="viz-company">Apple Inc.</div>
+        <div class="viz-ticker">AAPL</div>
+        <div class="viz-meta"><span class="viz-tag">10-Q</span> <span>·</span> <span>July 31, 2026</span></div>
+      </div>
+      <div class="viz-score">
+        <div class="viz-score-num">+0.78</div>
+        <div class="viz-score-label"><span class="viz-score-dot"></span>Positive</div>
+        <div class="viz-score-scale">−1.0 Bearish · +1.0 Bullish</div>
+      </div>
+    </div>
+
+    <p class="viz-headline">Apple's 10-Q reads confidently — but market risk exposure is the caveat.</p>
+
+    <div class="viz-signal">
+      <div class="viz-section-num">01</div>
+      <div>
+        <div class="viz-section-title">The Signal</div>
+        <p class="viz-lead">
+          <span class="drop">S</span>entiment climbed from <strong>+0.20</strong> in Feb 2026
+          <svg class="viz-spark" width="72" height="24" viewBox="0 0 72 24"><path d="M3 15 L18 12 L33 14 L48 8 L63 5 L69 4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle cx="69" cy="4" r="2.4" fill="currentColor"/></svg>
+          to <strong>+0.78</strong> today, across 4 filings. Apple reported Q3 2026 net sales of $109.4 billion, up 16% year-over-year, driven by strong product and services growth.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── The problem ────────────────────────────────────────────────── -->
+  <section>
+    <h2>The Problem</h2>
+    <h3>Every quarter, 10-Q filings arrive as 40+ pages of boilerplate that hide two or three sentences that actually matter.</h3>
+    <p>Retail investors either skim, miss the shift in tone, or defer to headlines. Analysts pay Bloomberg terminals thousands a month for tools that pre-digest this. I wanted to see how close a weekend project could get.</p>
+    <p>The core question: could a language model surface the same signal a first-year analyst would pull out of a filing — beats, misses, guidance changes, new risk factors, tonal shifts — cheaply enough that a single ticker costs fractions of a cent, and quickly enough that it feels like a Google search rather than a batch job?</p>
+  </section>
+
+  <!-- ── The build ──────────────────────────────────────────────────── -->
+  <section>
+    <h2>How it Works</h2>
+    <h3>Ticker in, filing brief out — with every step cached so re-runs are free.</h3>
+
+    <div class="arch"><span class="s">// The pipeline behind one ticker submission:</span>
+
+  <span class="k">1.</span>  ticker → <span class="g">SEC EDGAR</span>          <span class="s">// ticker → CIK → 4 recent filings</span>
+  <span class="k">2.</span>  filings → <span class="g">HTML stripper</span>      <span class="s">// raw 10-Q text, cached by (cik, accession)</span>
+  <span class="k">3.</span>  latest quarter → <span class="g">AlphaVantage</span> <span class="s">// earnings call transcript, if available</span>
+  <span class="k">4.</span>  filing + transcript → <span class="g">Groq LLM</span>  <span class="s">// gpt-oss-120b, cached by content_hash + prompt_version</span>
+  <span class="k">5.</span>  older 3 filings → <span class="g">Groq LLM</span>     <span class="s">// quick sentiment scores → history sparkline</span>
+  <span class="k">6.</span>  result → <span class="g">Turso (libsql)</span>       <span class="s">// runs table → permalink → shareable URL</span>
+  <span class="k">7.</span>  filing date → <span class="g">yfinance</span>         <span class="s">// ±30-day price series, market reaction</span></div>
+
+    <p>Everything server-side. The frontend is a single HTML page that streams progress over Server-Sent Events, then renders the brief when the pipeline finishes.</p>
+
+    <div class="callout"><p>Every step sits behind a Turso-backed cache keyed by <em>content_hash + prompt_version</em>, so a second run of the same ticker is instant and costs zero LLM tokens. Bump the prompt version → old rows age out naturally without a migration.</p></div>
+  </section>
+
+  <!-- ── The redesign moment ───────────────────────────────────────── -->
+  <section>
+    <h2>The Redesign</h2>
+    <h3>The first version was a dashboard. That was the problem.</h3>
+    <p>Version one landed the pipeline but delivered its output as a grid of metric cards, gauges, and Chart.js line charts. Functional, forgettable — the kind of thing every fintech tutorial ships. Nothing to forward to a friend.</p>
+    <p>Version two threw the dashboard out. In its place: a single editorial page — a "Filing Brief" — that reads like a Bloomberg opinion column with data woven through the prose. Section 01 is the signal, told as a paragraph with a sparkline embedded mid-sentence. Section 02 is the pull quote from management, magazine-style. Section 03 is analyst pushback from the earnings call, laid out as a "vs." panel. Section 04 is the market's answer, drawn as a Financial Times hairline chart with a small pill marker at the filing date. Everything else — themes, risks, insider trades, congressional trades — collapses under a single progressive-disclosure toggle labeled <em>The Evidence</em>.</p>
+    <p>The typographic system does the heavy lifting. Manrope 800 for the display voice, Instrument Serif for editorial labels and pull-figures, Inter for body prose. Bicentra Biotech's brand identity was the reference — precise cobalt on warm cream, generous vertical rhythm, restraint over decoration.</p>
+  </section>
+
+  <!-- ── Feature: diff mode ─────────────────────────────────────────── -->
+  <section>
+    <h2>Feature Focus · Diff Mode</h2>
+    <h3>Filings are only interesting relative to the last one. So the app compares any two runs and tells you what actually changed.</h3>
+    <ol class="numbered">
+      <li><b>Sentiment shift.</b> A signed delta between two runs' sentiment scores, plus the label flip if it crossed a threshold.</li>
+      <li><b>Themes added and dropped.</b> Set operations on the LLM's key-themes list — a new "AI acceleration" theme appearing three quarters in a row is a real signal.</li>
+      <li><b>Beat/miss flip.</b> When management stops missing estimates and starts beating them, the diff surfaces it explicitly instead of burying it in the summary.</li>
+      <li><b>New analyst concerns.</b> Only shows up when a transcript was available — pulls the questions analysts asked that last quarter's call didn't cover.</li>
+    </ol>
+  </section>
+
+  <!-- ── Feature: transcripts ───────────────────────────────────────── -->
+  <section>
+    <h2>Feature Focus · Earnings Call Context</h2>
+    <h3>The 10-Q tells you the numbers. The call tells you the confidence.</h3>
+    <p>When AlphaVantage has a transcript for the quarter, the analyzer feeds an excerpt of it into the LLM prompt alongside the filing itself. The model compares the polished written filing against how executives actually talked about it — and against what analysts pushed back on.</p>
+    <p>The brief gains an editorial pull quote from the CEO or CFO, a tone analysis grounded in the transcript, and a "What Analysts Pushed Back On" section rendered as a two-panel vs. layout. If no transcript is available, the section quietly disappears — the app degrades to filing-only mode with no error state and renumbers the remaining sections automatically.</p>
+  </section>
+
+  <!-- ── Architecture decisions ─────────────────────────────────────── -->
+  <section>
+    <h2>Decisions worth calling out</h2>
+    <div class="two-col">
+      <div>
+        <h4>Turso over Postgres</h4>
+        <p>The app is read-heavy and SQLite-shaped. Turso keeps the SQLite dialect but runs the authoritative copy in the cloud with an embedded replica on the app machine — reads are local (nanoseconds), writes sync asynchronously. Free tier gives 9 GB storage and 1B reads/month, enough to never think about it. Postgres would have been a heavier dependency for zero gain.</p>
+      </div>
+      <div>
+        <h4>Prompt versioning as invalidation</h4>
+        <p>Instead of a TTL, the LLM cache is keyed by <code>(content_hash, prompt_version, model)</code>. Any prompt change → bump the version constant → old rows are effectively invalid, new runs re-analyze. Old rows stay for provenance until pruned.</p>
+      </div>
+      <div>
+        <h4>Server-Sent Events over polling</h4>
+        <p>The analysis pipeline takes 8–25 seconds — long enough that a progress indicator matters. SSE gives me a single unidirectional stream of progress messages ending in the final result, and works with plain <code>gunicorn --worker-class gthread</code>. WebSockets would have been overkill.</p>
+      </div>
+      <div>
+        <h4>API keys never leave the server</h4>
+        <p>Groq and AlphaVantage keys live in Render secrets, injected as env vars. The frontend has no notion of them. A five-ticker demo whitelist caps blast radius from anyone hitting the URL — everything else is a friendly 403.</p>
+      </div>
+      <div>
+        <h4>Editorial over dashboard</h4>
+        <p>Every fintech tool defaults to a card grid. This one defaults to a single editorial page with progressive disclosure. The signal isn't a metric card labeled "Sentiment: +0.78" — it's a sentence: <em>"Sentiment climbed from +0.20 in Feb 2026 to +0.78 today."</em> Sparkline lives inside the sentence.</p>
+      </div>
+      <div>
+        <h4>$0/month at 20 users</h4>
+        <p>Render's free web tier + Turso's free storage tier. The container sleeps after 15 minutes of no traffic and wakes in ~1 minute on the next visit — disclosed to visitors directly via an "About this demo" pill so nothing feels broken. If cold starts ever matter, ~$0.20/month on Fly.io removes them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Metrics ────────────────────────────────────────────────────── -->
+  <section>
+    <h2>What it does</h2>
+    <div class="metrics">
+      <div class="metric"><div class="v">&lt; 30s</div><div class="l">Cold analysis</div></div>
+      <div class="metric"><div class="v pos">0ms</div><div class="l">Cached re-run</div></div>
+      <div class="metric"><div class="v">$0.003</div><div class="l">Cost per fresh run</div></div>
+      <div class="metric"><div class="v">4</div><div class="l">Filings per pass</div></div>
+    </div>
+  </section>
+
+  <!-- ── Try it ─────────────────────────────────────────────────────── -->
+  <section>
+    <h2>See it in action</h2>
+    <h3>Live demo runs on AAPL, NVDA, TSLA, MSFT, JPM. Clone the repo for anything else.</h3>
+    <div class="cta-row">
+      <a class="cta primary" href="https://earnings-analyzer-m7n9.onrender.com" target="_blank" rel="noopener">Try the demo →</a>
+      <a class="cta" href="https://github.com/chulkara/earnings-analyzer" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+  </section>
+
+  <div class="back"><a href="/projects/">← Back to Projects</a></div>
+</div>
+</body>
+</html>
