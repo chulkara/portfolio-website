@@ -558,27 +558,27 @@ Return ONLY a valid JSON object:
     <div class="two-col">
       <div>
         <h4>Turso over Postgres</h4>
-        <p>The app is read-heavy and structurally SQLite-shaped. Turso keeps the SQLite dialect but runs the authoritative copy in the cloud with an embedded replica on the app machine — so reads are local (nanoseconds) and writes sync asynchronously. Free tier gives 9 GB storage and 1B reads/mo, enough to never think about it. Postgres would have been a heavier dependency for zero gain.</p>
+        <p>The app is SQLite-shaped and read-heavy. Turso runs the authoritative copy in the cloud with an embedded replica on the machine, so reads are local and writes sync asynchronously. Postgres would have been a heavier dependency for zero gain.</p>
       </div>
       <div>
         <h4>Prompt versioning as invalidation</h4>
-        <p>Instead of a TTL, the LLM cache is keyed by <code>(content_hash, prompt_version, model)</code>. Any prompt change → bump the version constant → old rows are effectively invalid, new runs re-analyze. Old rows stay for provenance until someone chooses to prune.</p>
+        <p>Instead of a TTL, the LLM cache is keyed by <code>(content_hash, prompt_version, model)</code>. Bump the version constant and old rows are effectively invalid — new runs re-analyze automatically.</p>
       </div>
       <div>
         <h4>Server-Sent Events over polling</h4>
-        <p>The analysis pipeline takes 8–25 seconds — long enough that a progress indicator matters. SSE gives me a single unidirectional stream of progress messages ending in the final result, and works with plain <code>gunicorn --worker-class gthread</code>. WebSockets would have been overkill.</p>
+        <p>The pipeline takes 8–25 seconds, long enough that a progress indicator matters. SSE gives me a single stream of progress messages and works with plain <code>gunicorn --worker-class gthread</code> — WebSockets would have been overkill.</p>
       </div>
       <div>
         <h4>API keys never leave the server</h4>
-        <p>Groq and AlphaVantage keys live in Render secrets, injected as env vars. The frontend has no notion of them. The demo whitelist (five tickers) caps blast radius from anyone hitting the URL — everything else is a friendly 403.</p>
+        <p>Groq and AlphaVantage keys live in Render secrets — the frontend has no notion of them. A five-ticker demo whitelist caps blast radius; everything else gets a friendly 403.</p>
       </div>
       <div>
         <h4>Editorial over dashboard</h4>
-        <p>Every fintech tool defaults to a card grid. This one defaults to a single editorial page with progressive disclosure. The signal isn't a metric card labeled "Sentiment: +0.78" — it's a sentence: <em>"Sentiment climbed from +0.20 in Feb 2026 to +0.78 today."</em> Sparkline lives inside the sentence.</p>
+        <p>Every fintech tool defaults to a card grid; this one defaults to a single editorial page. The signal isn't a card labeled "Sentiment: +0.78" — it's a sentence with the sparkline inside it.</p>
       </div>
       <div>
         <h4>$0/month at 20 users</h4>
-        <p>Render's free web tier + Turso's free storage tier. The container sleeps after 15 minutes of no traffic and wakes in ~1 minute on the next visit — disclosed to visitors directly via an "About this demo" pill so nothing feels broken. If cold starts ever matter, ~$0.20/month on Fly.io removes them.</p>
+        <p>Render's free web tier plus Turso's free storage. The container sleeps after 15 minutes idle and wakes in about a minute — disclosed to visitors up front so nothing feels broken.</p>
       </div>
     </div>
   </section>
