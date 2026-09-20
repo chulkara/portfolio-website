@@ -94,6 +94,27 @@ strong{color:var(--paper);font-weight:500}
 .arch{background:#0A0F19;border:1px solid var(--line);border-radius:6px;padding:36px 32px;margin:36px 0;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:2;overflow-x:auto;white-space:pre;max-width:820px}
 .arch .k{color:var(--marigold)}.arch .s{color:var(--muted)}.arch .g{color:#7fb3ff}
 
+/* ── Flow diagram (VSCO-style) ──────────────────────────────────── */
+.flowdiag{margin:40px 0;max-width:820px}
+.flowdiag-frame{background:#0A0F19;border:1px solid var(--line);border-radius:6px;padding:32px 24px}
+.flowdiag svg{display:block;width:100%;height:auto;max-width:720px;margin:0 auto}
+.flowdiag text{font-family:'Manrope','Plus Jakarta Sans',sans-serif}
+.flowdiag .lbl-title{font-weight:700;font-size:14px;fill:var(--paper);letter-spacing:-.01em}
+.flowdiag .lbl-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:12px;fill:var(--muted)}
+.flowdiag .lbl-decision{font-weight:600;font-size:13px;fill:var(--paper)}
+.flowdiag .lbl-yesno{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:10px;fill:var(--paper);letter-spacing:.14em}
+.flowdiag .lbl-legend{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;fill:var(--paper);opacity:.7}
+.flowdiag .node-box{fill:rgba(235,221,197,0.05);stroke:rgba(235,221,197,0.15);stroke-width:1}
+.flowdiag .node-core{fill:var(--marigold);stroke:none}
+.flowdiag .node-user{fill:#1E32DC;stroke:none}
+.flowdiag .node-end{fill:var(--brand-cream);stroke:none}
+.flowdiag .lbl-user{fill:var(--paper);font-weight:700;font-size:11px;letter-spacing:.02em}
+.flowdiag .lbl-end{fill:var(--brand-ink);font-weight:700;font-size:12px}
+.flowdiag .arrow{stroke:var(--paper);stroke-width:2;fill:none;opacity:.85}
+.flowdiag .arrow-core{stroke:var(--marigold);stroke-width:2;fill:none}
+.flowdiag .yesno-pill{fill:var(--ink);stroke:var(--paper);stroke-width:1}
+.flowdiag-caption{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:15px;color:var(--muted);opacity:.85;margin-top:14px;padding-left:4px;line-height:1.55;max-width:640px}
+
 /* Numbered list */
 .numbered{list-style:none;counter-reset:step;margin-top:16px}
 .numbered li{counter-increment:step;position:relative;padding-left:64px;margin-bottom:26px;max-width:720px}
@@ -229,6 +250,119 @@ strong{color:var(--paper);font-weight:500}
     <h2>How it Works</h2>
     <h3>Ticker in, filing brief out — with every step cached so re-runs are free.</h3>
 
+    <div class="flowdiag">
+      <div class="flowdiag-frame">
+        <svg viewBox="0 0 720 870" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#EBDDC5"/>
+            </marker>
+            <marker id="arr-m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#E84033"/>
+            </marker>
+          </defs>
+
+          <!-- Legend (top-right) -->
+          <g transform="translate(480,10)">
+            <rect x="0" y="0" width="20" height="20" class="node-core"/>
+            <text x="30" y="14" class="lbl-legend">= Core step</text>
+          </g>
+
+          <!-- 1 · USER (start circle) -->
+          <g transform="translate(360,80)">
+            <circle cx="0" cy="0" r="50" class="node-user"/>
+            <text x="0" y="-8" text-anchor="middle" class="lbl-user">USER</text>
+            <text x="0" y="10" text-anchor="middle" class="lbl-user" opacity=".85">wants a</text>
+            <text x="0" y="24" text-anchor="middle" class="lbl-user" opacity=".85">filing brief</text>
+          </g>
+
+          <!-- Arrow → Enter ticker -->
+          <path class="arrow" d="M360,135 L360,175" marker-end="url(#arr)"/>
+
+          <!-- 2 · Enter ticker -->
+          <g transform="translate(260,185)">
+            <rect x="0" y="0" width="200" height="64" rx="4" class="node-box"/>
+            <text x="100" y="30" text-anchor="middle" class="lbl-title">Enter ticker</text>
+            <text x="100" y="48" text-anchor="middle" class="lbl-sub">AAPL, NVDA, TSLA…</text>
+          </g>
+
+          <!-- Arrow → Cached? -->
+          <path class="arrow" d="M360,255 L360,290" marker-end="url(#arr)"/>
+
+          <!-- 3 · Cached? diamond -->
+          <g transform="translate(360,355)">
+            <polygon points="0,-60 120,0 0,60 -120,0" class="node-box"/>
+            <text x="0" y="-2" text-anchor="middle" class="lbl-decision">Cached in</text>
+            <text x="0" y="18" text-anchor="middle" class="lbl-decision">Turso?</text>
+          </g>
+
+          <!-- YES branch (left) -->
+          <path class="arrow" d="M240,355 L120,355 L120,410" marker-end="url(#arr)"/>
+          <g transform="translate(155,343)">
+            <rect x="0" y="0" width="34" height="20" rx="2" class="yesno-pill"/>
+            <text x="17" y="14" text-anchor="middle" class="lbl-yesno">YES</text>
+          </g>
+
+          <!-- 4a · Serve from cache -->
+          <g transform="translate(20,420)">
+            <rect x="0" y="0" width="200" height="64" rx="4" class="node-box"/>
+            <text x="100" y="30" text-anchor="middle" class="lbl-title">Serve from cache</text>
+            <text x="100" y="48" text-anchor="middle" class="lbl-sub">0ms · zero tokens</text>
+          </g>
+
+          <!-- NO branch (right) → SEC EDGAR -->
+          <path class="arrow-core" d="M480,355 L600,355 L600,410" marker-end="url(#arr-m)"/>
+          <g transform="translate(530,343)">
+            <rect x="0" y="0" width="34" height="20" rx="2" class="yesno-pill"/>
+            <text x="17" y="14" text-anchor="middle" class="lbl-yesno">NO</text>
+          </g>
+
+          <!-- 4b · SEC EDGAR (CORE) -->
+          <g transform="translate(500,420)">
+            <rect x="0" y="0" width="200" height="64" rx="4" class="node-core"/>
+            <text x="100" y="30" text-anchor="middle" class="lbl-title">Fetch SEC EDGAR</text>
+            <text x="100" y="48" text-anchor="middle" class="lbl-sub" fill="#F5EEDD" opacity=".9">last 4 filings</text>
+          </g>
+
+          <!-- Arrow → Transcript? -->
+          <path class="arrow" d="M600,490 L600,525" marker-end="url(#arr)"/>
+
+          <!-- 5 · AlphaVantage transcript (optional) -->
+          <g transform="translate(500,535)">
+            <rect x="0" y="0" width="200" height="64" rx="4" class="node-box"/>
+            <text x="100" y="30" text-anchor="middle" class="lbl-title">AlphaVantage</text>
+            <text x="100" y="48" text-anchor="middle" class="lbl-sub">earnings call (if any)</text>
+          </g>
+
+          <!-- Arrow → Groq LLM -->
+          <path class="arrow-core" d="M600,605 L600,640" marker-end="url(#arr-m)"/>
+
+          <!-- 6 · Groq LLM (CORE) -->
+          <g transform="translate(500,650)">
+            <rect x="0" y="0" width="200" height="64" rx="4" class="node-core"/>
+            <text x="100" y="30" text-anchor="middle" class="lbl-title">Groq LLM analysis</text>
+            <text x="100" y="48" text-anchor="middle" class="lbl-sub" fill="#F5EEDD" opacity=".9">gpt-oss-120b</text>
+          </g>
+
+          <!-- Left branch continues down -->
+          <path class="arrow" d="M120,490 L120,745" />
+          <!-- Right branch continues down -->
+          <path class="arrow" d="M600,720 L600,745" />
+          <!-- Converge -->
+          <path class="arrow" d="M120,745 L600,745"/>
+          <path class="arrow" d="M360,745 L360,775" marker-end="url(#arr)"/>
+
+          <!-- 7 · END: Filing Brief -->
+          <g transform="translate(360,808)">
+            <circle cx="0" cy="0" r="42" class="node-end"/>
+            <text x="0" y="-4" text-anchor="middle" class="lbl-end">Filing</text>
+            <text x="0" y="12" text-anchor="middle" class="lbl-end">Brief</text>
+          </g>
+        </svg>
+      </div>
+      <p class="flowdiag-caption">The pipeline behind one submission. Two paths — cached returns in milliseconds; a cold run fans out through SEC EDGAR, an optional earnings-call transcript, and Groq's gpt-oss-120b, then converges back to a rendered brief.</p>
+    </div>
+
     <div class="arch"><span class="s">// The pipeline behind one ticker submission:</span>
 
   <span class="k">1.</span>  ticker → <span class="g">SEC EDGAR</span>          <span class="s">// ticker → CIK → 4 recent filings</span>
@@ -271,6 +405,58 @@ strong{color:var(--paper);font-weight:500}
     <h3>The 10-Q tells you the numbers. The call tells you the confidence.</h3>
     <p>When AlphaVantage has a transcript for the quarter, the analyzer feeds an excerpt of it into the LLM prompt alongside the filing itself. The model gets to compare the polished written filing against how executives actually talked about it — and against what analysts pushed back on.</p>
     <p>The output gains a management-tone field grounded in the transcript, key quotes prefixed with speaker names, and a new "analyst pushback" section. If no transcript is available, that section quietly disappears — the app degrades to filing-only mode with no error state.</p>
+  </section>
+
+  <!-- ── Feature: How sentiment is calculated ─────────────────────── -->
+  <section>
+    <h2>Feature Focus · How sentiment is calculated</h2>
+    <h3>It's the LLM's read, not a formula.</h3>
+    <p>The score isn't a lexicon count of positive and negative words, and it isn't calibrated against actual stock returns. It's a structured extraction: we hand Groq's <em>gpt-oss-120b</em> the raw filing (up to ~18k characters for the full pass), enforce JSON output, and ask it to return a sentiment label and a score at the same time. Both fields come back from a single call.</p>
+
+    <p>The full-analysis prompt looks roughly like this:</p>
+
+    <div class="arch"><span class="s">// Sent to Groq's gpt-oss-120b for the latest filing:</span>
+
+You are a financial analyst. Analyze this SEC 10-Q for
+Apple Inc. (AAPL), filed 2026-07-31.
+
+FILING:
+&lt;18,000 chars of stripped 10-Q text&gt;
+
+<span class="s">// When a transcript is available, appended verbatim:</span>
+EARNINGS CALL TRANSCRIPT (same quarter — use for management
+tone, analyst pushback, and forward-looking commentary):
+&lt;8,000 chars of transcript excerpt&gt;
+
+Return ONLY a valid JSON object:
+{
+  <span class="k">"sentiment"</span>:       <span class="g">"positive" | "neutral" | "negative"</span>,
+  <span class="k">"sentiment_score"</span>: <span class="g">number from -1.0 to 1.0</span>,
+  <span class="k">"summary"</span>:         "…",
+  <span class="k">"key_themes"</span>:      [ … ],
+  <span class="k">"management_tone"</span>: "…",
+  <span class="k">"key_quotes"</span>:      [ … ],
+  <span class="k">"guidance"</span>:        [ … ],
+  <span class="k">"risks"</span>:           [ … ],
+  <span class="k">"analyst_concerns"</span>: [ … ],
+  <span class="k">"beats_estimates"</span>: <span class="g">true | false | null</span>
+}</div>
+
+    <p>Two knobs matter. <em>response_format</em> is set to <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px">json_object</code> — the model is forbidden from returning prose. And <em>reasoning_effort</em> is set to <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px">low</code> — this is structured extraction, not a math proof; a chain of thought would burn tokens without improving the read.</p>
+
+    <p>The three older filings that populate the history sparkline get a lighter prompt asking for only sentiment, score, and a one-sentence summary. Cheaper, faster, same shape — those data points feed the trend line, not the full brief.</p>
+
+    <div class="callout"><p>Every score is deterministic within a prompt version. The Turso cache key is <em>(content_hash, prompt_version, model)</em>, so identical filing text always returns the same number. The moment I edit the prompt and bump the version constant (say <em>v3 → v4</em>), the cache misses and every ticker re-scores under the new prompt.</p></div>
+
+    <h3>What the score is <em>not</em>.</h3>
+    <ol class="numbered">
+      <li><b>Not a lexicon count.</b> No positive-words-minus-negative-words. VADER and FinBERT do that; this doesn't.</li>
+      <li><b>Not calibrated against returns.</b> A +0.78 doesn't mean the stock will go up 78%. It means the model read the writing as confidently positive.</li>
+      <li><b>Not adjusted for company baseline.</b> A chronically pessimistic filer might land at −0.2 in an objectively good quarter. What matters is the <em>change</em>.</li>
+      <li><b>Not a substitute for the filing.</b> If a number is going to move real money, you should still read the 10-Q. The brief exists to tell you which filings deserve that read.</li>
+    </ol>
+
+    <p>That last point is why the Signal section leads with the sparkline of the last four quarters — not the current score in isolation. <em>Direction</em> survives the model's baseline bias in a way that any single number can't.</p>
   </section>
 
   <!-- ── Feature: The Information Gap — insider vs congress ────────── -->
