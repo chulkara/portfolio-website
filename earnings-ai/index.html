@@ -6,7 +6,7 @@
 <title>Earnings Analyzer — Karan Chulliparambil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -32,11 +32,11 @@ html,body{background:var(--ink);color:var(--paper);font-family:'Plus Jakarta San
 
 /* ── Header ─────────────────────────────────────────────────────────── */
 .hdr{margin-bottom:56px;border-bottom:1px solid var(--line);padding-bottom:44px}
-.hdr .cap{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:20px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.9;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.hdr .cap{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:20px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.9;margin-bottom:20px;display:flex;align-items:center;gap:12px}
 .hdr .cap::before{content:'';display:inline-block;width:36px;height:1px;background:var(--marigold)}
 .hdr h1{font-family:'Manrope','Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(56px,9vw,108px);letter-spacing:-.045em;line-height:.95;text-transform:none;margin-bottom:24px}
 .hdr .lead{font-size:clamp(18px,1.8vw,22px);max-width:640px;opacity:.85;line-height:1.5;font-weight:300}
-.hdr .meta{display:flex;flex-wrap:wrap;gap:24px 48px;margin-top:40px;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.75}
+.hdr .meta{display:flex;flex-wrap:wrap;gap:24px 48px;margin-top:40px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.75}
 .hdr .meta strong{color:var(--paper);opacity:1;font-family:'Plus Jakarta Sans',sans-serif;font-style:normal;font-weight:500;display:block;margin-top:4px;letter-spacing:0;font-size:15px}
 
 /* ── Hero mock — actual product aesthetic ─────────────────────────── */
@@ -44,36 +44,36 @@ html,body{background:var(--ink);color:var(--paper);font-family:'Plus Jakarta San
 .viz-frame{display:flex;align-items:center;gap:10px;padding-bottom:24px;margin-bottom:32px;border-bottom:1px solid var(--brand-line)}
 .viz-dot{width:11px;height:11px;border-radius:50%;background:#c8c4bc}
 .viz-dot.r{background:#e84033}.viz-dot.y{background:#e8a233}.viz-dot.g{background:#41c17a}
-.viz-url{margin-left:14px;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:16px;color:var(--brand-text-2);opacity:.75}
+.viz-url{margin-left:14px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16px;color:var(--brand-text-2);opacity:.75}
 
-.viz-eyebrow{display:flex;align-items:center;gap:14px;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:18px;color:var(--brand-cobalt);margin-bottom:32px}
+.viz-eyebrow{display:flex;align-items:center;gap:14px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:18px;color:var(--brand-cobalt);margin-bottom:32px}
 .viz-eyebrow::before{content:'';display:inline-block;width:40px;height:1px;background:var(--brand-cobalt)}
 
 .viz-hero-grid{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;position:relative;padding-bottom:28px;border-bottom:1px solid var(--brand-line-2)}
 .viz-hero-grid::after{content:'';position:absolute;right:-30px;top:-40px;width:280px;height:96px;background:radial-gradient(circle at 48px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px),radial-gradient(circle at 138px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px),radial-gradient(circle at 228px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px);pointer-events:none;z-index:-1}
 .viz-company{font-family:'Manrope',sans-serif;font-weight:800;font-size:64px;letter-spacing:-.04em;line-height:.95;color:var(--brand-ink);margin-bottom:10px}
-.viz-ticker{font-family:'Instrument Serif',Georgia,serif;font-size:20px;color:var(--brand-cobalt);letter-spacing:.08em;margin-bottom:14px}
+.viz-ticker{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;color:var(--brand-cobalt);letter-spacing:.08em;margin-bottom:14px}
 .viz-meta{display:flex;gap:10px;align-items:center;font-size:15px;color:var(--brand-text-2)}
-.viz-tag{font-family:'Instrument Serif',Georgia,serif;font-style:italic;color:var(--brand-cobalt);padding:3px 10px;border:1px solid rgba(30,50,220,0.3);border-radius:3px;font-size:13px}
+.viz-tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--brand-cobalt);padding:3px 10px;border:1px solid rgba(30,50,220,0.3);border-radius:3px;font-size:13px}
 .viz-score{text-align:right;min-width:200px}
-.viz-score-num{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:76px;line-height:1;color:var(--brand-ink);font-variant-numeric:tabular-nums;letter-spacing:-.025em;margin-bottom:12px}
+.viz-score-num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:76px;line-height:1;color:var(--brand-ink);font-variant-numeric:tabular-nums;letter-spacing:-.025em;margin-bottom:12px}
 .viz-score-label{display:inline-flex;align-items:center;gap:8px;font-family:'Manrope',sans-serif;font-weight:700;font-size:17px;color:var(--brand-green);margin-bottom:6px}
 .viz-score-dot{width:9px;height:9px;border-radius:50%;background:var(--brand-green);box-shadow:0 0 0 4px rgba(22,163,74,0.14)}
-.viz-score-scale{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:15px;color:var(--brand-text-2);opacity:.75}
+.viz-score-scale{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:15px;color:var(--brand-text-2);opacity:.75}
 
 .viz-headline{font-family:'Manrope',sans-serif;font-weight:500;font-size:24px;line-height:1.25;letter-spacing:-.02em;color:var(--brand-ink);margin-top:36px;max-width:640px}
 
 .viz-signal{display:grid;grid-template-columns:56px 1fr;gap:24px;margin-top:52px;padding-top:32px;border-top:1px solid var(--brand-line)}
-.viz-section-num{font-family:'Instrument Serif',Georgia,serif;font-size:20px;color:var(--brand-cobalt);padding-top:6px}
+.viz-section-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;color:var(--brand-cobalt);padding-top:6px}
 .viz-section-title{font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin-bottom:16px;color:var(--brand-ink)}
 .viz-lead{font-family:'Inter',sans-serif;font-size:17px;line-height:1.55;color:var(--brand-ink);max-width:560px}
-.viz-lead strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;color:var(--brand-cobalt);font-size:1.05em;font-variant-numeric:tabular-nums}
+.viz-lead strong{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;color:var(--brand-cobalt);font-size:1.05em;font-variant-numeric:tabular-nums}
 .viz-lead .drop{font-family:'Manrope',sans-serif;font-weight:800;font-size:64px;float:left;line-height:.85;margin:2px 8px 0 -2px;color:var(--brand-cobalt);letter-spacing:-.04em}
 .viz-spark{display:inline-block;vertical-align:middle;margin:0 6px;color:var(--brand-cobalt)}
 
 /* ── Sections ───────────────────────────────────────────────────────── */
 section{margin-bottom:96px}
-h2{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:22px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.9;margin-bottom:24px;font-weight:400;display:flex;align-items:center;gap:12px}
+h2{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:22px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.9;margin-bottom:24px;font-weight:400;display:flex;align-items:center;gap:12px}
 h2::before{content:'';display:inline-block;width:36px;height:1px;background:var(--marigold);opacity:.8}
 h3{font-family:'Manrope',sans-serif;font-size:32px;font-weight:700;letter-spacing:-.02em;margin-bottom:22px;line-height:1.15;max-width:800px}
 p{margin-bottom:20px;font-size:18px;max-width:720px;font-weight:300}
@@ -97,7 +97,7 @@ strong{color:var(--paper);font-weight:500}
 /* Numbered list */
 .numbered{list-style:none;counter-reset:step;margin-top:16px}
 .numbered li{counter-increment:step;position:relative;padding-left:64px;margin-bottom:26px;max-width:720px}
-.numbered li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:2px;font-family:'Instrument Serif',Georgia,serif;font-size:18px;color:var(--marigold);letter-spacing:0}
+.numbered li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:2px;font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;color:var(--marigold);letter-spacing:0}
 .numbered li b{color:var(--paper);font-weight:600;display:block;margin-bottom:6px;font-family:'Manrope',sans-serif;font-size:18px}
 .numbered li{font-size:16px;line-height:1.55;opacity:.85}
 
@@ -106,7 +106,7 @@ strong{color:var(--paper);font-weight:500}
 .metric{background:var(--ink);padding:28px 22px}
 .metric .v{font-family:'Manrope',sans-serif;font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
 .metric .v.pos{color:#7fb3ff}
-.metric .l{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;opacity:.7;margin-top:14px}
+.metric .l{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;opacity:.7;margin-top:14px}
 
 /* CTA row */
 .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
@@ -116,7 +116,7 @@ strong{color:var(--paper);font-weight:500}
 .cta.primary:hover{background:transparent;color:var(--marigold)}
 
 .back{margin-top:96px;padding-top:36px;border-top:1px solid var(--line);text-align:center}
-.back a{color:var(--paper);text-decoration:none;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;opacity:.7;transition:opacity .2s}
+.back a{color:var(--paper);text-decoration:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;opacity:.7;transition:opacity .2s}
 .back a:hover{opacity:1}
 
 @media (max-width:720px){
