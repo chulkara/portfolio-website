@@ -64,14 +64,14 @@ body{
   padding:20px 0 0;position:relative;
 }
 .strip-scroll{
-  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+  overflow-x:auto;overflow-y:hidden;
   scrollbar-width:none;-ms-overflow-style:none;
   padding:20px 80px 40px;
 }
 .strip-scroll::-webkit-scrollbar{display:none}
 .strip-inner{display:flex;gap:20px;align-items:flex-end}
 .card{
-  flex:0 0 260px;scroll-snap-align:start;
+  flex:0 0 260px;
   aspect-ratio:3/4;position:relative;overflow:hidden;
   background:linear-gradient(135deg,#F5DA98,var(--tertiary) 55%,#E9C570);
   transition:transform .35s ease;
@@ -137,6 +137,7 @@ body{
 .card.c2 .bg{background:#0C0C0C url('/img/scent-market.png?v=1') center/cover no-repeat}
 .card.c3 .bg{background:#0C0C0C url('/img/invisible-auction.png?v=1') center/cover no-repeat}
 .card.c4 .bg{background:linear-gradient(135deg,var(--tertiary),#EAC26F 55%,#D6A34C)}
+.card.c5 .bg{background:#0C0C0C url('/img/wall-street-bull.jpg?v=1') center/cover no-repeat}
 
 /* marigold hover multiply wash — full card */
 .card::after{
@@ -148,7 +149,8 @@ body{
 /* base darken for image cards so marigold title stays legible */
 .card.c1::before,
 .card.c2::before,
-.card.c3::before{
+.card.c3::before,
+.card.c5::before{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(12,12,12,.25),rgba(12,12,12,.5));
 }
@@ -296,6 +298,11 @@ body{
 <section class="strip">
   <div class="strip-scroll" id="stripScroll">
     <div class="strip-inner">
+
+      <div class="card c5" data-target="earnings-analyzer">
+        <div class="bg"></div>
+        <div class="cap"><h4>Earnings Analyzer</h4><span class="meta">Product · Fall</span></div>
+      </div>
 
       <div class="card c1" data-target="one-tap">
         <div class="bg"></div>
