@@ -279,7 +279,8 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 /* base dark scrim on image cards so marigold title pops */
 .card.c1::before,
 .card.c2::before,
-.card.c3::before{
+.card.c3::before,
+.card.c4::before{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(12,12,12,.25),rgba(12,12,12,.55));
 }
@@ -309,7 +310,7 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 .card.c1 .bg{background:#0C0C0C url('/img/one-tap-rejection.png?v=2') center/cover no-repeat}
 .card.c2 .bg{background:#0C0C0C url('/img/scent-market.png?v=1') center/cover no-repeat}
 .card.c3 .bg{background:#0C0C0C url('/img/invisible-auction.png?v=1') center/cover no-repeat}
-.card.c4 .bg{background:linear-gradient(135deg,var(--tertiary),#EAC26F 55%,#D6A34C)}
+.card.c4 .bg{background:#0C0C0C url('/img/wall-street-bull.jpg?v=1') center/cover no-repeat}
 
 /* ============ FOOT ============ */
 .foot{padding:100px 40px 60px;background:var(--cream);border-top:1px solid rgba(12,12,12,.12);text-align:center}
@@ -467,11 +468,11 @@ body.theme-3 .picker-dropdown .dot[data-theme="theme-3"]{
       </div>
     </a>
 
-    <a class="card c4" href="/projects/#failure-states">
+    <a class="card c4" href="/projects/#earnings-analyzer">
       <div class="bg"></div>
-      <div class="caption"><h4>Failure States</h4></div>
+      <div class="caption"><h4>Earnings Analyzer</h4></div>
       <div class="over">
-        <p>In progress. A study on graceful failure states for agent products - how the interface should behave when the model doesn't know.</p>
+        <p>A one-page editorial Filing Brief that turns a 40-page SEC 10-Q into a sentiment score, an AI-authored headline, and a magazine spread of what management said — in under 30 seconds.</p>
         <span class="go">Check It Out</span>
       </div>
     </a>
