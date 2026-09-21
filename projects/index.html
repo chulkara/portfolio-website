@@ -249,26 +249,10 @@ body{
 .season-item.i-zine{background-image:url('/img/furniture-zine-1.png?v=2')}
 .season-item.i-esg{background-image:url('/img/esg-articles.png?v=2')}
 .season-item.i-earnings{
-  background:linear-gradient(135deg,#0A0F19 0%,#111820 55%,#1a1410 100%);
+  background-image:url('/img/wall-street-bull.jpg?v=1');
+  background-size:cover;background-position:center;
 }
-.season-item.i-earnings::before{
-  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:
-    linear-gradient(180deg,transparent 45%,rgba(12,12,12,.7) 100%),
-    radial-gradient(circle at 22% 30%,rgba(232,64,51,.22),transparent 42%),
-    radial-gradient(circle at 78% 68%,rgba(65,193,122,.14),transparent 45%);
-  transition:opacity .3s ease;
-}
-.season-item.i-earnings .earnings-mark{
-  position:absolute;z-index:2;top:18px;left:22px;right:22px;bottom:60px;
-  display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;
-  font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--secondary);
-}
-.season-item.i-earnings .em-top{display:flex;gap:8px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
-.season-item.i-earnings .em-tag{background:rgba(235,221,197,.1);padding:2px 6px;border-radius:2px}
-.season-item.i-earnings .em-score{font-size:52px;font-weight:400;letter-spacing:-.02em;color:#4E64F0;line-height:1;font-family:'Instrument Serif','Iowan Old Style',Georgia,serif;font-variant-numeric:tabular-nums}
-.season-item.i-earnings .em-caption{font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
-.season-item.i-earnings:hover .earnings-mark{opacity:0;transition:opacity .3s ease}
+.season-item.i-earnings .earnings-mark{display:none}
 /* dark scrim so caption stays legible on the image */
 .season-item.has-img::before{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
