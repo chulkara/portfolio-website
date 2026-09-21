@@ -80,6 +80,7 @@ body{
 .card{
   flex:0 0 260px;
   aspect-ratio:3/4;position:relative;overflow:hidden;
+  outline:none;-webkit-tap-highlight-color:transparent;
   background:linear-gradient(135deg,#F5DA98,var(--tertiary) 55%,#E9C570);
   transition:transform .35s ease;
   cursor:pointer;
@@ -234,7 +235,9 @@ body{
   padding:20px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;
   text-decoration:none;transition:transform .3s ease;
   position:relative;overflow:hidden;
+  outline:none;-webkit-tap-highlight-color:transparent;
 }
+.season-item:focus,.season-item:focus-visible,.season-item:active{outline:none}
 .season-item:hover{transform:translateY(-4px)}
 .season-item h4{
   font-family:'Plus Jakarta Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;
