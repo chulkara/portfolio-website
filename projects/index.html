@@ -64,12 +64,19 @@ body{
   padding:20px 0 0;position:relative;
 }
 .strip-scroll{
-  overflow-x:auto;overflow-y:hidden;
-  scrollbar-width:none;-ms-overflow-style:none;
-  padding:20px 80px 40px;
+  overflow:hidden;
+  padding:20px 0 40px;
 }
-.strip-scroll::-webkit-scrollbar{display:none}
-.strip-inner{display:flex;gap:20px;align-items:flex-end}
+.strip-inner{
+  display:flex;gap:20px;align-items:flex-end;
+  width:max-content;
+  animation:strip-marquee 55s linear infinite;
+}
+.strip-scroll:hover .strip-inner{animation-play-state:paused}
+@keyframes strip-marquee{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
 .card{
   flex:0 0 260px;
   aspect-ratio:3/4;position:relative;overflow:hidden;
@@ -327,14 +334,6 @@ body{
     </div>
   </div>
 
-  <div class="arrows">
-    <button class="prev" aria-label="Previous" id="prevBtn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <button class="next" aria-label="Next" id="nextBtn">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-  </div>
 </section>
 
 <!-- ============ SEASON BAR (below gallery, expandable) ============ -->
@@ -441,75 +440,11 @@ body{
   el.textContent=s+' '+y;
 })();
 
-// Infinite carousel — duplicate cards on both sides, silently reset when drifting to edges
+// Marquee — duplicate the card set once so the CSS translateX(-50%) animation loops seamlessly.
 (function(){
-  var strip=document.getElementById('stripScroll');
-  var inner=strip.querySelector('.strip-inner');
-  var prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn');
+  var inner=document.querySelector('#stripScroll .strip-inner');
   if(!inner) return;
-
-  // Clone the card set 2 more times so we have [copy, ORIGINAL, copy]
-  var originalHTML=inner.innerHTML;
-  inner.innerHTML=originalHTML+originalHTML+originalHTML;
-
-  var step=280; // card width + gap
-  var midStart=0;
-
-  function measure(){
-    // one set width = total width / 3
-    midStart=inner.scrollWidth/3;
-  }
-
-  // start scroll in the middle set (no animation)
-  function initPosition(){
-    measure();
-    strip.scrollTo({left:midStart,behavior:'auto'});
-  }
-  window.addEventListener('load',initPosition);
-  window.addEventListener('resize',function(){measure();strip.scrollTo({left:midStart,behavior:'auto'})});
-  initPosition();
-
-  // Auto-scroll — slow, continuous leftward drift (visually: cards move left,
-  // so scrollLeft increases). ~22px/second reads as leisurely; a 260px card
-  // takes ~12s to fully cross the viewport, enough time to read every title.
-  var SPEED = 22; // px per second
-  var lastT = 0;
-  var paused = false;
-  var resumeTimer;
-
-  function pauseAuto(delay){
-    paused = true;
-    clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(function(){ paused = false; }, delay || 2500);
-  }
-
-  function tick(t){
-    if(!lastT) lastT = t;
-    var dt = (t - lastT) / 1000;
-    lastT = t;
-    if(!paused){
-      strip.scrollLeft += SPEED * dt;
-      // seamless wrap: when we drift into the right-side copy, jump back one set
-      var oneSet = inner.scrollWidth / 3;
-      if(strip.scrollLeft > oneSet * 1.5){
-        strip.scrollLeft -= oneSet;
-      } else if(strip.scrollLeft < oneSet * 0.5){
-        strip.scrollLeft += oneSet;
-      }
-    }
-    requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-
-  // Arrow buttons — nudge and briefly pause auto-scroll
-  next.addEventListener('click',function(){strip.scrollBy({left:step,behavior:'smooth'}); pauseAuto(3000);});
-  prev.addEventListener('click',function(){strip.scrollBy({left:-step,behavior:'smooth'}); pauseAuto(3000);});
-
-  // Pause while hovering / touching so the reader can dwell on a card
-  strip.addEventListener('mouseenter',function(){ paused = true; });
-  strip.addEventListener('mouseleave',function(){ paused = false; });
-  strip.addEventListener('touchstart',function(){ pauseAuto(4000); },{passive:true});
-  strip.addEventListener('wheel',function(){ pauseAuto(3000); },{passive:true});
+  inner.innerHTML = inner.innerHTML + inner.innerHTML;
 })();
 
 // Card menu + top-card redirect to Fall 2026 item
