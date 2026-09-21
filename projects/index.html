@@ -462,24 +462,47 @@ body{
   window.addEventListener('resize',function(){measure();strip.scrollTo({left:midStart,behavior:'auto'})});
   initPosition();
 
-  next.addEventListener('click',function(){strip.scrollBy({left:step,behavior:'smooth'})});
-  prev.addEventListener('click',function(){strip.scrollBy({left:-step,behavior:'smooth'})});
+  // Auto-scroll — slow, continuous leftward drift (visually: cards move left,
+  // so scrollLeft increases). ~22px/second reads as leisurely; a 260px card
+  // takes ~12s to fully cross the viewport, enough time to read every title.
+  var SPEED = 22; // px per second
+  var lastT = 0;
+  var paused = false;
+  var resumeTimer;
 
-  // when scroll drifts into the outer copies, silently jump back to the middle
-  var resetTimer;
-  strip.addEventListener('scroll',function(){
-    clearTimeout(resetTimer);
-    resetTimer=setTimeout(function(){
-      var oneSet=inner.scrollWidth/3;
-      if(strip.scrollLeft < oneSet*0.5){
-        // drifted into left copy — jump forward by one set
-        strip.scrollTo({left:strip.scrollLeft+oneSet,behavior:'auto'});
-      } else if(strip.scrollLeft > oneSet*1.5){
-        // drifted into right copy — jump back by one set
-        strip.scrollTo({left:strip.scrollLeft-oneSet,behavior:'auto'});
+  function pauseAuto(delay){
+    paused = true;
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(function(){ paused = false; }, delay || 2500);
+  }
+
+  function tick(t){
+    if(!lastT) lastT = t;
+    var dt = (t - lastT) / 1000;
+    lastT = t;
+    if(!paused){
+      strip.scrollLeft += SPEED * dt;
+      // seamless wrap: when we drift into the right-side copy, jump back one set
+      var oneSet = inner.scrollWidth / 3;
+      if(strip.scrollLeft > oneSet * 1.5){
+        strip.scrollLeft -= oneSet;
+      } else if(strip.scrollLeft < oneSet * 0.5){
+        strip.scrollLeft += oneSet;
       }
-    },500);
-  },{passive:true});
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // Arrow buttons — nudge and briefly pause auto-scroll
+  next.addEventListener('click',function(){strip.scrollBy({left:step,behavior:'smooth'}); pauseAuto(3000);});
+  prev.addEventListener('click',function(){strip.scrollBy({left:-step,behavior:'smooth'}); pauseAuto(3000);});
+
+  // Pause while hovering / touching so the reader can dwell on a card
+  strip.addEventListener('mouseenter',function(){ paused = true; });
+  strip.addEventListener('mouseleave',function(){ paused = false; });
+  strip.addEventListener('touchstart',function(){ pauseAuto(4000); },{passive:true});
+  strip.addEventListener('wheel',function(){ pauseAuto(3000); },{passive:true});
 })();
 
 // Card menu + top-card redirect to Fall 2026 item
