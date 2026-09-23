@@ -117,7 +117,12 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
 }
 .what-grid{display:grid;grid-template-columns:1fr;gap:40px}
 @media(min-width:700px){.what-grid{grid-template-columns:1fr 1fr}}
-@media(min-width:1100px){.what-grid{grid-template-columns:1fr 1fr 1fr 1fr}}
+@media(min-width:1100px){
+  .what-grid{grid-template-columns:repeat(6,1fr);row-gap:56px}
+  .what-item{grid-column:span 2}
+  .what-item:nth-child(4){grid-column:2 / 4}
+  .what-item:nth-child(5){grid-column:4 / 6}
+}
 .what-item h3{font-family:var(--serif);font-weight:700;font-size:24px;letter-spacing:-.02em;color:var(--police);margin-bottom:14px}
 .what-item p{font-size:15.5px;line-height:1.55;color:var(--police);opacity:.85}
 
@@ -213,19 +218,23 @@ body{background:var(--pearl);color:var(--police);font-family:var(--sans);font-we
     <div class="what-grid">
       <div class="what-item">
         <h3>Design</h3>
-        <p>Interfaces for AI-first products, focused on the moments between the user and the model - how corrections happen, how trust is built, how a system says it's not sure.</p>
+        <p>I design AI products, mostly around the moments where the model gets something wrong. How a user corrects it, and whether they still trust it afterward, is where the real design work happens. (Graphic design is the hobby on the side.)</p>
       </div>
       <div class="what-item">
         <h3>Finance</h3>
-        <p>Reading companies through their filings and their financials - valuation, capital structure, and the story a set of numbers is quietly telling about where a business is headed.</p>
+        <p>I read companies through their filings and financials, not their press releases. Valuation and capital structure usually tell you where a business is headed before management does.</p>
       </div>
       <div class="what-item">
-        <h3>Research &amp; Translation</h3>
-        <p>Getting up to speed on unfamiliar terrain and turning it into something a normal person can hold - 40-page 10-Qs into a one-page brief, a new sector into a pitch, dense inputs into clean outputs.</p>
+        <h3>Research</h3>
+        <p>I like getting dropped into something I know nothing about. Give me a week and I'll come back knowing which questions actually matter.</p>
+      </div>
+      <div class="what-item">
+        <h3>Translation</h3>
+        <p>I take dense material and make it easy to follow. A 40-page 10-Q should fit on one page, and a new sector should fit in a two-minute pitch.</p>
       </div>
       <div class="what-item">
         <h3>Building</h3>
-        <p>Shipping things end-to-end. A marketplace, an analyzer, this site - I like the part of the work where an idea has to survive contact with real code, real users, and real deadlines.</p>
+        <p>I like shipping things end-to-end: a marketplace, an earnings analyzer, this site. An idea only counts once it holds up against real code and real users.</p>
       </div>
     </div>
   </div>
