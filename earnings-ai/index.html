@@ -398,7 +398,7 @@ strong{color:var(--paper);font-weight:500}
   <span class="k">2.</span>  filings → <span class="g">HTML stripper</span>      <span class="s">// raw 10-Q text, cached by (cik, accession)</span>
   <span class="k">3.</span>  latest quarter → <span class="g">AlphaVantage</span> <span class="s">// earnings call transcript, if available</span>
   <span class="k">4.</span>  filing + transcript → <span class="g">Groq LLM</span>  <span class="s">// gpt-oss-120b, cached by content_hash + prompt_version</span>
-  <span class="k">5.</span>  older 3 filings → <span class="g">Groq LLM</span>     <span class="s">// quick sentiment scores → history sparkline</span>
+  <span class="k">5.</span>  older 3 filings → <span class="g">yfinance</span>     <span class="s">// 30-day price reaction → history sparkline</span>
   <span class="k">6.</span>  result → <span class="g">Turso (libsql)</span>       <span class="s">// runs table → permalink → shareable URL</span>
   <span class="k">7.</span>  filing date → <span class="g">yfinance</span>         <span class="s">// ±30-day price series, market reaction</span></div>
 
@@ -473,7 +473,7 @@ Return ONLY a valid JSON object:
 
     <p>Two knobs matter. <em>response_format</em> is set to <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px">json_object</code> — the model is forbidden from returning prose. And <em>reasoning_effort</em> is set to <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px">low</code> — this is structured extraction, not a math proof; a chain of thought would burn tokens without improving the read.</p>
 
-    <p>The three older filings that populate the history sparkline get a lighter prompt asking for only sentiment, score, and a one-sentence summary. Cheaper, faster, same shape — those data points feed the trend line, not the full brief.</p>
+    <p>Only the latest filing goes through the model. The three older filings on the history sparkline are scored from how the stock moved in the 30 trading days after each one (more on why below). Same −1 to 1 scale, zero extra LLM calls.</p>
 
     <div class="callout"><p>Every score is deterministic within a prompt version. The Turso cache key is <em>(content_hash, prompt_version, model)</em>, so identical filing text always returns the same number. The moment I edit the prompt and bump the version constant (say <em>v3 → v4</em>), the cache misses and every ticker re-scores under the new prompt.</p></div>
 
@@ -485,7 +485,39 @@ Return ONLY a valid JSON object:
       <li><b>Not a substitute for the filing.</b> If a number is going to move real money, you should still read the 10-Q. The brief exists to tell you which filings deserve that read.</li>
     </ol>
 
-    <p>That last point is why the Signal section leads with the sparkline of the last four quarters — not the current score in isolation. <em>Direction</em> survives the model's baseline bias in a way that any single number can't.</p>
+    <p>That last point is why the Signal section leads with the sparkline of the last four quarters — not the current score in isolation. The trend shows how the market took each past filing, ending on how the model reads today's.</p>
+  </section>
+
+  <!-- ── Feature: Making it fast ───────────────────────────────────── -->
+  <section>
+    <h2>Feature Focus · The Three-Minute Timeout</h2>
+    <h3>The demo started timing out. The fix was to stop asking the AI questions the stock price already answers.</h3>
+    <p>Every run was dying at exactly three minutes. The server logs showed why: each progress stream closed at 180 seconds on the dot, which is the app's own deadline. The pipeline was making four Groq calls in a row, one full analysis plus three quick scores for the history chart, and on a slow day for Groq's reasoning model that added up to more than three minutes.</p>
+    <p>The logs were also silent while it happened. Gunicorn buffers Python's output, so none of the progress messages showed up until it was too late to be useful. One environment variable, <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px">PYTHONUNBUFFERED=1</code>, fixed that.</p>
+
+    <h3>Let the market score the past.</h3>
+    <p>The history chart exists to answer one question: how did each past filing land? The stock price already answers that, without an AI's opinion. So the three older filings are now scored from the price move in the 30 trading days after each one.</p>
+
+    <div class="arch"><span class="s">// Historical score, per older filing:</span>
+
+  move  = close 30 trading days later ÷ close on filing day − 1
+  score = move ÷ 10%, capped to <span class="g">[−1, 1]</span>     <span class="s">// +10% or more reads as +1.0</span>
+  label = <span class="g">positive</span> above +0.2 · <span class="g">negative</span> below −0.2 · otherwise <span class="g">neutral</span>
+
+<span class="s">// Before → after, per run:</span>
+  Groq calls       <span class="k">4</span> → <span class="k">1</span>
+  stream deadline  <span class="k">180s</span> → <span class="k">300s</span>     <span class="s">// headroom for a slow Groq day</span></div>
+
+    <p>The newest point on the sparkline stays the model's read of the filing text. A filing that just came out doesn't have 30 trading days of price history yet, so the text is the only signal available for it.</p>
+
+    <h3>Keeping it awake for $0.</h3>
+    <p>The other kind of slow was the cold start. Render's free tier puts the app to sleep after 15 minutes without traffic, and waking it takes about a minute. That's a bad first impression if the person clicking is a recruiter.</p>
+    <ol class="numbered">
+      <li><b>Fly.io.</b> About $3–4 a month for one always-on machine, but there's no way to set a spending cap, so you have to watch the bill yourself.</li>
+      <li><b>Hugging Face Spaces.</b> Plenty of hardware, but running a Docker app there now requires a paid plan.</li>
+      <li><b>Render's paid Starter plan.</b> $7 a month for a fixed price and no cold starts. It's the right move once this becomes a product.</li>
+      <li><b>What shipped: a free ping.</b> cron-job.org hits the health-check endpoint every 10 minutes, so the app never goes 15 minutes without traffic. Render's 750 free hours a month cover one service running around the clock, since even a 31-day month is only 744 hours.</li>
+    </ol>
   </section>
 
   <!-- ── Feature: The Information Gap — insider vs congress ────────── -->
@@ -607,7 +639,7 @@ Return ONLY a valid JSON object:
       </div>
       <div>
         <h4>$0/month at 20 users</h4>
-        <p>Render's free web tier plus Turso's free storage. The container sleeps after 15 minutes idle and wakes in about a minute — disclosed to visitors up front so nothing feels broken.</p>
+        <p>Render's free web tier plus Turso's free storage. A free cron ping every 10 minutes keeps the container from sleeping, so there's no one-minute cold start on the first click.</p>
       </div>
     </div>
   </section>
