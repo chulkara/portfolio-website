@@ -339,13 +339,14 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 }
 .foot .meta{font-family:"Plus Jakarta Sans","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);opacity:.5;margin-top:20px;display:block}
 /* ============ PALETTE PICKER ============ */
-.palette-picker{position:relative;display:inline-flex}
+.palette-picker{position:relative;display:inline-flex;margin-bottom:3.5px}
 .picker-toggle{
-  width:22px;height:22px;padding:0;border:none;background:transparent;cursor:pointer;
+  width:17px;height:17px;padding:0;border:none;background:transparent;cursor:pointer;
   display:flex;align-items:center;justify-content:center;transition:transform .2s;
 }
 .picker-toggle:hover{transform:rotate(20deg) scale(1.06)}
-.picker-toggle img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))}
+.picker-toggle img{width:100%;height:100%;object-fit:contain;display:block;filter:saturate(.55) brightness(.95);opacity:.85;transition:filter .25s,opacity .25s}
+.picker-toggle:hover img,.palette-picker.open .picker-toggle img{filter:none;opacity:1}
 .picker-dropdown{
   position:absolute;top:calc(100% + 12px);left:0;
   display:flex;flex-direction:column;gap:10px;padding:12px;
