@@ -286,7 +286,14 @@ body{
 .season-item.has-img .m{opacity:.85}
 
 /* ============ FOOT ============ */
-.foot{padding:60px 40px 36px;background:var(--primary);border-top:1px solid rgba(var(--tertiary-rgb),.14);text-align:center;font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--tertiary);opacity:.55}
+.foot{padding:60px 40px 36px;background:var(--primary);border-top:1px solid rgba(var(--tertiary-rgb),.14);text-align:center}
+/* debossed signature — same color as the background, carved in with light + shadow */
+.foot .credit{
+  font-family:'Wagon','Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;font-weight:200;
+  font-size:clamp(14px,1.5vw,18px);letter-spacing:.02em;line-height:1.2;color:var(--primary);
+  text-shadow:0 -1px 1px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.22),0 2px 2px rgba(255,255,255,.08);
+}
+.foot .meta{display:block;margin-top:20px;font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--tertiary);opacity:.55}
 </style>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon.ico">
@@ -439,7 +446,10 @@ body{
 </section>
 
 <div class="page-dim" id="pageDim"></div>
-<footer class="foot">© 2026 Karan Chulliparambil</footer>
+<footer class="foot">
+  <div class="credit">Designed by Karan Chulliparambil</div>
+  <span class="meta">© 2026 Karan Chulliparambil</span>
+</footer>
 
 <script>
 // Seasonal label
