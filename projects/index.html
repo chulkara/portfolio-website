@@ -69,13 +69,7 @@ body{
 }
 .strip-inner{
   display:flex;gap:20px;align-items:flex-end;
-  width:max-content;
-  animation:strip-marquee 55s linear infinite;
-}
-.strip-scroll:hover .strip-inner{animation-play-state:paused}
-@keyframes strip-marquee{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
+  width:max-content;will-change:transform;
 }
 .card{
   flex:0 0 260px;
@@ -464,11 +458,41 @@ body{
   el.textContent=s+' '+y;
 })();
 
-// Marquee — duplicate the card set once so the CSS translateX(-50%) animation loops seamlessly.
+// Marquee — endless loop at any screen width.
+// Keeps enough copies of the card set to always cover the viewport plus one
+// full set, then slides left by exactly one set width and wraps. The wrap
+// lands on an identical frame, so there's never a gap or a visible reset.
 (function(){
-  var inner=document.querySelector('#stripScroll .strip-inner');
+  var scroller=document.getElementById('stripScroll');
+  var inner=scroller && scroller.querySelector('.strip-inner');
   if(!inner) return;
-  inner.innerHTML = inner.innerHTML + inner.innerHTML;
+  var SPEED=25;                       // px per second
+  var original=inner.innerHTML;
+  var setCount=inner.children.length;
+  var anim=null, hovering=false;
+
+  function build(){
+    if(anim){anim.cancel();anim=null;}
+    inner.innerHTML=original+original;          // 2 sets to measure one period
+    var setWidth=inner.children[setCount].offsetLeft-inner.children[0].offsetLeft;
+    if(!setWidth) return;
+    var copies=Math.max(2,Math.ceil(scroller.clientWidth/setWidth)+1);
+    var html='';for(var i=0;i<copies;i++) html+=original;
+    inner.innerHTML=html;
+    if(anim) anim.cancel();
+    anim=inner.animate(
+      [{transform:'translateX(0)'},{transform:'translateX(-'+setWidth+'px)'}],
+      {duration:setWidth/SPEED*1000,iterations:Infinity,easing:'linear'}
+    );
+    if(hovering) anim.pause();
+  }
+
+  scroller.addEventListener('mouseenter',function(){hovering=true;if(anim)anim.pause();});
+  scroller.addEventListener('mouseleave',function(){hovering=false;if(anim)anim.play();});
+
+  var t;window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(build,200);});
+  build();
+  window.addEventListener('load',build);   // re-measure once fonts/images settle
 })();
 
 // Card menu + top-card redirect to Fall 2026 item
