@@ -182,6 +182,8 @@ button{font-family:inherit;cursor:pointer}
 /* toast */
 .toast{position:absolute;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;font-size:13px;transition:all .3s;z-index:12;pointer-events:none}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+html.still *,html.still *::before,html.still *::after{transition:none!important;animation:none!important}
+html.still .demo{display:none}
 </style>
 </head>
 <body>
@@ -303,7 +305,11 @@ button{font-family:inherit;cursor:pointer}
    Branches: find cheaper · pay anyway · take over · undo · hold expiry
    ========================================================= */
 const $=id=>document.getElementById(id);
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
+// ?state=<name> jumps straight to one screen with no animation (for Figma import / screenshots)
+const STATE=new URLSearchParams(location.search).get('state');
+const FAST=!!STATE;
+if(FAST) document.documentElement.classList.add('still');
+const wait=ms=>FAST?Promise.resolve():new Promise(r=>setTimeout(r,ms));
 let runId=0;                 // cancels in-flight sequences on restart
 let holdLeft=599, holdTimer=null;
 let chosen={code:'TA 202',al:'Toucan Air',price:952,seat:'14C',note:'Nonstop · 7h 05m'};
@@ -394,6 +400,7 @@ async function run(){
   setStep(1,'done','Picked TA 202: nonstop, $812'); await wait(900); if(!alive())return;
   // 3 seat
   setStep(2,'run'); page('seat'); await wait(400); cursorTo('#seat14c'); await wait(1200); if(!alive())return;
+  if(STATE==='working') return;
   setStep(2,'done','14C held for 10 min'); startHold();
   // 4 checkout → fare change
   setStep(3,'run'); page('checkout'); await wait(500); cursorTo('#total'); await wait(1100); if(!alive())return;
@@ -406,6 +413,7 @@ async function run(){
   status('paused','Paused · needs you');
   await wait(900); if(!alive())return;
   showCard('stop');
+  if(FAST) await jumpTo(STATE);
 }
 
 /* ---- handoff card ---- */
@@ -415,10 +423,10 @@ function showCard(view){
 }
 function hideCard(){ $('scrim').classList.remove('on'); $('card').classList.remove('on'); }
 
-function startHold(){ holdLeft=599; clearInterval(holdTimer); holdTimer=setInterval(()=>{ holdLeft--; const m=Math.floor(holdLeft/60), s=String(holdLeft%60).padStart(2,'0'); $('timer').textContent=`${m}:${s}`; if(holdLeft<=0) expireHold(); },1000); }
+function startHold(){ holdLeft=599; if(FAST){ $('timer').textContent='9:41'; return; } clearInterval(holdTimer); holdTimer=setInterval(()=>{ holdLeft--; const m=Math.floor(holdLeft/60), s=String(holdLeft%60).padStart(2,'0'); $('timer').textContent=`${m}:${s}`; if(holdLeft<=0) expireHold(); },1000); }
 function stopHold(){ clearInterval(holdTimer); }
 function expireHold(){
-  stopHold();
+  stopHold(); holdLeft=0;
   if(!$('card').classList.contains('on') && !$('takeover').classList.contains('on')) return;
   $('takeover').classList.remove('on'); $('main').classList.remove('taking'); $('viewH').classList.remove('you');
   setStep(2,'undone','14C released: hold expired'); document.querySelector('#s2 .tag').className='tag gone'; document.querySelector('#s2 .tag').textContent='Expired';
@@ -491,6 +499,15 @@ $('bRestart').onclick=run;
 $('bExpire').onclick=()=>{ if(holdTimer){ holdLeft=1; } else toast('Nothing is on hold right now'); };
 document.addEventListener('keydown',e=>{ if(e.key==='r'||e.key==='R') run(); if(e.key==='e'||e.key==='E') $('bExpire').click(); });
 
+async function jumpTo(st){
+  if(st==='alts') await findAlternatives();
+  if(st==='pay') showCard('pay');
+  if(st==='take') takeOver();
+  if(st==='undo') showCard('undo');
+  if(st==='undone') await undoAll();
+  if(st==='expired') expireHold();
+  if(st==='booked'){ await findAlternatives(); document.querySelector('.alt[data-alt="0"]').click(); }
+}
 run();
 </script>
 </body>
