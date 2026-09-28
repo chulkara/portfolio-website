@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stop and ask - Karan Chulliparambil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#F4F2EE; --paper-2:#FBFAF7; --ink:#0C0C0C; --ink-2:#181818; --white:#fff;
+  --amber:#E39B2F; --amber-deep:#B86A00; --amber-soft:#FFF3E0;
+  --agent:#3A5BD9; --agent-soft:#EAEEFC; --danger:#C23B30; --ok:#1F8A5B;
+  --sans:'Inter Tight',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --ui:'Plus Jakarta Sans',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --pad:clamp(24px,5vw,80px);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.4}
+a{color:inherit}
+.band{padding:clamp(72px,11vw,150px) var(--pad)}
+.band.dark{background:var(--ink);color:var(--paper)}
+.band.white{background:var(--white)}
+.band.amber{background:var(--amber);color:var(--ink)}
+.inner{max-width:1240px;margin:0 auto}
+
+.d1{font-size:clamp(52px,10.5vw,140px);font-weight:500;letter-spacing:-.07em;line-height:.92}
+.d2{font-size:clamp(34px,5.6vw,76px);font-weight:500;letter-spacing:-.065em;line-height:1}
+.d3{font-size:clamp(22px,2.6vw,32px);font-weight:500;letter-spacing:-.045em;line-height:1.08}
+.lbl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.5}
+.dark .lbl{opacity:.55}
+p{font-size:18px;line-height:1.45;max-width:34em}
+p+p{margin-top:1.1em}
+strong{font-weight:600}
+.lede{font-size:clamp(20px,2.2vw,26px);line-height:1.32;letter-spacing:-.025em;max-width:22em}
+.soft{opacity:.72}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(80px,12vw,160px) var(--pad) clamp(56px,8vw,110px)}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:clamp(40px,5vw,72px);align-items:center}
+@media(min-width:1050px){.hero-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}}
+.hero .d1{margin-bottom:clamp(26px,4vw,48px);font-size:clamp(52px,8vw,118px)}
+.cta{display:inline-flex;align-items:center;gap:10px;margin-top:30px;font-size:15px;font-weight:500;letter-spacing:-.01em;text-decoration:none;border:1px solid var(--ink);padding:12px 20px;transition:.15s}
+.cta:hover{background:var(--ink);color:var(--paper)}
+.dark .cta{border-color:var(--paper)}
+.dark .cta:hover{background:var(--paper);color:var(--ink)}
+
+/* live prototype, scaled down */
+.live{position:relative}
+.live-frame{position:relative;width:100%;aspect-ratio:1440/900;overflow:hidden;border-radius:10px;background:var(--white);box-shadow:0 40px 80px -30px rgba(12,12,12,.35);border:1px solid rgba(12,12,12,.08)}
+.live-frame iframe{position:absolute;top:0;left:0;width:1440px;height:900px;border:0;transform-origin:0 0}
+.live-cap{display:flex;justify-content:space-between;gap:16px;margin-top:14px;font-size:13px;opacity:.6}
+.live-cap a{opacity:1}
+.hero-foot{display:flex;gap:clamp(28px,5vw,70px);flex-wrap:wrap;border-top:1px solid rgba(12,12,12,.14);padding-top:22px;margin-top:clamp(40px,6vw,80px)}
+.hero-foot div{max-width:230px}
+.hero-foot .lbl{display:block;margin-bottom:7px}
+.hero-foot span:last-child{font-size:16px;letter-spacing:-.02em}
+
+/* ---------- section head ---------- */
+.head{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,34px);margin-bottom:clamp(40px,6vw,72px)}
+@media(min-width:900px){.head{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:end;gap:clamp(30px,5vw,70px)}}
+
+/* ---------- three agents ---------- */
+.three{display:grid;grid-template-columns:1fr;gap:1px;background:rgba(244,242,238,.14)}
+@media(min-width:900px){.three{grid-template-columns:repeat(3,1fr)}}
+.opt3{background:var(--ink);padding:clamp(26px,3vw,40px);display:flex;flex-direction:column;gap:18px}
+.opt3.win{background:var(--ink-2);box-shadow:inset 0 0 0 1px var(--amber)}
+.opt3 .lbl{opacity:.55}
+.opt3 h3{font-size:clamp(22px,2.4vw,30px);font-weight:500;letter-spacing:-.045em;line-height:1.05}
+.msg{font-family:var(--ui);font-size:13.5px;line-height:1.4;border-radius:12px;padding:14px 16px;background:#1E2024;color:#E9E7E2}
+.msg b{display:block;font-size:14px;margin-bottom:3px;color:#fff}
+.msg.bad{border-left:3px solid var(--danger)}
+.msg.good{border-left:3px solid var(--amber)}
+.opt3 p{font-size:16px;opacity:.7}
+
+/* ---------- anatomy ---------- */
+.anat{padding-left:14px;display:grid;grid-template-columns:1fr;gap:clamp(36px,5vw,70px);align-items:start}
+@media(min-width:1000px){.anat{grid-template-columns:minmax(0,480px) minmax(0,1fr)}}
+.hc{font-family:var(--ui);background:#fff;border-radius:18px;border:1px solid #E4E1DB;box-shadow:0 30px 70px -26px rgba(20,22,27,.3);overflow:visible;font-size:14px;color:#15171B;position:relative}
+.hc-h{padding:18px 20px 14px;border-radius:18px 18px 0 0;border-bottom:1px solid #E4E1DB;background:linear-gradient(180deg,var(--amber-soft),#fff);position:relative}
+.hc .k{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-deep)}
+.hc h4{font-size:19px;letter-spacing:-.02em;margin-top:6px;line-height:1.25;font-weight:800}
+.hc .sub{color:#5B5F68;margin-top:4px;font-size:13.5px}
+.hc .delta{display:flex;align-items:center;gap:10px;margin-top:12px;font-weight:700}
+.hc .old{color:#9A9DA4;text-decoration:line-through;font-weight:600}
+.hc .new{font-size:22px;letter-spacing:-.02em}
+.hc .chip{font-size:12px;background:#FBE9E7;color:var(--danger);padding:3px 8px;border-radius:999px}
+.hc-b{padding:14px 20px;position:relative}
+.hc .row{display:flex;gap:9px;margin:5px 0;font-size:13px}
+.hc .m{width:18px;text-align:center;font-weight:800}
+.hc-o{padding:4px 12px 14px;display:flex;flex-direction:column;gap:6px;position:relative}
+.hc .o{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:11px 12px;border-radius:12px;border:1px solid #E4E1DB}
+.hc .o.rec{border-color:var(--agent);box-shadow:0 0 0 3px var(--agent-soft)}
+.hc .oi{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#F4F2EE;font-weight:700}
+.hc .o.rec .oi{background:var(--agent);color:#fff}
+.hc .o b{display:block;font-size:14px}
+.hc .o small{color:#5B5F68;font-size:12.5px}
+.hc .badge{font-size:10.5px;font-weight:700;color:var(--agent);background:var(--agent-soft);padding:3px 7px;border-radius:6px}
+.hc-u{display:flex;justify-content:space-between;padding:12px 20px;border-top:1px solid #E4E1DB;font-size:12.5px;color:#5B5F68;position:relative}
+.hc-u b{color:var(--danger)}
+.pin{position:absolute;left:-13px;top:16px;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px var(--paper);z-index:2}
+.parts{list-style:none;counter-reset:p}
+.parts li{display:grid;grid-template-columns:40px 1fr;gap:14px;padding:clamp(18px,2.2vw,26px) 0;border-top:1px solid rgba(12,12,12,.14)}
+.parts li:last-child{border-bottom:1px solid rgba(12,12,12,.14)}
+.parts .n{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.parts h3{font-size:clamp(20px,2vw,24px);font-weight:500;letter-spacing:-.04em;line-height:1.1;margin-bottom:6px}
+.parts p{font-size:16.5px;opacity:.7}
+
+/* ---------- four exits ---------- */
+.exits{display:grid;grid-template-columns:1fr;gap:1px;background:rgba(12,12,12,.14)}
+@media(min-width:700px){.exits{grid-template-columns:1fr 1fr}}
+@media(min-width:1100px){.exits{grid-template-columns:repeat(4,1fr)}}
+.exit{background:var(--paper);padding:clamp(24px,2.8vw,36px);display:flex;flex-direction:column;gap:14px}
+.exit .ic{width:42px;height:42px;border-radius:12px;background:#E8E5DF;display:flex;align-items:center;justify-content:center;font-family:var(--ui);font-weight:700;font-size:17px}
+.exit.rec .ic{background:var(--agent);color:#fff}
+.exit h3{font-size:22px;font-weight:500;letter-spacing:-.04em;line-height:1.08}
+.exit p{font-size:16px;opacity:.7}
+.exit .who{margin-top:auto;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.5}
+.exit.undo h3{color:var(--danger)}
+
+/* ---------- run log ---------- */
+.log{font-family:var(--ui);background:#fff;color:#15171B;border-radius:16px;padding:22px 24px;max-width:560px;list-style:none}
+.log li{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid #EFEDE8;font-size:14px}
+.log li:last-child{border-bottom:none}
+.log .c{width:24px;height:24px;border-radius:50%;background:var(--agent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.log .c.stop{background:var(--amber-deep)}
+.log .c.todo{background:none;border:2px solid #E4E1DB;color:#9A9DA4}
+.log .t{font-weight:600}.log .t small{display:block;font-weight:500;color:#5B5F68;font-size:12.5px}
+.tag{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.tag.rev{background:var(--agent-soft);color:var(--agent)}
+.tag.irr{background:#FBE9E7;color:var(--danger)}
+.logwrap{display:grid;grid-template-columns:1fr;gap:clamp(36px,5vw,70px);align-items:center}
+@media(min-width:1000px){.logwrap{grid-template-columns:minmax(0,560px) minmax(0,1fr)}}
+.rule{font-size:clamp(26px,3.4vw,44px);font-weight:500;letter-spacing:-.055em;line-height:1.04;max-width:14em}
+.rule em{font-style:normal;color:var(--amber)}
+
+/* ---------- amber edge case ---------- */
+.edge{display:grid;grid-template-columns:1fr;gap:clamp(36px,5vw,70px);align-items:center}
+@media(min-width:1000px){.edge{grid-template-columns:minmax(0,1fr) minmax(0,460px)}}
+.amber .lbl{opacity:.7}
+.hc.exp .hc-h{background:linear-gradient(180deg,#FBE9E7,#fff)}
+.hc.exp .k{color:var(--danger)}
+
+/* ---------- decisions ---------- */
+.dec{display:grid;grid-template-columns:1fr;gap:10px;padding:clamp(26px,3.4vw,44px) 0;border-top:1px solid rgba(12,12,12,.14)}
+@media(min-width:820px){.dec{grid-template-columns:56px minmax(0,1fr) minmax(0,1.25fr);gap:clamp(20px,4vw,56px);align-items:start}}
+.dec:last-of-type{border-bottom:1px solid rgba(12,12,12,.14)}
+.dec-n{font-size:13px;opacity:.4;padding-top:6px}
+.dec h3{font-size:clamp(21px,2.4vw,30px);font-weight:500;letter-spacing:-.045em;line-height:1.08;max-width:14em}
+.dec p{font-size:16.5px;opacity:.7}
+
+footer{padding:clamp(50px,7vw,90px) var(--pad);border-top:1px solid rgba(12,12,12,.14)}
+.foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;max-width:1240px;margin:0 auto}
+.foot p{font-size:15px;opacity:.6;max-width:44em}
+</style>
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.ico?v=2">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="inner">
+    <div class="hero-grid">
+      <div>
+        <h1 class="d1">Stop<br>and ask.</h1>
+        <p class="lede">AI agents are starting to spend money for people. The hard part isn't when they work. It's step 4 of 7, when something changes and the agent can't finish on its own.</p>
+        <a class="cta" href="/failure-states/prototype.html" target="_blank" rel="noopener">Try the prototype ↗</a>
+      </div>
+      <div class="live">
+        <div class="live-frame" id="liveFrame">
+          <iframe id="liveIframe" src="/failure-states/prototype.html" title="Hummingbird agent handoff prototype" loading="lazy"></iframe>
+        </div>
+        <div class="live-cap"><span>Live prototype. It runs on its own, then stops at checkout.</span><a href="/failure-states/prototype.html" target="_blank" rel="noopener">Open full screen</a></div>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <div><span class="lbl">Feature</span><span>Mid-task handoff for AI agents</span></div>
+      <div><span class="lbl">Built for</span><span>Hummingbird, a fictional travel agent</span></div>
+      <div><span class="lbl">By</span><span>Karan Chulliparambil</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 THE MOMENT ============ -->
+<section class="band dark">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">01 - The moment</p>
+        <h2 class="d2" style="margin-top:18px">Halfway is the<br>worst place<br>to fail.</h2>
+      </div>
+      <div>
+        <p class="soft">You ask an agent to book a trip to Lisbon under $900. It finds a flight for $812 and holds your seat. Then at checkout the fare jumps to $952.</p>
+        <p class="soft">The agent has already done things on your behalf, but it hasn't done the one thing it can't take back. <strong>What it does next decides whether you ever trust it with your card again.</strong></p>
+      </div>
+    </div>
+
+    <div class="three">
+      <div class="opt3">
+        <span class="lbl">The eager agent</span>
+        <h3>Pushes through.</h3>
+        <div class="msg bad"><b>Booked! ✓</b>TA 202 · Oct 15 · $952 charged to Visa ·· 6411</div>
+        <p>It finished the task, and broke your rule doing it. You find out you're $140 over budget from your bank.</p>
+      </div>
+      <div class="opt3">
+        <span class="lbl">The fragile agent</span>
+        <h3>Gives up.</h3>
+        <div class="msg bad"><b>Something went wrong.</b>We couldn't complete your booking. Please try again.</div>
+        <p>It kept your money safe, and threw away everything else. Search, comparison, seat: gone. You start over.</p>
+      </div>
+      <div class="opt3 win">
+        <span class="lbl" style="color:var(--amber);opacity:1">This version</span>
+        <h3>Stops and asks.</h3>
+        <div class="msg good"><b>The fare went up, so I stopped before paying.</b>$812 → $952 · seat 14C held · nothing charged</div>
+        <p>It keeps everything it did, stops right before the part it can't undo, and hands you the decision.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 ANATOMY ============ -->
+<section class="band">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">02 - The handoff card</p>
+        <h2 class="d2" style="margin-top:18px">Five things,<br>in this order.</h2>
+      </div>
+      <div>
+        <p class="soft">The card has one job: get you from "wait, what happened?" to a decision in a few seconds. Each part answers the next question you'd ask.</p>
+      </div>
+    </div>
+
+    <div class="anat">
+      <div class="hc">
+        <div class="hc-h">
+          <span class="pin">1</span>
+          <div class="k">‖ Paused at step 4 of 7</div>
+          <h4>The fare went up, so I stopped before paying.</h4>
+          <p class="sub">It jumped between search and checkout. That puts you over the $900 you set.</p>
+          <div class="delta" style="position:relative"><span class="pin" style="left:-33px;top:4px">2</span><span class="old">$812</span><span>→</span><span class="new">$952</span><span class="chip">+$140 · over budget</span></div>
+        </div>
+        <div class="hc-b">
+          <span class="pin">3</span>
+          <div class="row"><span class="m" style="color:var(--agent)">✓</span><span>Found your flight: Toucan Air TA 202, nonstop</span></div>
+          <div class="row"><span class="m" style="color:var(--amber-deep)">◷</span><span>Seat 14C (aisle) is held for you for <span style="color:var(--amber-deep);font-family:ui-monospace,monospace">9:41</span></span></div>
+          <div class="row"><span class="m" style="color:var(--ok)">$0</span><span>Nothing has been charged</span></div>
+        </div>
+        <div class="hc-o">
+          <span class="pin">4</span>
+          <div class="o rec"><span class="oi">↻</span><span><b>Find options under $900</b><small>I'll search again with your budget</small></span><span class="badge">Suggested</span></div>
+          <div class="o"><span class="oi">$</span><span><b>Book it at $952</b><small>Keep this flight and seat, pay the new fare</small></span></div>
+          <div class="o"><span class="oi">→</span><span><b>Take over checkout</b><small>Everything's filled in. You finish it yourself</small></span></div>
+        </div>
+        <div class="hc-u"><span class="pin" style="top:10px">5</span><span>Changed your mind about the trip?</span><b>Undo everything</b></div>
+      </div>
+
+      <ol class="parts">
+        <li><span class="n">1</span><div><h3>Where it stopped, and why</h3><p>"Step 4 of 7" and a plain sentence in the agent's own voice. Not "an error occurred." You know how far it got and what made it stop.</p></div></li>
+        <li><span class="n">2</span><div><h3>What changed, in numbers</h3><p>Old price, new price, the difference, and which of your rules it breaks. The whole problem fits in one line you can read at a glance.</p></div></li>
+        <li><span class="n">3</span><div><h3>What's true right now</h3><p>What's done, what's held and for how long, and what hasn't happened. "Nothing has been charged" is the most important line on the card, so it gets its own row.</p></div></li>
+        <li><span class="n">4</span><div><h3>Your options, with one suggested</h3><p>The agent suggests the option that respects the rule you gave it, but all three are always shown. It recommends; you decide.</p></div></li>
+        <li><span class="n">5</span><div><h3>A way out</h3><p>"Undo everything" is always there, set apart from the options so it's never clicked by accident. Giving up on the trip shouldn't be harder than booking it.</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 FOUR EXITS ============ -->
+<section class="band white">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">03 - The choices</p>
+        <h2 class="d2" style="margin-top:18px">Four ways out,<br>none of them<br>a dead end.</h2>
+      </div>
+      <div>
+        <p class="soft">Every option ends somewhere useful: a booked trip, or a clean slate with nothing charged. <strong>You never have to start from scratch, and you're never stuck.</strong></p>
+      </div>
+    </div>
+    <div class="exits">
+      <div class="exit rec"><span class="ic">↻</span><h3>Find options under $900</h3><p>The agent searches again with your budget and comes back with two flights that fit. Your seat stays held while you choose.</p><span class="who">Agent keeps going, on your terms</span></div>
+      <div class="exit"><span class="ic">$</span><h3>Book it at $952</h3><p>One more confirm, because paying can't be undone. It says exactly what gets charged, to which card, and the airline's 24-hour cancellation rule.</p><span class="who">You approve, agent finishes</span></div>
+      <div class="exit"><span class="ic">→</span><h3>Take over checkout</h3><p>You get the airline page with everything filled in, and the agent pauses. When you're done looking, you can hand it back.</p><span class="who">You drive, agent waits</span></div>
+      <div class="exit undo"><span class="ic" style="color:var(--danger)">↺</span><h3>Undo everything</h3><p>The agent walks back through each step, releases the seat, and confirms it: nothing booked, $0 charged.</p><span class="who">Clean slate</span></div>
+    </div>
+    <a class="cta" href="/failure-states/prototype.html" target="_blank" rel="noopener">Try all four in the prototype ↗</a>
+  </div>
+</section>
+
+<!-- ============ 04 UNDOABLE ============ -->
+<section class="band dark">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">04 - The rule underneath</p>
+        <h2 class="d2" style="margin-top:18px">Every step says<br>if it can be<br>taken back.</h2>
+      </div>
+    </div>
+    <div class="logwrap">
+      <ol class="log">
+        <li><span class="c">✓</span><span class="t">Search flights<small>JFK → LIS, Oct 15–22</small></span><span class="tag rev">Undoable</span></li>
+        <li><span class="c">✓</span><span class="t">Compare options<small>Picked TA 202: nonstop, $812</small></span><span class="tag rev">Undoable</span></li>
+        <li><span class="c">✓</span><span class="t">Hold aisle seat<small>14C held for 10 min</small></span><span class="tag rev">Undoable</span></li>
+        <li><span class="c stop">!</span><span class="t">Check out<small>Fare went up $140. Stopped before paying</small></span><span class="tag rev">Undoable</span></li>
+        <li><span class="c todo">5</span><span class="t">Pay<small>Visa ending 6411</small></span><span class="tag irr">Can't undo</span></li>
+        <li><span class="c todo">6</span><span class="t">Confirm booking<small>Get the confirmation number</small></span><span class="tag rev">Undoable</span></li>
+        <li><span class="c todo">7</span><span class="t">Add to calendar<small>Flights + reminders</small></span><span class="tag rev">Undoable</span></li>
+      </ol>
+      <div>
+        <p class="rule">The agent can do anything <em>undoable</em> on its own. Anything it <em>can't undo</em> needs you, if something changed.</p>
+        <p class="soft" style="margin-top:28px">That one rule decides when the agent is allowed to keep going and when it has to stop. The labels are on screen the whole time, so the pause never feels random: you can see the step it's protecting you from before it gets there.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 EDGE CASE ============ -->
+<section class="band amber">
+  <div class="inner">
+    <div class="edge">
+      <div>
+        <p class="lbl">05 - The edge case</p>
+        <h2 class="d2" style="margin-top:18px">What if you<br>walk away?</h2>
+        <p style="margin-top:28px">The seat hold runs out after 10 minutes. If you come back late, the card doesn't pretend nothing happened. It tells you the seat was released, that nothing was charged, and what's still possible: search again, or hold another aisle seat on the same flight.</p>
+        <p><strong>The step in the log is crossed out and marked "Expired,"</strong> so the history stays honest about what the agent is still holding for you.</p>
+      </div>
+      <div class="hc exp">
+        <div class="hc-h">
+          <div class="k">◷ Seat hold expired</div>
+          <h4>Seat 14C was released while you were away.</h4>
+          <p class="sub">Nothing was charged. The fare is still $952, and 3 aisle seats are left on this flight.</p>
+        </div>
+        <div class="hc-o" style="padding-top:12px">
+          <div class="o rec"><span class="oi">↻</span><span><b>Find options under $900</b><small>Start fresh with your budget</small></span><span class="badge">Suggested</span></div>
+          <div class="o"><span class="oi">◷</span><span><b>Hold another aisle seat on TA 202</b><small>Row 19 or 22, another 10 minutes</small></span></div>
+        </div>
+        <div class="hc-u"><span>Not going anymore?</span><b>Undo everything</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 DECISIONS ============ -->
+<section class="band">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">06 - Decisions</p>
+        <h2 class="d2" style="margin-top:18px">Five choices,<br>and why.</h2>
+      </div>
+    </div>
+    <div class="dec"><p class="dec-n">01</p><h3>Stop before the step it can't undo, not after an error</h3><p>The agent notices the fare changed while it's still at checkout, before paying. Catching it one step early is the difference between asking a question and apologizing.</p></div>
+    <div class="dec"><p class="dec-n">02</p><h3>Lead with what changed, not that something went wrong</h3><p>"$812 → $952, over your budget" tells you everything. "Something went wrong" tells you nothing and makes you go look. The card does that looking for you.</p></div>
+    <div class="dec"><p class="dec-n">03</p><h3>Say what's already true, especially what didn't happen</h3><p>The first worry when an agent stops mid-payment is "did it charge me?" So the card answers that directly, next to what's held and for how long.</p></div>
+    <div class="dec"><p class="dec-n">04</p><h3>Suggest one option, show them all</h3><p>The suggested option is the one that follows the rule you gave it. The others are right there, equal size, because the budget was your rule and you're allowed to break it.</p></div>
+    <div class="dec"><p class="dec-n">05</p><h3>Taking over means picking up where it left off</h3><p>"Take over" opens the checkout with every field already filled, and "Hand back" returns you to the same card. Switching between you and the agent never costs you progress.</p></div>
+  </div>
+</section>
+
+<!-- ============ 07 HONEST ============ -->
+<section class="band dark">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">07 - What I'd want to be wrong about</p>
+        <h2 class="d2" style="margin-top:18px">The parts I'm<br>not sure about.</h2>
+      </div>
+      <div>
+        <p class="soft">The budget rule is too simple. A hard $900 line means a $905 flight stops the agent too. Real people have soft limits, and the right version probably learns how far over is "fine" for each person.</p>
+        <p class="soft">The countdown adds pressure. It's accurate, since holds really do expire, but a ticking timer can push people into a choice. I'd test whether showing the expiry time ("held until 3:42 PM") feels calmer than a live count.</p>
+        <p class="soft"><strong>"Suggested" might carry too much weight.</strong> If people click the highlighted option without reading, the suggestion becomes the decision. I'd want to watch real sessions before deciding how loud it should be.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <p>A self-directed product design concept. Hummingbird and Toucan Air are fictional.</p>
+    <p><a href="/projects/">← Back to Projects</a></p>
+  </div>
+</footer>
+
+<script>
+// scale the 1440×900 prototype to fit its frame
+(function(){
+  var f=document.getElementById('liveFrame'), i=document.getElementById('liveIframe');
+  function fit(){ i.style.transform='scale('+(f.clientWidth/1440)+')'; }
+  fit(); window.addEventListener('resize',fit);
+})();
+</script>
+</body>
+</html>
