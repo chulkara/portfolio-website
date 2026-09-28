@@ -355,8 +355,8 @@ function cursorOff(){ $('cursor').style.opacity=0; }
 /* ---- the agent's browser pages ---- */
 const FLIGHTS=[
   ['Toucan Air','TA 202','9:40 PM → 9:45 AM','Nonstop · 7h 05m',812],
-  ['Nordwind','NW 88','6:15 PM → 10:30 AM','1 stop · 11h 15m',744],
-  ['Bluecrest','BC 4411','10:55 PM → 11:20 AM','Nonstop · 7h 25m',896],
+  ['Blue Jay Airlines','BJ 88','6:15 PM → 10:30 AM','1 stop · 11h 15m',744],
+  ['Peacock Air','PC 4411','10:55 PM → 11:20 AM','Nonstop · 7h 25m',896],
   ['Toucan Air','TA 206','7:05 AM → 7:00 PM','Nonstop · 6h 55m',874],
 ];
 const flightRow=(f,cls='')=>`<div class="flight ${cls}" data-code="${f[1]}"><div class="al">${f[0]}<small>${f[1]}</small></div><div class="tm">${f[2].split(' → ')[0]}<small>departs</small></div><div class="tm">${f[3].split(' · ')[0]}<small>${f[3].split(' · ')[1]}</small></div><div class="pr">$${f[4]}</div></div>`;
@@ -371,7 +371,7 @@ function page(kind){
   if(kind==='checkout'){ url.textContent='toucanair.example/checkout'; p.innerHTML=`
     <div class="air"><b>Checkout</b><span class="sub">TA 202 · Oct 15 · Seat 14C</span></div>
     <div class="checkout">
-      <div class="form"><div><small>Passenger</small>Karan C.</div><div><small>Seat</small>14C · aisle</div><div><small>Card</small>Visa ·· 6411</div><div><small>Bags</small>1 carry-on</div></div>
+      <div class="form"><div><small>Passenger</small>Wazowski M.</div><div><small>Seat</small>14C · aisle</div><div><small>Card</small>Visa ·· 6411</div><div><small>Bags</small>1 carry-on</div></div>
       <div class="line"><span>Base fare</span><span id="fare">$712</span></div>
       <div class="line"><span>Taxes & fees</span><span>$100</span></div>
       <div class="line total"><span>Total</span><span class="price-box" id="total">$812</span></div>
@@ -394,7 +394,7 @@ async function run(){
   setStep(0,'done');
   // 2 compare
   setStep(1,'run'); page('results'); await wait(500); if(!alive())return;
-  for(const code of ['NW 88','BC 4411','TA 206','TA 202']){ cursorTo(`.flight[data-code="${code}"] .pr`); await wait(650); if(!alive())return; }
+  for(const code of ['BJ 88','PC 4411','TA 206','TA 202']){ cursorTo(`.flight[data-code="${code}"] .pr`); await wait(650); if(!alive())return; }
   document.querySelectorAll('.flight').forEach(f=>f.classList.toggle('pick',f.dataset.code==='TA 202'));
   document.querySelectorAll('.flight').forEach(f=>{ if(f.dataset.code!=='TA 202') f.classList.add('dim') });
   setStep(1,'done','Picked TA 202: nonstop, $812'); await wait(900); if(!alive())return;
@@ -452,7 +452,7 @@ async function findAlternatives(){
   $('altsTitle').textContent= holdLeft>0 ? 'Found 2 that fit. Seat 14C stays held until you pick.' : 'Found 2 that fit.';
   const alts=[
     {code:'TA 206',al:'Toucan Air',price:874,seat:'22D',note:'Nonstop · leaves 7:05 AM',why:'Same airline, same seat type · $78 under budget'},
-    {code:'NW 88', al:'Nordwind', price:744,seat:'19C',note:'1 stop in Oslo · 11h 15m',why:'Cheapest · adds a 4h layover'},
+    {code:'BJ 88', al:'Blue Jay Airlines', price:744,seat:'19C',note:'1 stop in Oslo · 11h 15m',why:'Cheapest · adds a 4h layover'},
   ];
   $('altsList').innerHTML=alts.map((a,i)=>`<button class="alt" data-alt="${i}"><b>${a.al} ${a.code}</b><span class="p">$${a.price}</span><small>${a.note} · aisle ${a.seat}</small><span></span><span class="why">${a.why}</span></button>`).join('');
   status('paused','Pick one');
