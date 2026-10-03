@@ -3,259 +3,271 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Earnings Analyzer — Karan Chulliparambil</title>
+<title>Earnings Analyzer - Karan Chulliparambil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Manrope:wght@500;700;800&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#0C0C0C;
-  --paper:#EBDDC5;
-  --marigold:#E84033;
-  --slate:#4B5563;
-  --muted:#8B7B60;
-  --line:#3a342a;
-  /* Product's own brand — used inside mocks */
-  --brand-cream:#F5F1EC;
-  --brand-ink:#0A0E1A;
-  --brand-cobalt:#1E32DC;
-  --brand-line:rgba(10,14,26,0.08);
-  --brand-line-2:rgba(10,14,26,0.14);
-  --brand-text-2:#5B6270;
-  --brand-green:#16A34A;
+  --paper:#F6F4EF; --white:#fff; --ink:#16181D; --soft-ink:#5B606B; --line:rgba(22,24,29,.12);
+  --cobalt:#3B5BDB; --cobalt-soft:#EBEFFD; --cobalt-band:#E4EAFC;
+  --coral:#EF6B5B; --coral-soft:#FDEDEA; --cream:#FBF5E8; --green:#2E9E6A;
+  --sans:'Inter Tight',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --ui:'Plus Jakarta Sans',-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --pad:clamp(24px,5vw,80px);
 }
-html,body{background:var(--ink);color:var(--paper);font-family:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;line-height:1.55}
-.mono{font-family:'JetBrains Mono',ui-monospace,monospace;letter-spacing:.02em}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.4}
+a{color:inherit}
+code{font-family:var(--mono);font-size:.82em;background:rgba(22,24,29,.06);padding:2px 6px;border-radius:4px}
+.band{padding:clamp(72px,10vw,140px) var(--pad)}
+.band.white{background:var(--white)}
+.band.cobalt{background:var(--cobalt-band)}
+.band.cream{background:var(--cream)}
+.inner{max-width:1240px;margin:0 auto}
 
-.wrap{max-width:960px;margin:0 auto;padding:80px 24px 120px}
+.d1{font-size:clamp(52px,8vw,118px);font-weight:500;letter-spacing:-.07em;line-height:.92}
+.d2{font-size:clamp(34px,5.6vw,76px);font-weight:500;letter-spacing:-.065em;line-height:1}
+.d3{font-size:clamp(22px,2.4vw,30px);font-weight:500;letter-spacing:-.045em;line-height:1.1}
+.lbl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.5}
+p{font-size:18px;line-height:1.45;max-width:34em}
+p+p{margin-top:1.1em}
+strong{font-weight:600}
+.lede{font-size:clamp(20px,2.2vw,26px);line-height:1.32;letter-spacing:-.025em;max-width:22em}
+.soft{opacity:.72}
+.cap{font-size:14px;opacity:.6;margin-top:14px;max-width:46em;line-height:1.5}
 
-/* ── Header ─────────────────────────────────────────────────────────── */
-.hdr{margin-bottom:56px;border-bottom:1px solid var(--line);padding-bottom:44px}
-.hdr .cap{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:20px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.9;margin-bottom:20px;display:flex;align-items:center;gap:12px}
-.hdr .cap::before{content:'';display:inline-block;width:36px;height:1px;background:var(--marigold)}
-.hdr h1{font-family:'Manrope','Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(56px,9vw,108px);letter-spacing:-.045em;line-height:.95;text-transform:none;margin-bottom:24px}
-.hdr .lead{font-size:clamp(18px,1.8vw,22px);max-width:640px;opacity:.85;line-height:1.5;font-weight:300}
-.hdr .meta{display:flex;flex-wrap:wrap;gap:24px 48px;margin-top:40px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.75}
-.hdr .meta strong{color:var(--paper);opacity:1;font-family:'Plus Jakarta Sans',sans-serif;font-style:normal;font-weight:500;display:block;margin-top:4px;letter-spacing:0;font-size:15px}
+/* nav */
+.sitenav{position:absolute;top:0;left:0;right:0;z-index:20;height:72px;display:flex;align-items:flex-end;padding:0 32px 14px}
+.sitenav .brand{font-family:var(--ui);font-weight:800;font-size:16px;letter-spacing:-.01em;text-transform:uppercase;color:var(--ink);text-decoration:none;opacity:.85}
+.sitenav .brand:hover{opacity:1}
 
-/* ── Hero mock — actual product aesthetic ─────────────────────────── */
-.hero-viz{margin:0 0 84px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--brand-cream);color:var(--brand-ink);padding:38px 42px 44px;position:relative;font-family:'Inter','Plus Jakarta Sans',sans-serif}
-.viz-frame{display:flex;align-items:center;gap:10px;padding-bottom:24px;margin-bottom:32px;border-bottom:1px solid var(--brand-line)}
-.viz-dot{width:11px;height:11px;border-radius:50%;background:#c8c4bc}
-.viz-dot.r{background:#e84033}.viz-dot.y{background:#e8a233}.viz-dot.g{background:#41c17a}
-.viz-url{margin-left:14px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16px;color:var(--brand-text-2);opacity:.75}
+/* hero */
+.hero{padding:clamp(80px,12vw,160px) var(--pad) clamp(56px,8vw,110px)}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:clamp(40px,5vw,72px);align-items:center}
+@media(min-width:1050px){.hero-grid{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}}
+.hero .d1{margin-bottom:clamp(26px,4vw,48px)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.cta{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500;letter-spacing:-.01em;text-decoration:none;border:1px solid var(--ink);padding:12px 20px;transition:.15s}
+.cta:hover{background:var(--ink);color:var(--paper)}
+.cta.fill{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.cta.fill:hover{background:var(--ink);border-color:var(--ink)}
+.hero-foot{display:flex;gap:clamp(28px,5vw,70px);flex-wrap:wrap;border-top:1px solid var(--line);padding-top:22px;margin-top:clamp(40px,6vw,80px)}
+.hero-foot div{max-width:260px}
+.hero-foot .lbl{display:block;margin-bottom:7px}
+.hero-foot span:last-child{font-size:16px;letter-spacing:-.02em}
 
-.viz-eyebrow{display:flex;align-items:center;gap:14px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:18px;color:var(--brand-cobalt);margin-bottom:32px}
-.viz-eyebrow::before{content:'';display:inline-block;width:40px;height:1px;background:var(--brand-cobalt)}
+/* product mock (the Filing Brief) */
+.brief{background:#F5F1EC;color:#0A0E1A;border-radius:12px;border:1px solid var(--line);box-shadow:0 40px 80px -36px rgba(22,24,29,.35);padding:22px 30px 32px;font-family:'Inter',var(--ui)}
+.brief-bar{display:flex;align-items:center;gap:7px;padding-bottom:16px;margin-bottom:24px;border-bottom:1px solid rgba(10,14,26,.08)}
+.brief-bar i{width:9px;height:9px;border-radius:50%;background:#D8D3CB}
+.brief-bar span{margin-left:10px;font-family:var(--mono);font-size:11px;color:#5B6270}
+.b-eye{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16px;color:#1E32DC;margin-bottom:18px}
+.b-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding-bottom:20px;border-bottom:1px solid rgba(10,14,26,.14)}
+.b-co{font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(34px,4vw,48px);letter-spacing:-.04em;line-height:.95}
+.b-tk{font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;letter-spacing:.08em;color:#1E32DC;margin-top:8px}
+.b-score{text-align:right}
+.b-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(48px,5vw,62px);line-height:1;color:var(--green)}
+.b-scale{font-size:12px;color:#5B6270;margin-top:6px}
+.b-head{font-family:'Manrope',sans-serif;font-weight:500;font-size:clamp(18px,1.7vw,21px);line-height:1.3;letter-spacing:-.02em;margin-top:22px}
+.b-sig{display:grid;grid-template-columns:34px 1fr;gap:14px;margin-top:26px;padding-top:20px;border-top:1px solid rgba(10,14,26,.08)}
+.b-sig .n{font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;color:#1E32DC}
+.b-sig h5{font-family:'Manrope',sans-serif;font-weight:700;font-size:17px;margin-bottom:8px}
+.b-sig p{font-size:14.5px;line-height:1.55;max-width:none}
+.b-sig strong{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;color:#1E32DC;font-size:1.08em}
+.b-sig svg{display:inline-block;vertical-align:middle;margin:0 4px;color:#1E32DC}
 
-.viz-hero-grid{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;position:relative;padding-bottom:28px;border-bottom:1px solid var(--brand-line-2)}
-.viz-hero-grid::after{content:'';position:absolute;right:-30px;top:-40px;width:280px;height:96px;background:radial-gradient(circle at 48px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px),radial-gradient(circle at 138px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px),radial-gradient(circle at 228px 48px,transparent 36px,rgba(30,50,220,0.08) 36px 37px,transparent 37px);pointer-events:none;z-index:-1}
-.viz-company{font-family:'Manrope',sans-serif;font-weight:800;font-size:64px;letter-spacing:-.04em;line-height:.95;color:var(--brand-ink);margin-bottom:10px}
-.viz-ticker{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;color:var(--brand-cobalt);letter-spacing:.08em;margin-bottom:14px}
-.viz-meta{display:flex;gap:10px;align-items:center;font-size:15px;color:var(--brand-text-2)}
-.viz-tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--brand-cobalt);padding:3px 10px;border:1px solid rgba(30,50,220,0.3);border-radius:3px;font-size:13px}
-.viz-score{text-align:right;min-width:200px}
-.viz-score-num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:76px;line-height:1;color:var(--brand-ink);font-variant-numeric:tabular-nums;letter-spacing:-.025em;margin-bottom:12px}
-.viz-score-label{display:inline-flex;align-items:center;gap:8px;font-family:'Manrope',sans-serif;font-weight:700;font-size:17px;color:var(--brand-green);margin-bottom:6px}
-.viz-score-dot{width:9px;height:9px;border-radius:50%;background:var(--brand-green);box-shadow:0 0 0 4px rgba(22,163,74,0.14)}
-.viz-score-scale{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:15px;color:var(--brand-text-2);opacity:.75}
+/* section head */
+.head{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,34px);margin-bottom:clamp(40px,6vw,64px)}
+@media(min-width:900px){.head{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:end;gap:clamp(30px,5vw,70px)}}
 
-.viz-headline{font-family:'Manrope',sans-serif;font-weight:500;font-size:24px;line-height:1.25;letter-spacing:-.02em;color:var(--brand-ink);margin-top:36px;max-width:640px}
+/* stat row */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(min-width:900px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--white);padding:clamp(22px,2.6vw,34px)}
+.band.white .stat{background:var(--paper)}
+.stat b{display:block;font-size:clamp(34px,4vw,52px);font-weight:500;letter-spacing:-.06em;line-height:1}
+.stat span{display:block;font-size:14px;opacity:.6;margin-top:10px}
 
-.viz-signal{display:grid;grid-template-columns:56px 1fr;gap:24px;margin-top:52px;padding-top:32px;border-top:1px solid var(--brand-line)}
-.viz-section-num{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;color:var(--brand-cobalt);padding-top:6px}
-.viz-section-title{font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin-bottom:16px;color:var(--brand-ink)}
-.viz-lead{font-family:'Inter',sans-serif;font-size:17px;line-height:1.55;color:var(--brand-ink);max-width:560px}
-.viz-lead strong{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;color:var(--brand-cobalt);font-size:1.05em;font-variant-numeric:tabular-nums}
-.viz-lead .drop{font-family:'Manrope',sans-serif;font-weight:800;font-size:64px;float:left;line-height:.85;margin:2px 8px 0 -2px;color:var(--brand-cobalt);letter-spacing:-.04em}
-.viz-spark{display:inline-block;vertical-align:middle;margin:0 6px;color:var(--brand-cobalt)}
+/* light code block */
+.code{font-family:var(--mono);font-size:13.5px;line-height:1.9;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:26px 28px;white-space:pre;overflow-x:auto;max-width:820px;color:var(--ink)}
+.band.white .code{background:var(--paper)}
+.code .c{color:#8A8F99}.code .k{color:var(--coral)}.code .v{color:var(--cobalt)}
 
-/* ── Sections ───────────────────────────────────────────────────────── */
-section{margin-bottom:96px}
-h2{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:22px;letter-spacing:0;text-transform:none;color:var(--marigold);opacity:.9;margin-bottom:24px;font-weight:400;display:flex;align-items:center;gap:12px}
-h2::before{content:'';display:inline-block;width:36px;height:1px;background:var(--marigold);opacity:.8}
-h3{font-family:'Manrope',sans-serif;font-size:32px;font-weight:700;letter-spacing:-.02em;margin-bottom:22px;line-height:1.15;max-width:800px}
-p{margin-bottom:20px;font-size:18px;max-width:720px;font-weight:300}
-p:last-child{margin-bottom:0}
-strong{color:var(--paper);font-weight:500}
+/* flow diagram */
+.flowdiag{max-width:820px}
+.flowdiag-frame{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:36px 28px}
+.flowdiag svg{display:block;width:100%;height:auto;max-width:700px;margin:0 auto}
+.flowdiag text{font-family:var(--ui)}
+.flowdiag .lbl-node{font-weight:800;font-size:13px;fill:var(--ink);letter-spacing:-.01em}
+.flowdiag .lbl-node-core{fill:#fff}
+.flowdiag .lbl-node-user{fill:var(--ink);font-weight:700;font-size:10.5px;letter-spacing:.02em}
+.flowdiag .lbl-decision{font-weight:700;font-size:12px;fill:var(--ink)}
+.flowdiag .lbl-yesno{font-weight:800;font-size:11px;fill:var(--ink);letter-spacing:.14em}
+.flowdiag .lbl-legend{font-weight:600;font-size:13px;fill:var(--ink)}
+.flowdiag .node-box{fill:#EFECE6;stroke:#DAD5CB;stroke-width:1}
+.flowdiag .node-core{fill:var(--coral);stroke:none}
+.flowdiag .node-user{fill:#CDEBF1;stroke:none}
+.flowdiag .arrow{stroke:#2A2D33;stroke-width:2.5;fill:none;stroke-linecap:square}
+.flowdiag .yesno-pill{fill:#fff;stroke:#2A2D33;stroke-width:1.5}
+.two{display:grid;grid-template-columns:1fr;gap:clamp(36px,5vw,64px);align-items:start}
+@media(min-width:1000px){.two{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}}
+.steps{list-style:none}
+.steps li{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--line);font-size:16.5px}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps .n{font-size:13px;opacity:.45;padding-top:3px}
+.steps b{font-weight:600}
+.steps small{display:block;font-size:14px;opacity:.6;margin-top:2px}
+.note{margin-top:28px;padding:20px 22px;background:var(--cobalt-soft);border-radius:10px;font-size:16px;line-height:1.5;max-width:none}
 
-/* Two-column decisions grid */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px 48px;margin-top:32px}
-.two-col > div{padding-top:24px;border-top:1px solid var(--line)}
-.two-col h4{font-family:'Manrope',sans-serif;font-size:20px;font-weight:600;margin-bottom:12px;letter-spacing:-.015em}
-.two-col p{font-size:15.5px;margin-bottom:0;line-height:1.6;opacity:.82}
-.two-col code{font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px;color:var(--paper);opacity:.9}
+/* before / after */
+.ba{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(min-width:900px){.ba{grid-template-columns:1fr 1fr}}
+.ba > div{background:var(--paper);padding:clamp(26px,3vw,40px)}
+.ba .after{background:var(--white)}
+.ba h3{font-size:clamp(22px,2.4vw,30px);font-weight:500;letter-spacing:-.045em;line-height:1.05;margin:10px 0 14px}
+.ba p{font-size:16.5px;opacity:.75}
+.secs{list-style:none;margin-top:16px}
+.secs li{display:grid;grid-template-columns:30px 1fr;font-size:15.5px;padding:7px 0;border-top:1px solid var(--line)}
+.secs li span{opacity:.45;font-size:13px;padding-top:2px}
 
-.callout{background:rgba(232,64,51,0.05);border-left:2px solid var(--marigold);padding:22px 26px;border-radius:0 4px 4px 0;margin:32px 0;max-width:760px}
-.callout p{margin:0;font-size:17px;opacity:.92;font-weight:300}
+/* parts list (numbered points) */
+.parts{list-style:none}
+.parts li{display:grid;grid-template-columns:40px 1fr;gap:14px;padding:clamp(16px,2vw,22px) 0;border-top:1px solid var(--line)}
+.parts li:last-child{border-bottom:1px solid var(--line)}
+.parts .n{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.parts h3{font-size:clamp(19px,1.9vw,23px);font-weight:500;letter-spacing:-.04em;line-height:1.12;margin-bottom:5px}
+.parts p{font-size:16px;opacity:.7}
 
-/* Architecture pipeline */
-.arch{background:#0A0F19;border:1px solid var(--line);border-radius:6px;padding:36px 32px;margin:36px 0;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:2;overflow-x:auto;white-space:pre;max-width:820px}
-.arch .k{color:var(--marigold)}.arch .s{color:var(--muted)}.arch .g{color:#7fb3ff}
+/* card grid */
+.grid4{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media(min-width:700px){.grid4{grid-template-columns:1fr 1fr}}
+@media(min-width:1100px){.grid4{grid-template-columns:repeat(4,1fr)}}
+.card{background:var(--white);padding:clamp(22px,2.6vw,32px);display:flex;flex-direction:column;gap:12px}
+.card .lbl{opacity:.45}
+.card h3{font-size:21px;font-weight:500;letter-spacing:-.04em;line-height:1.1}
+.card p{font-size:15.5px;opacity:.7}
 
-/* ── Flow diagram (VSCO-style, printed-on-paper) ─────────────────── */
-.flowdiag{margin:40px 0;max-width:820px}
-.flowdiag-frame{background:#F5EEDD;border:1px solid rgba(12,12,12,0.12);border-radius:6px;padding:44px 32px 40px;box-shadow:0 24px 60px -20px rgba(0,0,0,0.4)}
-.flowdiag svg{display:block;width:100%;height:auto;max-width:760px;margin:0 auto}
-.flowdiag text{font-family:'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif}
-.flowdiag .lbl-node{font-weight:800;font-size:13px;fill:#0C0C0C;letter-spacing:-.01em}
-.flowdiag .lbl-node-core{fill:#F5EEDD}
-.flowdiag .lbl-node-user{fill:#0C0C0C;font-weight:700;font-size:10.5px;letter-spacing:.02em}
-.flowdiag .lbl-decision{font-weight:700;font-size:12px;fill:#0C0C0C;letter-spacing:-.005em}
-.flowdiag .lbl-yesno{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:11px;fill:#0C0C0C;letter-spacing:.14em}
-.flowdiag .lbl-legend{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:13px;fill:#0C0C0C}
-.flowdiag .node-box{fill:#D3CFC1;stroke:#B7B2A2;stroke-width:1}
-.flowdiag .node-core{fill:#E84033;stroke:none}
-.flowdiag .node-user{fill:#8DD9E5;stroke:none}
-.flowdiag .arrow{stroke:#0C0C0C;stroke-width:3;fill:none;stroke-linecap:square}
-.flowdiag .yesno-pill{fill:#F5EEDD;stroke:#0C0C0C;stroke-width:1.5}
-.flowdiag-caption{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:15px;color:var(--muted);opacity:.85;margin-top:14px;padding-left:4px;line-height:1.55;max-width:640px}
+/* information gap */
+.gap{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:28px 30px}
+.gap-row,.gap-head{display:grid;grid-template-columns:1fr 230px 1fr;gap:18px;align-items:center}
+.gap-head{padding-bottom:14px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.55}
+.gap-head .r,.gap-row .r{text-align:right}
+.gap-row{padding:16px 0;border-bottom:1px dashed var(--line)}
+.gap-row:last-child{border-bottom:none;padding-bottom:4px}
+.side{display:flex;align-items:center;gap:12px}
+.side.r{flex-direction:row-reverse}
+.bar{width:56px;height:18px;border-radius:3px;flex-shrink:0}
+.bar.buy{background:linear-gradient(90deg,rgba(59,91,219,.18),rgba(59,91,219,.55))}
+.bar.sell{background:linear-gradient(90deg,rgba(239,107,91,.6),rgba(239,107,91,.2))}
+.side.r .bar.buy{background:linear-gradient(90deg,rgba(59,91,219,.55),rgba(59,91,219,.18))}
+.side.r .bar.sell{background:linear-gradient(90deg,rgba(239,107,91,.2),rgba(239,107,91,.6))}
+.side b{display:block;font-size:15px;font-weight:600;letter-spacing:-.01em}
+.side small{display:block;font-size:12.5px;opacity:.55}
+.verdict{text-align:center;font-size:13px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--coral-soft);color:#C4473A}
+.verdict.ok{background:#EEF0F2;color:var(--soft-ink);font-weight:500}
+@media(max-width:700px){.gap-row,.gap-head{grid-template-columns:1fr}.gap-row .r,.gap-head .r{text-align:left}.side.r{flex-direction:row}}
 
-/* Numbered list */
-.numbered{list-style:none;counter-reset:step;margin-top:16px}
-.numbered li{counter-increment:step;position:relative;padding-left:64px;margin-bottom:26px;max-width:720px}
-.numbered li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:2px;font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;color:var(--marigold);letter-spacing:0}
-.numbered li b{color:var(--paper);font-weight:600;display:block;margin-bottom:6px;font-family:'Manrope',sans-serif;font-size:18px}
-.numbered li{font-size:16px;line-height:1.55;opacity:.85}
+/* decisions */
+.dec{display:grid;grid-template-columns:1fr;gap:10px;padding:clamp(24px,3vw,38px) 0;border-top:1px solid var(--line)}
+@media(min-width:820px){.dec{grid-template-columns:56px minmax(0,1fr) minmax(0,1.25fr);gap:clamp(20px,4vw,56px);align-items:start}}
+.dec:last-of-type{border-bottom:1px solid var(--line)}
+.dec-n{font-size:13px;opacity:.4;padding-top:6px}
+.dec h3{font-size:clamp(21px,2.3vw,28px);font-weight:500;letter-spacing:-.045em;line-height:1.08;max-width:14em}
+.dec p{font-size:16.5px;opacity:.7}
 
-/* Metrics row */
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:32px;border-radius:4px;overflow:hidden}
-.metric{background:var(--ink);padding:28px 22px}
-.metric .v{font-family:'Manrope',sans-serif;font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-.metric .v.pos{color:#7fb3ff}
-.metric .l{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;opacity:.7;margin-top:14px}
-
-/* ── Information Gap — insider vs congressional flow ───────────── */
-.gap-diagram{margin:36px 0;max-width:820px}
-.gap-inner{background:#0A0F19;border:1px solid var(--line);border-radius:6px;padding:36px 32px}
-.gap-row{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;padding:18px 0;border-top:1px dashed rgba(235,221,197,.09)}
-.gap-row:first-child{border-top:0;padding-top:6px}
-.gap-side{display:flex;align-items:center;gap:14px}
-.gap-side.right{justify-content:flex-end;text-align:right;flex-direction:row-reverse}
-.gap-bar{width:66px;height:22px;border-radius:2px;position:relative;flex-shrink:0}
-.gap-bar.buy{background:linear-gradient(90deg,rgba(127,179,255,.25) 0%,rgba(127,179,255,.65) 100%)}
-.gap-bar.sell{background:linear-gradient(90deg,rgba(232,64,51,.6) 0%,rgba(232,64,51,.25) 100%)}
-.gap-bar.sell.right{background:linear-gradient(90deg,rgba(232,64,51,.25) 0%,rgba(232,64,51,.6) 100%)}
-.gap-bar.buy.right{background:linear-gradient(90deg,rgba(127,179,255,.65) 0%,rgba(127,179,255,.25) 100%)}
-.gap-label{font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;letter-spacing:-.005em;color:var(--paper)}
-.gap-sub{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;opacity:.55;margin-top:2px}
-.gap-verdict{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;color:var(--marigold);text-align:center;white-space:nowrap;padding:0 8px}
-.gap-verdict.match{color:var(--muted);opacity:.65}
-.gap-header{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;padding:0 0 14px;border-bottom:1px solid rgba(235,221,197,.1);margin-bottom:8px}
-.gap-header-eye{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;color:var(--marigold);opacity:.7}
-.gap-header-eye.right{text-align:right}
-.gap-header-mid{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.4;white-space:nowrap;padding:0 8px}
-.gap-caption{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:15px;color:var(--muted);opacity:.8;margin-top:14px;padding-left:4px;line-height:1.55}
-@media (max-width:640px){
-  .gap-row,.gap-header{grid-template-columns:1fr;gap:8px}
-  .gap-side.right{justify-content:flex-start;text-align:left;flex-direction:row}
-  .gap-verdict{text-align:left;padding:6px 0}
-  .gap-header-eye.right{text-align:left}
-}
-
-/* CTA row */
-.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
-.cta{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border:1px solid var(--paper);color:var(--paper);text-decoration:none;font-family:'Manrope',sans-serif;font-size:14px;font-weight:500;letter-spacing:.04em;transition:all .2s;border-radius:3px}
-.cta:hover{background:var(--paper);color:var(--ink)}
-.cta.primary{background:var(--marigold);border-color:var(--marigold)}
-.cta.primary:hover{background:transparent;color:var(--marigold)}
-
-.back{margin-top:96px;padding-top:36px;border-top:1px solid var(--line);text-align:center}
-.back a{color:var(--paper);text-decoration:none;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;opacity:.7;transition:opacity .2s}
-.back a:hover{opacity:1}
-
-@media (max-width:720px){
-  .wrap{padding:56px 20px 80px}
-  .two-col{grid-template-columns:1fr;gap:28px}
-  .metrics{grid-template-columns:1fr 1fr}
-  .numbered li{padding-left:48px}
-  h3{font-size:24px}
-  .hero-viz{padding:24px 22px 30px}
-  .viz-hero-grid{grid-template-columns:1fr;gap:16px}
-  .viz-hero-grid::after{display:none}
-  .viz-score{text-align:left}
-  .viz-company{font-size:44px}
-  .viz-score-num{font-size:56px}
-  .viz-signal{grid-template-columns:1fr;gap:8px}
-}
+footer{padding:clamp(50px,7vw,90px) var(--pad);border-top:1px solid var(--line)}
+.foot{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;max-width:1240px;margin:0 auto}
+.foot p{font-size:15px;opacity:.6;max-width:44em}
 </style>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon.ico?v=2">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 </head>
 <body>
-<div class="wrap">
+<nav class="sitenav"><a href="/" class="brand" aria-label="Back to chulkara.com">K &mdash; C</a></nav>
 
-  <!-- ── Header ─────────────────────────────────────────────────────── -->
-  <div class="hdr">
-    <p class="cap">Personal · Fall 2026</p>
-    <h1>Earnings<br>Analyzer.</h1>
-    <p class="lead">A one-page filing brief that turns a 40-page SEC 10-Q into a sentiment score, an AI-authored one-sentence headline, and an editorial spread of what management said — in under 30 seconds.</p>
-    <div class="meta">
-      <div><span>Role</span><strong>Product · Engineering · Design</strong></div>
-      <div><span>Stack</span><strong>Python · Flask · Turso · Groq (gpt-oss-120b) · SEC EDGAR</strong></div>
-      <div><span>Live</span><strong><a href="https://earnings-analyzer-m7n9.onrender.com" target="_blank" rel="noopener" style="color:inherit;border-bottom:1px solid rgba(235,221,197,0.35);text-decoration:none">earnings-analyzer-m7n9.onrender.com</a></strong></div>
-      <div><span>Built</span><strong>Mar 2025 · Redesigned Sept 2026</strong></div>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="inner">
+    <div class="hero-grid">
+      <div>
+        <h1 class="d1">Earnings<br>Analyzer.</h1>
+        <p class="lede">A 10-Q is 40 pages long and only a few sentences in it matter. This turns one into a single page, with a sentiment score, a one-line headline and what management actually said, in under 30 seconds.</p>
+        <div class="ctas">
+          <a class="cta fill" href="https://earnings-analyzer-m7n9.onrender.com" target="_blank" rel="noopener">Try the demo ↗</a>
+          <a class="cta" href="https://github.com/chulkara/earnings-analyzer" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+      </div>
+      <div class="brief" aria-label="Example Filing Brief">
+        <div class="brief-bar"><i></i><i></i><i></i><span>earnings-analyzer-m7n9.onrender.com/r/a53259ef6c1d</span></div>
+        <div class="b-eye">Q3 · July 31, 2026</div>
+        <div class="b-top">
+          <div><div class="b-co">Apple Inc.</div><div class="b-tk">AAPL</div></div>
+          <div class="b-score"><div class="b-num">+0.78</div><div class="b-scale">−1.0 bearish · +1.0 bullish</div></div>
+        </div>
+        <p class="b-head">Apple's 10-Q reads confidently, but market risk exposure is the caveat.</p>
+        <div class="b-sig">
+          <div class="n">01</div>
+          <div>
+            <h5>The Signal</h5>
+            <p>Sentiment climbed from <strong>+0.20</strong> in Feb 2026 <svg width="64" height="20" viewBox="0 0 72 24"><path d="M3 15 L18 12 L33 14 L48 8 L63 5 L69 4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle cx="69" cy="4" r="2.4" fill="currentColor"/></svg> to <strong>+0.78</strong> today, across 4 filings. Apple reported Q3 2026 net sales of $109.4 billion, up 16% year over year.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <div><span class="lbl">Role</span><span>Product, engineering and design</span></div>
+      <div><span class="lbl">Stack</span><span>Python, Flask, Turso, Groq (gpt-oss-120b), SEC EDGAR</span></div>
+      <div><span class="lbl">Built</span><span>Mar 2025, redesigned Sept 2026</span></div>
+      <div><span class="lbl">By</span><span>Karan Chulliparambil</span></div>
     </div>
   </div>
+</section>
 
-  <!-- ── Hero mock — editorial Filing Brief ─────────────────────────── -->
-  <div class="hero-viz">
-    <div class="viz-frame">
-      <span class="viz-dot r"></span><span class="viz-dot y"></span><span class="viz-dot g"></span>
-      <span class="viz-url">earnings-analyzer-m7n9.onrender.com/r/a53259ef6c1d</span>
-    </div>
-
-    <div class="viz-eyebrow">Filing Brief · 10-Q · 2026-07-31</div>
-
-    <div class="viz-hero-grid">
+<!-- ============ 01 PROBLEM ============ -->
+<section class="band white">
+  <div class="inner">
+    <div class="head">
       <div>
-        <div class="viz-company">Apple Inc.</div>
-        <div class="viz-ticker">AAPL</div>
-        <div class="viz-meta"><span class="viz-tag">10-Q</span> <span>·</span> <span>July 31, 2026</span></div>
+        <p class="lbl">01 - The problem</p>
+        <h2 class="d2" style="margin-top:18px">40 pages.<br>Three sentences<br>that matter.</h2>
       </div>
-      <div class="viz-score">
-        <div class="viz-score-num">+0.78</div>
-        <div class="viz-score-label"><span class="viz-score-dot"></span>Positive</div>
-        <div class="viz-score-scale">−1.0 Bearish · +1.0 Bullish</div>
+      <div>
+        <p class="soft">Retail investors skim the filing, miss the change in tone, or go by the headlines. Analysts pay thousands a month for Bloomberg terminals that pre-digest it for them. I wanted to see how close a weekend project could get.</p>
+        <p class="soft">The question: can a language model pull out what a first-year analyst would, like beats, misses, guidance changes, new risks and shifts in tone, for a fraction of a cent per ticker and fast enough to feel like a search?</p>
       </div>
     </div>
-
-    <p class="viz-headline">Apple's 10-Q reads confidently — but market risk exposure is the caveat.</p>
-
-    <div class="viz-signal">
-      <div class="viz-section-num">01</div>
-      <div>
-        <div class="viz-section-title">The Signal</div>
-        <p class="viz-lead">
-          <span class="drop">S</span>entiment climbed from <strong>+0.20</strong> in Feb 2026
-          <svg class="viz-spark" width="72" height="24" viewBox="0 0 72 24"><path d="M3 15 L18 12 L33 14 L48 8 L63 5 L69 4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/><circle cx="69" cy="4" r="2.4" fill="currentColor"/></svg>
-          to <strong>+0.78</strong> today, across 4 filings. Apple reported Q3 2026 net sales of $109.4 billion, up 16% year-over-year, driven by strong product and services growth.
-        </p>
-      </div>
+    <div class="stats">
+      <div class="stat"><b>&lt;30s</b><span>for a fresh analysis</span></div>
+      <div class="stat"><b>0ms</b><span>to re-run a cached ticker</span></div>
+      <div class="stat"><b>$0.003</b><span>per fresh run</span></div>
+      <div class="stat"><b>4</b><span>filings per pass</span></div>
     </div>
   </div>
+</section>
 
-  <!-- ── The problem ────────────────────────────────────────────────── -->
-  <section>
-    <h2>The Problem</h2>
-    <h3>Every quarter, 10-Q filings arrive as 40+ pages of boilerplate that hide two or three sentences that actually matter.</h3>
-    <p>Retail investors either skim, miss the shift in tone, or defer to headlines. Analysts pay Bloomberg terminals thousands a month for tools that pre-digest this. I wanted to see how close a weekend project could get.</p>
-    <p>The core question: could a language model surface the same signal a first-year analyst would pull out of a filing — beats, misses, guidance changes, new risk factors, tonal shifts — cheaply enough that a single ticker costs fractions of a cent, and quickly enough that it feels like a Google search rather than a batch job?</p>
-  </section>
-
-  <!-- ── The build ──────────────────────────────────────────────────── -->
-  <section>
-    <h2>How it Works</h2>
-    <h3>Ticker in, filing brief out — with every step cached so re-runs are free.</h3>
-
-    <div class="flowdiag">
-      <div class="flowdiag-frame">
-        <svg viewBox="0 0 760 940" xmlns="http://www.w3.org/2000/svg">
+<!-- ============ 02 HOW IT WORKS ============ -->
+<section class="band">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">02 - How it works</p>
+        <h2 class="d2" style="margin-top:18px">Ticker in,<br>brief out.</h2>
+      </div>
+      <div>
+        <p class="soft">Everything runs on the server. The page streams progress while the pipeline works, then shows the brief when it's done. Every step is cached, so running the same ticker twice is instant and free.</p>
+      </div>
+    </div>
+    <div class="two">
+      <div class="flowdiag">
+        <div class="flowdiag-frame">
+<svg viewBox="0 0 760 940" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arr" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M0,0 L12,6 L0,12 Z" fill="#0C0C0C"/>
+              <path d="M0,0 L12,6 L0,12 Z" fill="#2A2D33"/>
             </marker>
           </defs>
 
@@ -334,7 +346,7 @@ strong{color:var(--paper);font-weight:500}
 
           <!-- Straight-through hairline arrow from serve cache to converge -->
           <g transform="translate(180,432)">
-            <rect x="0" y="0" width="60" height="80" fill="#F5EEDD" stroke="none"/>
+            <rect x="0" y="0" width="60" height="80" fill="#FFFFFF" stroke="none"/>
           </g>
 
           <!-- ── Row 5 ─────────────────────────────────────────────
@@ -388,284 +400,261 @@ strong{color:var(--paper);font-weight:500}
             <text x="0" y="4" text-anchor="middle" class="lbl-node-user" style="font-size:11px;font-weight:800">BRIEF</text>
           </g>
         </svg>
+        </div>
+        <p class="cap">One submission. A cached ticker comes back from Turso in milliseconds. A fresh one goes through SEC EDGAR, an earnings call transcript if there is one, and Groq's gpt-oss-120b, then comes back as a brief.</p>
       </div>
-      <p class="flowdiag-caption">The pipeline behind one submission. Two paths — a cached hit returns from Turso in milliseconds; a cold run fans through SEC EDGAR, an optional earnings-call transcript, and Groq's gpt-oss-120b before converging back to a rendered brief.</p>
+      <div>
+        <ol class="steps">
+          <li><span class="n">01</span><div><b>Ticker to filings</b><small>SEC EDGAR: ticker, company ID, the 4 most recent filings</small></div></li>
+          <li><span class="n">02</span><div><b>Filings to text</b><small>HTML stripped to raw 10-Q text, cached per filing</small></div></li>
+          <li><span class="n">03</span><div><b>Earnings call</b><small>AlphaVantage transcript for the latest quarter, if available</small></div></li>
+          <li><span class="n">04</span><div><b>The analysis</b><small>Groq's gpt-oss-120b reads the filing and transcript</small></div></li>
+          <li><span class="n">05</span><div><b>History</b><small>yfinance scores the 3 older filings by their 30-day price reaction</small></div></li>
+          <li><span class="n">06</span><div><b>Save and share</b><small>Result stored in Turso with a permalink</small></div></li>
+          <li><span class="n">07</span><div><b>Market reaction</b><small>yfinance pulls the price 30 days either side of the filing date</small></div></li>
+        </ol>
+        <p class="note">The cache key is <code>(content_hash, prompt_version, model)</code>. A second run of the same ticker is instant and uses no AI calls. When I change the prompt, I bump the version and old results expire on their own, with no migration.</p>
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="arch"><span class="s">// The pipeline behind one ticker submission:</span>
+<!-- ============ 03 REDESIGN ============ -->
+<section class="band white">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">03 - The redesign</p>
+        <h2 class="d2" style="margin-top:18px">The first version<br>was a dashboard.</h2>
+      </div>
+      <div>
+        <p class="soft">Version one worked, but it showed its results as a grid of metric cards, gauges and line charts. It looked like every fintech tutorial, and nobody would forward it to a friend.</p>
+      </div>
+    </div>
+    <div class="ba">
+      <div>
+        <p class="lbl">Version one</p>
+        <h3>A dashboard</h3>
+        <p>Metric cards, gauges and Chart.js line charts. Everything had equal weight, so nothing stood out.</p>
+      </div>
+      <div class="after">
+        <p class="lbl">Version two</p>
+        <h3>A one-page Filing Brief</h3>
+        <p>Reads like a Bloomberg opinion column, with the data inside the sentences.</p>
+        <ul class="secs">
+          <li><span>01</span>The signal: a paragraph with a sparkline in the middle of it</li>
+          <li><span>02</span>A pull quote from management</li>
+          <li><span>03</span>Analyst pushback from the earnings call, side by side</li>
+          <li><span>04</span>The market's answer: a thin-line price chart marking the filing date</li>
+          <li><span>+</span>Themes, risks and trades fold into one "Evidence" section</li>
+        </ul>
+      </div>
+    </div>
+    <p class="cap">Type: Manrope for headlines, Cormorant Garamond italic for labels and numbers, Inter for body text. Colors: cobalt on warm cream, based on Bicentra Biotech's brand.</p>
+  </div>
+</section>
 
-  <span class="k">1.</span>  ticker → <span class="g">SEC EDGAR</span>          <span class="s">// ticker → CIK → 4 recent filings</span>
-  <span class="k">2.</span>  filings → <span class="g">HTML stripper</span>      <span class="s">// raw 10-Q text, cached by (cik, accession)</span>
-  <span class="k">3.</span>  latest quarter → <span class="g">AlphaVantage</span> <span class="s">// earnings call transcript, if available</span>
-  <span class="k">4.</span>  filing + transcript → <span class="g">Groq LLM</span>  <span class="s">// gpt-oss-120b, cached by content_hash + prompt_version</span>
-  <span class="k">5.</span>  older 3 filings → <span class="g">yfinance</span>     <span class="s">// 30-day price reaction → history sparkline</span>
-  <span class="k">6.</span>  result → <span class="g">Turso (libsql)</span>       <span class="s">// runs table → permalink → shareable URL</span>
-  <span class="k">7.</span>  filing date → <span class="g">yfinance</span>         <span class="s">// ±30-day price series, market reaction</span></div>
-
-    <p>Everything server-side. The frontend is a single HTML page that streams progress over Server-Sent Events, then renders the brief when the pipeline finishes.</p>
-
-    <div class="callout"><p>Every step sits behind a Turso-backed cache keyed by <em>content_hash + prompt_version</em>, so a second run of the same ticker is instant and costs zero LLM tokens. Bump the prompt version → old rows age out naturally without a migration.</p></div>
-  </section>
-
-  <!-- ── The redesign moment ───────────────────────────────────────── -->
-  <section>
-    <h2>The Redesign</h2>
-    <h3>The first version was a dashboard. That was the problem.</h3>
-    <p>Version one landed the pipeline but delivered its output as a grid of metric cards, gauges, and Chart.js line charts. Functional, forgettable — the kind of thing every fintech tutorial ships. Nothing to forward to a friend.</p>
-    <p>Version two threw the dashboard out. In its place: a single editorial page — a "Filing Brief" — that reads like a Bloomberg opinion column with data woven through the prose. Section 01 is the signal, told as a paragraph with a sparkline embedded mid-sentence. Section 02 is the pull quote from management, magazine-style. Section 03 is analyst pushback from the earnings call, laid out as a "vs." panel. Section 04 is the market's answer, drawn as a Financial Times hairline chart with a small pill marker at the filing date. Everything else — themes, risks, insider trades, congressional trades — collapses under a single progressive-disclosure toggle labeled <em>The Evidence</em>.</p>
-    <p>The typographic system does the heavy lifting. Manrope 800 for the display voice, Cormorant Garamond italic for editorial labels and pull-figures, Inter for body prose. Bicentra Biotech's brand identity was the reference — precise cobalt on warm cream, generous vertical rhythm, restraint over decoration.</p>
-  </section>
-
-  <!-- ── Feature: diff mode ─────────────────────────────────────────── -->
-  <section>
-    <h2>Feature Focus · Diff Mode</h2>
-    <h3>Filings are only interesting relative to the last one. So the app compares any two runs and tells you what actually changed.</h3>
-    <ol class="numbered">
-      <li><b>Sentiment shift.</b> A signed delta between two runs' sentiment scores, plus the label flip if it crossed a threshold.</li>
-      <li><b>Themes added and dropped.</b> Set operations on the LLM's key-themes list — new "AI acceleration" theme appearing three quarters in a row is a real signal.</li>
-      <li><b>Beat/miss flip.</b> When management stops missing estimates and starts beating them, the diff surfaces it explicitly rather than burying it in the summary.</li>
-      <li><b>New analyst concerns.</b> Only shows up when a transcript was available — pulls the questions analysts asked that the previous quarter's call didn't cover.</li>
-    </ol>
-  </section>
-
-  <!-- ── Feature: transcripts ───────────────────────────────────────── -->
-  <section>
-    <h2>Feature Focus · Earnings Call Context</h2>
-    <h3>The 10-Q tells you the numbers. The call tells you the confidence.</h3>
-    <p>When AlphaVantage has a transcript for the quarter, the analyzer feeds an excerpt of it into the LLM prompt alongside the filing itself. The model gets to compare the polished written filing against how executives actually talked about it — and against what analysts pushed back on.</p>
-    <p>The output gains a management-tone field grounded in the transcript, key quotes prefixed with speaker names, and a new "analyst pushback" section. If no transcript is available, that section quietly disappears — the app degrades to filing-only mode with no error state.</p>
-  </section>
-
-  <!-- ── Feature: How sentiment is calculated ─────────────────────── -->
-  <section>
-    <h2>Feature Focus · How sentiment is calculated</h2>
-    <h3>It's the LLM's read, not a formula.</h3>
-    <p>The score isn't a lexicon count of positive and negative words, and it isn't calibrated against actual stock returns. It's a structured extraction: we hand Groq's <em>gpt-oss-120b</em> the raw filing (up to ~18k characters for the full pass), enforce JSON output, and ask it to return a sentiment label and a score at the same time. Both fields come back from a single call.</p>
-
-    <p>The full-analysis prompt looks roughly like this:</p>
-
-    <div class="arch"><span class="s">// Sent to Groq's gpt-oss-120b for the latest filing:</span>
-
-You are a financial analyst. Analyze this SEC 10-Q for
-Apple Inc. (AAPL), filed 2026-07-31.
+<!-- ============ 04 SENTIMENT ============ -->
+<section class="band cobalt">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">04 - How sentiment is calculated</p>
+        <h2 class="d2" style="margin-top:18px">It's the model's<br>read, not a<br>formula.</h2>
+      </div>
+      <div>
+        <p class="soft">The score isn't a count of positive and negative words, and it isn't tuned against stock returns. Groq's gpt-oss-120b reads the filing (up to about 18,000 characters) and returns a label and a score in one call, as JSON.</p>
+      </div>
+    </div>
+    <div class="two">
+      <div class="code"><span class="c">// Sent to gpt-oss-120b for the latest filing</span>
+You are a financial analyst. Analyze this SEC 10-Q
+for Apple Inc. (AAPL), filed 2026-07-31.
 
 FILING:
 &lt;18,000 chars of stripped 10-Q text&gt;
 
-<span class="s">// When a transcript is available, appended verbatim:</span>
-EARNINGS CALL TRANSCRIPT (same quarter — use for management
-tone, analyst pushback, and forward-looking commentary):
-&lt;8,000 chars of transcript excerpt&gt;
+<span class="c">// Added when a transcript exists</span>
+EARNINGS CALL TRANSCRIPT (same quarter):
+&lt;8,000 chars of transcript&gt;
 
 Return ONLY a valid JSON object:
 {
-  <span class="k">"sentiment"</span>:       <span class="g">"positive" | "neutral" | "negative"</span>,
-  <span class="k">"sentiment_score"</span>: <span class="g">number from -1.0 to 1.0</span>,
-  <span class="k">"summary"</span>:         "…",
-  <span class="k">"key_themes"</span>:      [ … ],
-  <span class="k">"management_tone"</span>: "…",
-  <span class="k">"key_quotes"</span>:      [ … ],
-  <span class="k">"guidance"</span>:        [ … ],
-  <span class="k">"risks"</span>:           [ … ],
-  <span class="k">"analyst_concerns"</span>: [ … ],
-  <span class="k">"beats_estimates"</span>: <span class="g">true | false | null</span>
+  <span class="k">"sentiment"</span>:        <span class="v">"positive" | "neutral" | "negative"</span>,
+  <span class="k">"sentiment_score"</span>:  <span class="v">-1.0 to 1.0</span>,
+  <span class="k">"summary"</span>, <span class="k">"key_themes"</span>, <span class="k">"management_tone"</span>,
+  <span class="k">"key_quotes"</span>, <span class="k">"guidance"</span>, <span class="k">"risks"</span>,
+  <span class="k">"analyst_concerns"</span>,
+  <span class="k">"beats_estimates"</span>:  <span class="v">true | false | null</span>
 }</div>
-
-    <p>Two knobs matter. <em>response_format</em> is set to <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px">json_object</code> — the model is forbidden from returning prose. And <em>reasoning_effort</em> is set to <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px">low</code> — this is structured extraction, not a math proof; a chain of thought would burn tokens without improving the read.</p>
-
-    <p>Only the latest filing goes through the model. The three older filings on the history sparkline are scored from how the stock moved in the 30 trading days after each one (more on why below). Same −1 to 1 scale, zero extra LLM calls.</p>
-
-    <div class="callout"><p>Every score is deterministic within a prompt version. The Turso cache key is <em>(content_hash, prompt_version, model)</em>, so identical filing text always returns the same number. The moment I edit the prompt and bump the version constant (say <em>v3 → v4</em>), the cache misses and every ticker re-scores under the new prompt.</p></div>
-
-    <h3>What the score is <em>not</em>.</h3>
-    <ol class="numbered">
-      <li><b>Not a lexicon count.</b> No positive-words-minus-negative-words. VADER and FinBERT do that; this doesn't.</li>
-      <li><b>Not calibrated against returns.</b> A +0.78 doesn't mean the stock will go up 78%. It means the model read the writing as confidently positive.</li>
-      <li><b>Not adjusted for company baseline.</b> A chronically pessimistic filer might land at −0.2 in an objectively good quarter. What matters is the <em>change</em>.</li>
-      <li><b>Not a substitute for the filing.</b> If a number is going to move real money, you should still read the 10-Q. The brief exists to tell you which filings deserve that read.</li>
+      <div>
+        <p>Two settings matter. <code>response_format</code> is set to <code>json_object</code>, so the model can't answer in prose. <code>reasoning_effort</code> is set to <code>low</code>, because this is extraction, not a math proof, and longer reasoning would cost more without a better read.</p>
+        <p>Only the latest filing goes through the model. The three older points on the sparkline come from how the stock moved after each one (section 07). Same −1 to 1 scale, no extra AI calls.</p>
+        <p>Scores are repeatable. The same filing text always returns the same number until I change the prompt and bump its version, say v3 to v4. Then every ticker gets re-scored.</p>
+      </div>
+    </div>
+    <h3 class="d3" style="margin:clamp(48px,6vw,72px) 0 20px">What the score is not</h3>
+    <ol class="parts">
+      <li><span class="n">1</span><div><h3>A word count</h3><p>No positive words minus negative words. VADER and FinBERT do that. This doesn't.</p></div></li>
+      <li><span class="n">2</span><div><h3>A price prediction</h3><p>+0.78 doesn't mean the stock goes up 78%. It means the model read the writing as confidently positive.</p></div></li>
+      <li><span class="n">3</span><div><h3>Adjusted for each company</h3><p>A company that always sounds cautious might score −0.2 in a good quarter. The change over time matters more than the number.</p></div></li>
+      <li><span class="n">4</span><div><h3>A replacement for reading the filing</h3><p>If real money is on the line, read the 10-Q. The brief tells you which filings are worth reading. That's why the Signal section leads with the trend, not the score alone.</p></div></li>
     </ol>
+  </div>
+</section>
 
-    <p>That last point is why the Signal section leads with the sparkline of the last four quarters — not the current score in isolation. The trend shows how the market took each past filing, ending on how the model reads today's.</p>
-  </section>
+<!-- ============ 05 DIFF MODE ============ -->
+<section class="band white">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">05 - Diff mode</p>
+        <h2 class="d2" style="margin-top:18px">What changed<br>since last time.</h2>
+      </div>
+      <div>
+        <p class="soft">A filing only means something next to the last one. Diff mode compares any two runs and shows what moved.</p>
+      </div>
+    </div>
+    <div class="grid4">
+      <div class="card"><span class="lbl">01</span><h3>Sentiment shift</h3><p>The change in score between two runs, and whether the label flipped.</p></div>
+      <div class="card"><span class="lbl">02</span><h3>Themes added and dropped</h3><p>A new theme like "AI acceleration" showing up three quarters in a row is a real signal.</p></div>
+      <div class="card"><span class="lbl">03</span><h3>Beat or miss flip</h3><p>When a company goes from missing estimates to beating them, the diff says so directly.</p></div>
+      <div class="card"><span class="lbl">04</span><h3>New analyst concerns</h3><p>Questions analysts asked on this call that they didn't ask last quarter. Needs a transcript.</p></div>
+    </div>
+  </div>
+</section>
 
-  <!-- ── Feature: Making it fast ───────────────────────────────────── -->
-  <section>
-    <h2>Feature Focus · The Three-Minute Timeout</h2>
-    <h3>The demo started timing out. The fix was to stop asking the AI questions the stock price already answers.</h3>
-    <p>Every run was dying at exactly three minutes. The server logs showed why: each progress stream closed at 180 seconds on the dot, which is the app's own deadline. The pipeline was making four Groq calls in a row, one full analysis plus three quick scores for the history chart, and on a slow day for Groq's reasoning model that added up to more than three minutes.</p>
-    <p>The logs were also silent while it happened. Gunicorn buffers Python's output, so none of the progress messages showed up until it was too late to be useful. One environment variable, <code style="font-family:'JetBrains Mono',monospace;font-size:13px;background:rgba(235,221,197,0.08);padding:2px 6px;border-radius:2px">PYTHONUNBUFFERED=1</code>, fixed that.</p>
+<!-- ============ 06 EARNINGS CALL ============ -->
+<section class="band">
+  <div class="inner">
+    <div class="head" style="margin-bottom:0">
+      <div>
+        <p class="lbl">06 - Earnings call context</p>
+        <h2 class="d2" style="margin-top:18px">The 10-Q has the<br>numbers. The call<br>has the confidence.</h2>
+      </div>
+      <div>
+        <p class="soft">When AlphaVantage has the transcript, part of it goes into the prompt with the filing. The model can compare the polished filing with how executives actually talked, and with what analysts pushed back on.</p>
+        <p class="soft">That adds a management tone field, quotes with speaker names, and an analyst pushback section. With no transcript, that section just doesn't show up. No error, the brief runs on the filing alone.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <h3>Let the market score the past.</h3>
-    <p>The history chart exists to answer one question: how did each past filing land? The stock price already answers that, without an AI's opinion. So the three older filings are now scored from the price move in the 30 trading days after each one.</p>
+<!-- ============ 07 TIMEOUT ============ -->
+<section class="band cream">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">07 - The three-minute timeout</p>
+        <h2 class="d2" style="margin-top:18px">Stop asking AI<br>what the price<br>already says.</h2>
+      </div>
+      <div>
+        <p class="soft">The demo started dying at exactly three minutes, the app's own time limit. It was making four Groq calls in a row, one full analysis and three quick scores for the history chart, and on a slow day for Groq that took longer than three minutes.</p>
+        <p class="soft">The logs were silent while it happened, because Gunicorn holds Python's output until later. One setting, <code>PYTHONUNBUFFERED=1</code>, fixed that.</p>
+      </div>
+    </div>
+    <div class="two">
+      <div>
+        <h3 class="d3" style="margin-bottom:14px">Let the market score the past</h3>
+        <p>The history chart answers one question: how did each past filing land? The stock price already answers that. So the three older filings are scored by how the stock moved in the 30 trading days after each one.</p>
+        <p>The newest point stays the model's read, since a filing that just came out doesn't have 30 days of price history yet.</p>
+      </div>
+      <div class="code"><span class="c">// Score for each older filing</span>
+move  = price 30 trading days later ÷ price on filing day − 1
+score = move ÷ 10%, capped at <span class="v">[−1, 1]</span>   <span class="c">// +10% = +1.0</span>
+label = <span class="v">positive</span> above +0.2, <span class="v">negative</span> below −0.2
 
-    <div class="arch"><span class="s">// Historical score, per older filing:</span>
-
-  move  = close 30 trading days later ÷ close on filing day − 1
-  score = move ÷ 10%, capped to <span class="g">[−1, 1]</span>     <span class="s">// +10% or more reads as +1.0</span>
-  label = <span class="g">positive</span> above +0.2 · <span class="g">negative</span> below −0.2 · otherwise <span class="g">neutral</span>
-
-<span class="s">// Before → after, per run:</span>
-  Groq calls       <span class="k">4</span> → <span class="k">1</span>
-  stream deadline  <span class="k">180s</span> → <span class="k">300s</span>     <span class="s">// headroom for a slow Groq day</span></div>
-
-    <p>The newest point on the sparkline stays the model's read of the filing text. A filing that just came out doesn't have 30 trading days of price history yet, so the text is the only signal available for it.</p>
-
-    <h3>Keeping it awake for $0.</h3>
-    <p>The other kind of slow was the cold start. Render's free tier puts the app to sleep after 15 minutes without traffic, and waking it takes about a minute. That's a bad first impression if the person clicking is a recruiter.</p>
-    <ol class="numbered">
-      <li><b>Fly.io.</b> About $3–4 a month for one always-on machine, but there's no way to set a spending cap, so you have to watch the bill yourself.</li>
-      <li><b>Hugging Face Spaces.</b> Plenty of hardware, but running a Docker app there now requires a paid plan.</li>
-      <li><b>Render's paid Starter plan.</b> $7 a month for a fixed price and no cold starts. It's the right move once this becomes a product.</li>
-      <li><b>What shipped: a free ping.</b> cron-job.org hits the health-check endpoint every 10 minutes, so the app never goes 15 minutes without traffic. Render's 750 free hours a month cover one service running around the clock, since even a 31-day month is only 744 hours.</li>
+<span class="c">// Before → after, per run</span>
+Groq calls    <span class="k">4</span> → <span class="k">1</span>
+time limit    <span class="k">180s</span> → <span class="k">300s</span></div>
+    </div>
+    <h3 class="d3" style="margin:clamp(48px,6vw,72px) 0 10px">Keeping it awake for $0</h3>
+    <p class="soft" style="margin-bottom:20px">Render's free tier puts the app to sleep after 15 minutes with no traffic, and it takes about a minute to wake up. That's a bad first impression if a recruiter is the one clicking.</p>
+    <ol class="parts">
+      <li><span class="n">1</span><div><h3>Fly.io</h3><p>About $3 to $4 a month for one always-on machine, but there's no spending cap, so you have to watch the bill.</p></div></li>
+      <li><span class="n">2</span><div><h3>Hugging Face Spaces</h3><p>Plenty of hardware, but Docker apps now need a paid plan.</p></div></li>
+      <li><span class="n">3</span><div><h3>Render Starter</h3><p>$7 a month, fixed, no cold starts. The right move once this is a real product.</p></div></li>
+      <li><span class="n">4</span><div><h3>What shipped: a free ping</h3><p>cron-job.org hits the health check every 10 minutes, so the app never sleeps. Render's 750 free hours a month cover one app running nonstop, since even a 31-day month is 744 hours.</p></div></li>
     </ol>
-  </section>
+  </div>
+</section>
 
-  <!-- ── Feature: The Information Gap — insider vs congress ────────── -->
-  <section>
-    <h2>Feature Focus · The Information Gap</h2>
-    <h3>Filings are the polished story. Insider and congressional trades are what the informed money did about it.</h3>
-    <p>Two datasets get pulled alongside every filing. <strong>Insider trades</strong> come from SEC Form 4 disclosures — every time a CEO, CFO, or 10% owner buys or sells their own company's stock, they have to file within two business days. <strong>Congressional trades</strong> come from the House Clerk's Financial Disclosures database — U.S. representatives disclose their personal trades within 45 days, per the STOCK Act of 2012.</p>
-    <p>Both feeds are lagging, both are self-reported, and both carry signal individually. The interesting question isn't <em>whether</em> either group traded — it's whether they <em>agree</em>. When the two disagree, the divergence is often the most useful piece of information in the whole brief.</p>
-
-    <div class="gap-diagram">
-      <div class="gap-inner">
-        <div class="gap-header">
-          <div class="gap-header-eye">Corporate insiders</div>
-          <div class="gap-header-mid">vs</div>
-          <div class="gap-header-eye right">U.S. Congress</div>
-        </div>
-
-        <div class="gap-row">
-          <div class="gap-side">
-            <div class="gap-bar buy"></div>
-            <div>
-              <div class="gap-label">Executives buying</div>
-              <div class="gap-sub">Form 4 purchases climbing</div>
-            </div>
-          </div>
-          <div class="gap-verdict match">In agreement</div>
-          <div class="gap-side right">
-            <div class="gap-bar buy right"></div>
-            <div>
-              <div class="gap-label">Congress buying</div>
-              <div class="gap-sub">Purchases on the same ticker</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gap-row">
-          <div class="gap-side">
-            <div class="gap-bar sell"></div>
-            <div>
-              <div class="gap-label">Executives selling</div>
-              <div class="gap-sub">Insiders exiting positions</div>
-            </div>
-          </div>
-          <div class="gap-verdict">Divergence — worth reading</div>
-          <div class="gap-side right">
-            <div class="gap-bar buy right"></div>
-            <div>
-              <div class="gap-label">Congress buying</div>
-              <div class="gap-sub">House members going long</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gap-row">
-          <div class="gap-side">
-            <div class="gap-bar buy"></div>
-            <div>
-              <div class="gap-label">Executives buying</div>
-              <div class="gap-sub">Insiders adding on weakness</div>
-            </div>
-          </div>
-          <div class="gap-verdict">Divergence — worth reading</div>
-          <div class="gap-side right">
-            <div class="gap-bar sell right"></div>
-            <div>
-              <div class="gap-label">Congress selling</div>
-              <div class="gap-sub">House members trimming</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gap-row">
-          <div class="gap-side">
-            <div class="gap-bar sell"></div>
-            <div>
-              <div class="gap-label">Executives selling</div>
-              <div class="gap-sub">Insider distributions</div>
-            </div>
-          </div>
-          <div class="gap-verdict match">In agreement</div>
-          <div class="gap-side right">
-            <div class="gap-bar sell right"></div>
-            <div>
-              <div class="gap-label">Congress selling</div>
-              <div class="gap-sub">Both sides risk-off</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p class="gap-caption">The four states of the information gap. Agreement is a confirming signal. Divergence — especially executives selling into congressional buying — is what a Bloomberg terminal would highlight in red. The brief lays them side by side and lets you read the disagreement.</p>
-    </div>
-
-    <p>The two datasets never get merged into a single score — that would be false precision. They stay side-by-side in the Evidence section of the brief, sorted by date, so you can eyeball the pattern yourself: <em>whose money is moving first, and does it match what the filing is telling you?</em></p>
-  </section>
-
-  <!-- ── Architecture decisions ─────────────────────────────────────── -->
-  <section>
-    <h2>Decisions worth calling out</h2>
-    <div class="two-col">
+<!-- ============ 08 INFORMATION GAP ============ -->
+<section class="band white">
+  <div class="inner">
+    <div class="head">
       <div>
-        <h4>Turso over Postgres</h4>
-        <p>The app is SQLite-shaped and read-heavy. Turso runs the authoritative copy in the cloud with an embedded replica on the machine, so reads are local and writes sync asynchronously. Postgres would have been a heavier dependency for zero gain.</p>
+        <p class="lbl">08 - The information gap</p>
+        <h2 class="d2" style="margin-top:18px">The filing is the<br>story. Trades are<br>what people did.</h2>
       </div>
       <div>
-        <h4>Prompt versioning as invalidation</h4>
-        <p>Instead of a TTL, the LLM cache is keyed by <code>(content_hash, prompt_version, model)</code>. Bump the version constant and old rows are effectively invalid — new runs re-analyze automatically.</p>
-      </div>
-      <div>
-        <h4>Server-Sent Events over polling</h4>
-        <p>The pipeline takes 8–25 seconds, long enough that a progress indicator matters. SSE gives me a single stream of progress messages and works with plain <code>gunicorn --worker-class gthread</code> — WebSockets would have been overkill.</p>
-      </div>
-      <div>
-        <h4>API keys never leave the server</h4>
-        <p>Groq and AlphaVantage keys live in Render secrets — the frontend has no notion of them. A five-ticker demo whitelist caps blast radius; everything else gets a friendly 403.</p>
-      </div>
-      <div>
-        <h4>Editorial over dashboard</h4>
-        <p>Every fintech tool defaults to a card grid; this one defaults to a single editorial page. The signal isn't a card labeled "Sentiment: +0.78" — it's a sentence with the sparkline inside it.</p>
-      </div>
-      <div>
-        <h4>$0/month at 20 users</h4>
-        <p>Render's free web tier plus Turso's free storage. A free cron ping every 10 minutes keeps the container from sleeping, so there's no one-minute cold start on the first click.</p>
+        <p class="soft"><strong>Insider trades</strong> come from SEC Form 4. When a CEO, CFO or 10% owner buys or sells their own stock, they have two business days to report it. <strong>Congressional trades</strong> come from the House Clerk. Under the 2012 STOCK Act, representatives have 45 days.</p>
+        <p class="soft">Both are delayed and self-reported. What's interesting isn't whether either group traded. It's whether they agree.</p>
       </div>
     </div>
-  </section>
-
-  <!-- ── Metrics ────────────────────────────────────────────────────── -->
-  <section>
-    <h2>What it does</h2>
-    <div class="metrics">
-      <div class="metric"><div class="v">&lt; 30s</div><div class="l">Cold analysis</div></div>
-      <div class="metric"><div class="v pos">0ms</div><div class="l">Cached re-run</div></div>
-      <div class="metric"><div class="v">$0.003</div><div class="l">Cost per fresh run</div></div>
-      <div class="metric"><div class="v">4</div><div class="l">Filings per pass</div></div>
+    <div class="gap">
+      <div class="gap-head"><span>Corporate insiders</span><span style="text-align:center">vs</span><span class="r">U.S. Congress</span></div>
+      <div class="gap-row">
+        <div class="side"><i class="bar buy"></i><div><b>Executives buying</b><small>Form 4 purchases climbing</small></div></div>
+        <span class="verdict ok">In agreement</span>
+        <div class="side r"><i class="bar buy"></i><div><b>Congress buying</b><small>Purchases on the same ticker</small></div></div>
+      </div>
+      <div class="gap-row">
+        <div class="side"><i class="bar sell"></i><div><b>Executives selling</b><small>Insiders exiting positions</small></div></div>
+        <span class="verdict">Disagreement, worth a look</span>
+        <div class="side r"><i class="bar buy"></i><div><b>Congress buying</b><small>House members going long</small></div></div>
+      </div>
+      <div class="gap-row">
+        <div class="side"><i class="bar buy"></i><div><b>Executives buying</b><small>Insiders adding on weakness</small></div></div>
+        <span class="verdict">Disagreement, worth a look</span>
+        <div class="side r"><i class="bar sell"></i><div><b>Congress selling</b><small>House members trimming</small></div></div>
+      </div>
+      <div class="gap-row">
+        <div class="side"><i class="bar sell"></i><div><b>Executives selling</b><small>Insider distributions</small></div></div>
+        <span class="verdict ok">In agreement</span>
+        <div class="side r"><i class="bar sell"></i><div><b>Congress selling</b><small>Both sides selling</small></div></div>
+      </div>
     </div>
-  </section>
+    <p class="cap">Four possible states. Agreement backs up the filing. Disagreement, especially executives selling while Congress buys, is worth reading closely. The two are never merged into one score, since that would be false precision. They sit side by side in the Evidence section, sorted by date, so you can see whose money moved first.</p>
+  </div>
+</section>
 
-  <!-- ── Try it ─────────────────────────────────────────────────────── -->
-  <section>
-    <h2>See it in action</h2>
-    <h3>Live demo runs on AAPL, NVDA, TSLA, MSFT, JPM. Clone the repo for anything else.</h3>
-    <div class="cta-row">
-      <a class="cta primary" href="https://earnings-analyzer-m7n9.onrender.com" target="_blank" rel="noopener">Try the demo →</a>
-      <a class="cta" href="https://github.com/chulkara/earnings-analyzer" target="_blank" rel="noopener">View on GitHub</a>
+<!-- ============ 09 DECISIONS ============ -->
+<section class="band">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="lbl">09 - Decisions</p>
+        <h2 class="d2" style="margin-top:18px">Six choices,<br>and why.</h2>
+      </div>
     </div>
-  </section>
+    <div class="dec"><p class="dec-n">01</p><h3>Turso over Postgres</h3><p>The app is small and mostly reads. Turso keeps the main copy in the cloud with a local copy on the server, so reads are fast and writes sync in the background. Postgres would have been heavier for no benefit.</p></div>
+    <div class="dec"><p class="dec-n">02</p><h3>Prompt versions instead of expiry times</h3><p>Cached results are keyed by <code>(content_hash, prompt_version, model)</code>. Change the version and old results stop matching, so new runs re-analyze automatically.</p></div>
+    <div class="dec"><p class="dec-n">03</p><h3>Streaming progress instead of polling</h3><p>A run takes 8 to 25 seconds, long enough to need a progress bar. Server-Sent Events send one stream of updates and work with plain Gunicorn. WebSockets would have been overkill.</p></div>
+    <div class="dec"><p class="dec-n">04</p><h3>API keys stay on the server</h3><p>The Groq and AlphaVantage keys live in Render's settings and never reach the browser. The demo only allows five tickers, and anything else gets a polite error.</p></div>
+    <div class="dec"><p class="dec-n">05</p><h3>An editorial page, not a dashboard</h3><p>Most finance tools default to a grid of cards. This one is a single page you read. The signal isn't a card that says "Sentiment: +0.78." It's a sentence with the trend inside it.</p></div>
+    <div class="dec"><p class="dec-n">06</p><h3>$0 a month at 20 users</h3><p>Render's free tier plus Turso's free storage. A free ping every 10 minutes keeps the app awake, so the first click doesn't wait a minute.</p></div>
+  </div>
+</section>
 
-  <div class="back"><a href="/projects/">← Back to Projects</a></div>
-</div>
+<!-- ============ TRY IT ============ -->
+<section class="band white">
+  <div class="inner">
+    <p class="lbl">Try it</p>
+    <h2 class="d2" style="margin:18px 0 18px">See it in action.</h2>
+    <p class="soft">The live demo runs on AAPL, NVDA, TSLA, MSFT and JPM. Clone the repo for anything else.</p>
+    <div class="ctas">
+      <a class="cta fill" href="https://earnings-analyzer-m7n9.onrender.com" target="_blank" rel="noopener">Try the demo ↗</a>
+      <a class="cta" href="https://github.com/chulkara/earnings-analyzer" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <p>A personal project. Not investment advice.</p>
+    <p><a href="/projects/">← Back to Projects</a></p>
+  </div>
+</footer>
 </body>
 </html>
