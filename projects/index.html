@@ -133,12 +133,14 @@ body{
   letter-spacing:-.02em;line-height:.98;text-transform:uppercase;
 }
 .card .cap .meta{display:none}
+.card.c6 .cap h4{font-size:clamp(20px,2.4vw,33px)}
 
 /* per-card variations */
 .card.c1 .bg{background:#0C0C0C url('/img/one-tap-rejection.png?v=2') center/cover no-repeat}
 .card.c2 .bg{background:#0C0C0C url('/img/scent-market.png?v=1') center/cover no-repeat}
 .card.c3 .bg{background:#0C0C0C url('/img/invisible-auction.png?v=1') center/cover no-repeat}
 .card.c4 .bg{background:#0C0C0C url('/img/agentic-ai.jpg?v=1') 52% center/cover no-repeat}
+.card.c6 .bg{background:#0C0C0C url('/img/pe-arena.jpg?v=1') 75% center/cover no-repeat}
 .card.c5 .bg{background:#0C0C0C url('/img/wall-street-bull.jpg?v=1') center/cover no-repeat}
 
 /* marigold hover multiply wash — full card */
@@ -153,7 +155,8 @@ body{
 .card.c2::before,
 .card.c3::before,
 .card.c4::before,
-.card.c5::before{
+.card.c5::before,
+.card.c6::before{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(12,12,12,.25),rgba(12,12,12,.5));
 }
@@ -317,6 +320,11 @@ body{
 <section class="strip">
   <div class="strip-scroll" id="stripScroll">
     <div class="strip-inner">
+
+      <div class="card c6" data-target="pe-arena">
+        <div class="bg"></div>
+        <div class="cap"><h4>Private Equity Enters the Arena</h4></div>
+      </div>
 
       <div class="card c5" data-target="earnings-analyzer">
         <div class="bg"></div>
