@@ -189,6 +189,13 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
   animation:drop 2.4s ease-in-out infinite;
 }
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* phones: keep LinkedIn/email clear of the scroll cue */
+@media (max-width:640px){
+  .hero{height:100vh;height:100svh}
+  .hero-inner{padding-bottom:112px}
+  .info-block{padding:0 24px}
+  .reach{justify-content:center}
+}
 
 /* ============ FEATURED (Qaafi lead-in) ============ */
 .feat{padding:120px 40px 100px;background:var(--secondary);color:var(--primary)}
