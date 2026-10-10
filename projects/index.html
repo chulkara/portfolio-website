@@ -626,7 +626,15 @@ body{
   var setCount=inner.children.length;
   var anim=null, hovering=false;
 
+  var lastWidth=0;
   function build(){
+    // keep the carousel where it was instead of snapping back to the start
+    var progress=0;
+    if(anim && anim.effect){
+      var d=anim.effect.getTiming().duration;
+      if(d) progress=((anim.currentTime||0)%d)/d;
+    }
+    lastWidth=scroller.clientWidth;
     if(anim){anim.cancel();anim=null;}
     inner.innerHTML=original+original;          // 2 sets to measure one period
     var setWidth=inner.children[setCount].offsetLeft-inner.children[0].offsetLeft;
@@ -639,13 +647,19 @@ body{
       [{transform:'translateX(0)'},{transform:'translateX(-'+setWidth+'px)'}],
       {duration:setWidth/SPEED*1000,iterations:Infinity,easing:'linear'}
     );
+    anim.currentTime=progress*(setWidth/SPEED*1000);
     if(hovering) anim.pause();
   }
 
   scroller.addEventListener('mouseenter',function(){hovering=true;if(anim)anim.pause();});
   scroller.addEventListener('mouseleave',function(){hovering=false;if(anim)anim.play();});
 
-  var t;window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(build,200);});
+  // Mobile browsers fire "resize" when the address bar shows/hides while scrolling.
+  // Only rebuild when the width actually changes.
+  var t;window.addEventListener('resize',function(){
+    clearTimeout(t);
+    t=setTimeout(function(){ if(scroller.clientWidth!==lastWidth) build(); },200);
+  });
   build();
   window.addEventListener('load',build);   // re-measure once fonts/images settle
 })();
