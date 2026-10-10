@@ -197,12 +197,23 @@ body{
 
 /* ============ SORT CONTROL (above the season bars) ============ */
 .sort-row{
-  display:flex;justify-content:flex-end;align-items:center;gap:14px;
+  display:flex;justify-content:flex-start;align-items:center;gap:10px;flex-direction:row-reverse;
   padding:24px 40px 0;
   font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
   letter-spacing:.06em;text-transform:uppercase;color:var(--secondary);
 }
-.sort-row .sort-lbl{font-size:13px;opacity:.75}
+.sort-lbl{
+  background:transparent;color:var(--secondary);border:1px solid var(--secondary);cursor:pointer;
+  font:inherit;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+  padding:9px 16px;display:inline-flex;align-items:center;gap:8px;transition:background .2s;
+}
+.sort-lbl:hover,.sort-row.open .sort-lbl{background:rgba(var(--secondary-rgb),.1)}
+.sort-lbl svg{transition:transform .25s ease}
+.sort-row.open .sort-lbl svg{transform:rotate(180deg)}
+.sort-toggle{opacity:0;transform:translateX(8px);pointer-events:none;visibility:hidden;
+  transition:opacity .2s ease,transform .2s ease,visibility 0s .2s}
+.sort-row.open .sort-toggle{opacity:1;transform:none;pointer-events:auto;visibility:visible;
+  transition:opacity .2s ease,transform .2s ease,visibility 0s 0s}
 .sort-toggle{display:inline-flex;border:1px solid var(--secondary)}
 .sort-toggle button{
   background:transparent;color:var(--secondary);border:0;cursor:pointer;
@@ -377,9 +388,11 @@ body{
 </section>
 
 <!-- ============ SORT CONTROL ============ -->
-<div class="sort-row">
-  <span class="sort-lbl">Sort by</span>
-  <div class="sort-toggle" role="group" aria-label="Sort projects">
+<div class="sort-row" id="sortRow">
+  <button type="button" class="sort-lbl" id="sortBtn" aria-expanded="false" aria-controls="sortToggle">Sort by
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+  <div class="sort-toggle" id="sortToggle" role="group" aria-label="Sort projects">
     <button type="button" data-sort="date" aria-pressed="true">Date</button>
     <button type="button" data-sort="subject" aria-pressed="false">Subject</button>
   </div>
@@ -722,9 +735,21 @@ body{
     viewSubject.hidden=(mode!=='subject');
     buttons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.sort===mode))});
   }
-  buttons.forEach(function(b){
-    b.addEventListener('click',function(){setSort(b.dataset.sort)});
+  var row=document.getElementById('sortRow');
+  var sortBtn=document.getElementById('sortBtn');
+  function showOptions(open){
+    row.classList.toggle('open',open);
+    sortBtn.setAttribute('aria-expanded',String(open));
+  }
+  sortBtn.addEventListener('click',function(e){
+    e.stopPropagation();
+    showOptions(!row.classList.contains('open'));
   });
+  buttons.forEach(function(b){
+    b.addEventListener('click',function(){setSort(b.dataset.sort);showOptions(false)});
+  });
+  document.addEventListener('click',function(e){ if(!e.target.closest('#sortRow')) showOptions(false) });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') showOptions(false) });
 })();
 </script>
 
