@@ -314,6 +314,22 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 .card.c3 .bg{background:#0C0C0C url('/img/invisible-auction.png?v=1') center/cover no-repeat}
 .card.c4 .bg{background:#0C0C0C url('/img/wall-street-bull.jpg?v=1') center/cover no-repeat}
 
+/* touch screens: no hover state, so a tap goes straight to the project (no zoom, no text flash) */
+@media (hover:none){
+  .card:hover{transform:none}
+  .card:hover .bg{transform:none}
+  .card:hover .caption{opacity:1}
+  .card .over{display:none}
+}
+/* phones: roomier grid, titles sized to the tiles */
+@media (max-width:640px){
+  .workgrid{padding:72px 20px 88px}
+  .wg-hdr{margin-bottom:36px;padding-bottom:28px}
+  .cards{padding:0;gap:12px}
+  .card .caption{padding:14px}
+  .card .caption h4{font-size:clamp(17px,5.4vw,22px);line-height:1.02;overflow-wrap:anywhere}
+}
+
 /* ============ FOOT ============ */
 .foot{padding:100px 40px 60px;background:var(--cream);border-top:1px solid rgba(12,12,12,.12);text-align:center}
 .foot-reach{display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:40px}

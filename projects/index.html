@@ -716,12 +716,16 @@ body{
     var bar=panel && document.querySelector('[aria-controls="'+panel.id+'"]');
     var dim=document.getElementById('pageDim');
     if(panel && !panel.classList.contains('open') && bar){
+      // open instantly (no slide) so arriving from another page feels seamless
+      panel.style.transition='none';
       bar.classList.add('open');
       panel.classList.add('open');
       bar.setAttribute('aria-expanded','true');
+      panel.offsetHeight;
+      panel.style.transition='';
     }
+    target.scrollIntoView({behavior:'auto',block:'center'});
     setTimeout(function(){
-      target.scrollIntoView({behavior:'smooth',block:'center'});
       setTimeout(function(){
         var rect=target.getBoundingClientRect();
         var midpoint=window.innerWidth/2;
@@ -729,10 +733,10 @@ body{
         else target.classList.add('menu-left');
         target.classList.add('menu-open');
         if(dim) dim.classList.add('on');
-      },700);
-    },300);
+      },150);
+    },0);
   }
-  window.addEventListener('load',openFromHash);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',openFromHash); else openFromHash();
   window.addEventListener('hashchange',openFromHash);
 })();
 
