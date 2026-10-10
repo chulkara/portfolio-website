@@ -326,6 +326,59 @@ body{
   text-shadow:0 -1px 1px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.22),0 2px 2px rgba(255,255,255,.08);
 }
 .foot .meta{display:block;margin-top:20px;font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--tertiary);opacity:.55}
+
+/* ============ MOBILE ONLY (desktop untouched) ============ */
+@media (hover:none){
+  .card:hover,.season-item:hover{transform:none}
+  .card:hover .bg{transform:none}
+}
+@media (max-width:640px){
+  .nav{padding:0 20px 12px;height:64px}
+  .nav .brand{font-size:14px}
+  .nav ul{gap:22px;font-size:12.5px}
+  .title-bar{padding:92px 20px 28px}
+
+  .strip{padding-top:8px}
+  .strip-scroll{padding:16px 0 20px}
+  .strip-inner{gap:12px}
+  .card{flex:0 0 190px}
+  .card .cap{padding:16px}
+  .card .cap h4,.card.c6 .cap h4{font-size:21px;line-height:1}
+
+  .sort-row{padding:20px 20px 0}
+  .sort-lbl,.sort-toggle button{font-size:11.5px;padding:8px 12px;white-space:nowrap}
+  .sort-view > .season:first-child{padding-top:12px}
+
+  .season{padding:12px 20px}
+  .season-bar{padding:15px 16px 15px 18px;font-size:19px}
+  .season-bar .arrow{width:32px;height:32px}
+  .season-panel.open{padding-top:12px}
+  .season-grid{gap:10px}
+  .season-item{padding:12px 10px}
+  .season-item h4{font-size:12.5px;line-height:1.2;margin-bottom:3px}
+  .season-item .m{font-size:9px;letter-spacing:.1em;white-space:nowrap}
+
+  /* tile menu becomes a bottom sheet instead of sliding sideways */
+  [data-menu] .card-menu,
+  .season-item.menu-right .card-menu,
+  .season-item.menu-left .card-menu{
+    position:fixed;left:0;right:0;top:auto;bottom:0;width:auto;
+    padding:30px 24px calc(30px + env(safe-area-inset-bottom));gap:18px;
+    border-radius:16px 16px 0 0;
+    transform:translateY(100%);
+    transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .2s ease;
+    z-index:60;
+  }
+  [data-menu] .card-menu::before{
+    content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);
+    width:36px;height:4px;border-radius:2px;background:var(--police);opacity:.25;
+  }
+  [data-menu].menu-open .card-menu{transform:none}
+  .card-menu .summary{font-size:14.5px}
+  .card-menu a{font-size:13px;padding:6px 0 4px}
+
+  .foot{padding:44px 20px 30px}
+}
 </style>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon.ico?v=2">
