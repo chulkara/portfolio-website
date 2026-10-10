@@ -833,6 +833,53 @@ body{
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') showOptions(false) });
 })();
 
+// Remember where you were so a refresh lands in the same place:
+//  - the URL hash always matches the tile whose menu is open (or no hash if none)
+//  - open sections and the sort mode are kept for this tab
+(function(){
+  var KEY='projects-state';
+  function save(){
+    try{
+      var open=[].map.call(document.querySelectorAll('.season-bar.open'),function(b){return b.id});
+      var sortBtn=document.querySelector('.sort-toggle button[aria-pressed="true"]');
+      sessionStorage.setItem(KEY,JSON.stringify({open:open,sort:sortBtn?sortBtn.dataset.sort:'date'}));
+    }catch(e){}
+  }
+  function syncHash(){
+    var openItem=document.querySelector('[data-menu].menu-open');
+    var want=openItem ? '#'+openItem.dataset.itemId : '';
+    if((location.hash||'')!==want){
+      history.replaceState(null,'',location.pathname+location.search+want);
+    }
+  }
+  // restore sort + open sections before the hash handler runs
+  try{
+    var st=JSON.parse(sessionStorage.getItem(KEY)||'null');
+    if(st){
+      if(st.sort==='subject'){
+        var b=document.querySelector('.sort-toggle button[data-sort="subject"]');
+        if(b) b.click();
+      }
+      (st.open||[]).forEach(function(id){
+        var bar=document.getElementById(id);
+        var panel=bar && document.getElementById(bar.getAttribute('aria-controls'));
+        if(!bar||!panel||bar.classList.contains('open')) return;
+        panel.style.transition='none';
+        bar.classList.add('open');panel.classList.add('open');bar.setAttribute('aria-expanded','true');
+        panel.offsetHeight;panel.style.transition='';
+      });
+    }
+  }catch(e){}
+  // watch menus opening/closing and sections toggling
+  var mo=new MutationObserver(function(){ syncHash(); save(); });
+  document.querySelectorAll('[data-menu], .season-bar').forEach(function(el){
+    mo.observe(el,{attributes:true,attributeFilter:['class']});
+  });
+  document.querySelectorAll('.sort-toggle button').forEach(function(b){
+    b.addEventListener('click',function(){ setTimeout(save,0); });
+  });
+})();
+
 // Mobile bottom sheet: swipe down to dismiss
 (function(){
   var mq=window.matchMedia('(max-width:640px)');
