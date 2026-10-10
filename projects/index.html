@@ -624,44 +624,52 @@ body{
   var SPEED=25;                       // px per second
   var original=inner.innerHTML;
   var setCount=inner.children.length;
-  var anim=null, hovering=false;
+  // Position is a plain number that only ever moves forward, so nothing
+  // (scrolling, the mobile address bar, a rebuild) can snap it back to 0.
+  var pos=0, setWidth=0, last=null, hovering=false, lastWidth=0;
 
-  var lastWidth=0;
   function build(){
-    // keep the carousel where it was instead of snapping back to the start
-    var progress=0;
-    if(anim && anim.effect){
-      var d=anim.effect.getTiming().duration;
-      if(d) progress=((anim.currentTime||0)%d)/d;
-    }
     lastWidth=scroller.clientWidth;
-    if(anim){anim.cancel();anim=null;}
     inner.innerHTML=original+original;          // 2 sets to measure one period
-    var setWidth=inner.children[setCount].offsetLeft-inner.children[0].offsetLeft;
-    if(!setWidth) return;
-    var copies=Math.max(2,Math.ceil(scroller.clientWidth/setWidth)+1);
+    var w=inner.children[setCount].offsetLeft-inner.children[0].offsetLeft;
+    if(!w) return;
+    setWidth=w;
+    // enough copies for the widest the screen can get (covers rotation too)
+    var maxW=Math.max(scroller.clientWidth,window.screen ? Math.max(screen.width,screen.height) : 0);
+    var copies=Math.max(2,Math.ceil(maxW/setWidth)+1);
     var html='';for(var i=0;i<copies;i++) html+=original;
     inner.innerHTML=html;
-    if(anim) anim.cancel();
-    anim=inner.animate(
-      [{transform:'translateX(0)'},{transform:'translateX(-'+setWidth+'px)'}],
-      {duration:setWidth/SPEED*1000,iterations:Infinity,easing:'linear'}
-    );
-    anim.currentTime=progress*(setWidth/SPEED*1000);
-    if(hovering) anim.pause();
+    pos=pos%setWidth;
+    inner.style.transform='translate3d('+(-pos)+'px,0,0)';
+  }
+  function tick(t){
+    if(last!==null && !hovering && setWidth){
+      var dt=Math.min(t-last,100);              // don't jump after the tab was hidden
+      pos=(pos+SPEED*dt/1000)%setWidth;
+      inner.style.transform='translate3d('+(-pos)+'px,0,0)';
+    }
+    last=t;
+    requestAnimationFrame(tick);
   }
 
-  scroller.addEventListener('mouseenter',function(){hovering=true;if(anim)anim.pause();});
-  scroller.addEventListener('mouseleave',function(){hovering=false;if(anim)anim.play();});
+  // pause on hover for mouse users only (taps on phones fake a mouseenter)
+  var canHover=window.matchMedia('(hover:hover)').matches;
+  scroller.addEventListener('mouseenter',function(){ if(canHover) hovering=true; });
+  scroller.addEventListener('mouseleave',function(){ hovering=false; });
 
   // Mobile browsers fire "resize" when the address bar shows/hides while scrolling.
-  // Only rebuild when the width actually changes.
+  // Only rebuild when the width actually changes; position is kept either way.
   var t;window.addEventListener('resize',function(){
     clearTimeout(t);
     t=setTimeout(function(){ if(scroller.clientWidth!==lastWidth) build(); },200);
   });
   build();
-  window.addEventListener('load',build);   // re-measure once fonts/images settle
+  requestAnimationFrame(tick);
+  // re-measure once fonts/images settle, only if the set width actually changed
+  window.addEventListener('load',function(){
+    var w=inner.children[setCount] ? inner.children[setCount].offsetLeft-inner.children[0].offsetLeft : 0;
+    if(w && Math.abs(w-setWidth)>1) build();
+  });
 })();
 
 // Card menu + top-card redirect to Fall 2026 item
