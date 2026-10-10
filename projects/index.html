@@ -195,6 +195,26 @@ body{
   text-transform:uppercase;color:var(--secondary);text-align:center;
 }
 
+/* ============ SORT CONTROL (above the season bars) ============ */
+.sort-row{
+  display:flex;justify-content:flex-end;align-items:center;gap:14px;
+  padding:24px 40px 0;
+  font-family:'Clash Display','Plus Jakarta Sans',sans-serif;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--secondary);
+}
+.sort-row .sort-lbl{font-size:13px;opacity:.75}
+.sort-toggle{display:inline-flex;border:1px solid var(--secondary)}
+.sort-toggle button{
+  background:transparent;color:var(--secondary);border:0;cursor:pointer;
+  font:inherit;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+  padding:9px 16px;transition:background .2s,color .2s;
+}
+.sort-toggle button + button{border-left:1px solid var(--secondary)}
+.sort-toggle button:hover{background:rgba(var(--secondary-rgb),.08)}
+.sort-toggle button[aria-pressed="true"]{background:var(--secondary);color:var(--primary)}
+.sort-view[hidden]{display:none}
+.sort-view > .season:first-child{padding-top:14px}
+
 /* ============ SEASON BAR (below gallery) ============ */
 .season{padding:20px 40px 20px}
 .season + .season{padding-top:0;margin-top:-1px}
@@ -356,6 +376,16 @@ body{
 
 </section>
 
+<!-- ============ SORT CONTROL ============ -->
+<div class="sort-row">
+  <span class="sort-lbl">Sort by</span>
+  <div class="sort-toggle" role="group" aria-label="Sort projects">
+    <button type="button" data-sort="date" aria-pressed="true">Date</button>
+    <button type="button" data-sort="subject" aria-pressed="false">Subject</button>
+  </div>
+</div>
+
+<div class="sort-view" id="viewDate">
 <!-- ============ SEASON BAR (below gallery, expandable) ============ -->
 <section class="season">
   <button class="season-bar" id="seasonBar" aria-expanded="false" aria-controls="seasonPanel">
@@ -406,7 +436,7 @@ body{
         </div>
       </div>
       <div class="season-item has-img i-scent" data-menu data-item-id="scent-market">
-        <h4>Scent Market</h4><span class="m">Entrepreneurship · Fall</span>
+        <h4>Scent Market</h4><span class="m">Product · Fall</span>
         <div class="card-menu">
           <p class="summary">The authenticated fragrance marketplace - a secondhand storefront where every bottle is verified before it ships. Built and launched from concept.</p>
           <a href="https://www.scent-market.com/" target="_blank" rel="noopener">Check It Out</a>
@@ -459,6 +489,44 @@ body{
     </div>
   </div>
 </section>
+</div><!-- /viewDate -->
+
+<!-- ============ SUBJECT VIEW (filled by JS from the same blocks) ============ -->
+<div class="sort-view" id="viewSubject" hidden>
+<section class="season">
+  <button class="season-bar" id="writingBar" aria-expanded="false" aria-controls="writingPanel">
+    <span>Writing</span>
+    <span class="arrow" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 7L17 17M17 17H9M17 17V9"/></svg>
+    </span>
+  </button>
+  <div class="season-panel" id="writingPanel">
+    <div class="season-grid" data-subject="Writing"></div>
+  </div>
+</section>
+<section class="season">
+  <button class="season-bar" id="designBar" aria-expanded="false" aria-controls="designPanel">
+    <span>Design</span>
+    <span class="arrow" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 7L17 17M17 17H9M17 17V9"/></svg>
+    </span>
+  </button>
+  <div class="season-panel" id="designPanel">
+    <div class="season-grid" data-subject="Design"></div>
+  </div>
+</section>
+<section class="season">
+  <button class="season-bar" id="productBar" aria-expanded="false" aria-controls="productPanel">
+    <span>Product</span>
+    <span class="arrow" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 7L17 17M17 17H9M17 17V9"/></svg>
+    </span>
+  </button>
+  <div class="season-panel" id="productPanel">
+    <div class="season-grid" data-subject="Product"></div>
+  </div>
+</section>
+</div>
 
 <div class="page-dim" id="pageDim"></div>
 <footer class="foot">
@@ -542,9 +610,9 @@ body{
     if(top){
       var id=top.dataset.target;
       var target=document.querySelector('[data-item-id="'+id+'"]');
-      var panel=document.getElementById('seasonPanel');
-      var bar=document.getElementById('seasonBar');
       if(!target) return;
+      var panel=target.closest('.season-panel');
+      var bar=panel && document.querySelector('[aria-controls="'+panel.id+'"]');
       // open the season panel if closed
       if(panel && !panel.classList.contains('open') && bar){
         bar.classList.add('open');
@@ -578,8 +646,8 @@ body{
     if(!hash) return;
     var target=document.querySelector('[data-item-id="'+hash+'"]');
     if(!target) return;
-    var panel=document.getElementById('seasonPanel');
-    var bar=document.getElementById('seasonBar');
+    var panel=target.closest('.season-panel');
+    var bar=panel && document.querySelector('[aria-controls="'+panel.id+'"]');
     var dim=document.getElementById('pageDim');
     if(panel && !panel.classList.contains('open') && bar){
       bar.classList.add('open');
@@ -605,7 +673,8 @@ body{
 // Season expandable
 (function(){
   // wire multiple expandable bars
-  [['seasonBar','seasonPanel'],['pastBar','pastPanel']].forEach(function(pair){
+  [['seasonBar','seasonPanel'],['pastBar','pastPanel'],
+   ['writingBar','writingPanel'],['designBar','designPanel'],['productBar','productPanel']].forEach(function(pair){
     var bar=document.getElementById(pair[0]);
     var panel=document.getElementById(pair[1]);
     if(!bar || !panel) return;
@@ -614,6 +683,49 @@ body{
       panel.classList.toggle('open',open);
       bar.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+  });
+})();
+
+// Sort by Date / Subject — moves the same blocks between views (no duplicates)
+(function(){
+  var viewDate=document.getElementById('viewDate');
+  var viewSubject=document.getElementById('viewSubject');
+  var buttons=document.querySelectorAll('.sort-toggle button');
+  if(!viewDate||!viewSubject) return;
+  var items=[].slice.call(viewDate.querySelectorAll('.season-item[data-item-id]'));
+  var markers=new Map();
+  items.forEach(function(it){
+    var mk=document.createComment('slot:'+it.dataset.itemId);
+    it.parentNode.insertBefore(mk,it);
+    markers.set(it,mk);
+  });
+  function subjectOf(it){
+    var m=it.querySelector('.m');
+    return m ? m.textContent.split('·')[0].trim() : '';
+  }
+  function closeMenus(){
+    document.querySelectorAll('[data-menu].menu-open').forEach(function(c){c.classList.remove('menu-open','menu-left','menu-right')});
+    var dim=document.getElementById('pageDim'); if(dim) dim.classList.remove('on');
+  }
+  function setSort(mode){
+    closeMenus();
+    if(mode==='subject'){
+      items.forEach(function(it){
+        var grid=viewSubject.querySelector('[data-subject="'+subjectOf(it)+'"]');
+        if(grid) grid.appendChild(it);
+      });
+    } else {
+      items.forEach(function(it){
+        var mk=markers.get(it);
+        mk.parentNode.insertBefore(it,mk.nextSibling);
+      });
+    }
+    viewDate.hidden=(mode==='subject');
+    viewSubject.hidden=(mode!=='subject');
+    buttons.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.sort===mode))});
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click',function(){setSort(b.dataset.sort)});
   });
 })();
 </script>
