@@ -369,13 +369,13 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
   width:17px;height:17px;padding:0;border:none;border-radius:50%;cursor:pointer;
   -webkit-appearance:none;appearance:none;
   background:var(--a);
-  box-shadow:0 0 0 1px rgba(255,255,255,.3);
-  transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  opacity:.55;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),opacity .25s;
 }
 body.theme-2 .picker-toggle{--a:#241412;--b:#932C25}
 body.theme-3 .picker-toggle{--a:#EAC891;--b:#8A8635}
-.picker-toggle:hover{transform:rotate(120deg) scale(1.08)}
-.palette-picker.open .picker-toggle{transform:rotate(120deg)}
+.picker-toggle:hover,.picker-toggle:focus-visible{opacity:1;transform:rotate(120deg) scale(1.08)}
+.palette-picker.open .picker-toggle{opacity:1;transform:rotate(120deg)}
 .picker-dropdown{
   position:absolute;top:calc(100% + 12px);left:0;
   display:flex;flex-direction:column;gap:10px;padding:12px;
