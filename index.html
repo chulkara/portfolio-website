@@ -379,18 +379,28 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 }
 .palette-picker.open .picker-dropdown{opacity:1;pointer-events:auto;transform:translateY(0)}
 .picker-dropdown .dot{
+  --a:#000;--b:#fff;
+  position:relative;overflow:hidden;
   width:28px;height:28px;border-radius:50%;padding:0;cursor:pointer;
-  border:1px solid rgba(255,255,255,.35);overflow:hidden;
-  transition:transform .2s,border-color .2s;
+  -webkit-appearance:none;appearance:none;border:0;
+  background:var(--a);
+  outline:2px solid transparent;outline-offset:3px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),outline-color .2s;
 }
-.picker-dropdown .dot:hover{transform:scale(1.1);border-color:rgba(255,255,255,.7)}
-.picker-dropdown .dot[data-theme="theme-1"]{background:linear-gradient(135deg,#2E4365 50%,#E59D2C 50%)}
-.picker-dropdown .dot[data-theme="theme-2"]{background:linear-gradient(135deg,#241412 50%,#932C25 50%)}
-.picker-dropdown .dot[data-theme="theme-3"]{background:linear-gradient(135deg,#EAC891 50%,#8A8635 50%)}
+.picker-dropdown .dot .swirl{position:absolute;inset:-3px;filter:blur(1.3px);pointer-events:none}
+.picker-dropdown .dot .swirl::before{
+  content:"";position:absolute;inset:0;background:var(--b);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(0 14 14)'/%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(120 14 14)'/%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(240 14 14)'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(0 14 14)'/%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(120 14 14)'/%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(240 14 14)'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+}
+.picker-dropdown .dot:hover{transform:rotate(120deg) scale(1.1);outline-color:rgba(255,255,255,.35)}
+.picker-dropdown .dot[data-theme="theme-1"]{--a:#2E4365;--b:#E59D2C}
+.picker-dropdown .dot[data-theme="theme-2"]{--a:#241412;--b:#932C25}
+.picker-dropdown .dot[data-theme="theme-3"]{--a:#EAC891;--b:#8A8635}
 body.theme-1 .picker-dropdown .dot[data-theme="theme-1"],
 body.theme-2 .picker-dropdown .dot[data-theme="theme-2"],
 body.theme-3 .picker-dropdown .dot[data-theme="theme-3"]{
-  border:2px solid #fff;
+  outline-color:#fff;
 }
 </style>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
@@ -406,9 +416,9 @@ body.theme-3 .picker-dropdown .dot[data-theme="theme-3"]{
       <img src="/img/palette-icon-bold.png?v=1" alt="">
     </button>
     <div class="picker-dropdown" id="pickerDropdown" role="menu">
-      <button class="dot" data-theme="theme-1" aria-label="Palette 1"></button>
-      <button class="dot" data-theme="theme-2" aria-label="Palette 2"></button>
-      <button class="dot" data-theme="theme-3" aria-label="Palette 3"></button>
+      <button class="dot" data-theme="theme-1" aria-label="Palette 1"><span class="swirl"></span></button>
+      <button class="dot" data-theme="theme-2" aria-label="Palette 2"><span class="swirl"></span></button>
+      <button class="dot" data-theme="theme-3" aria-label="Palette 3"><span class="swirl"></span></button>
     </div>
   </div>
   <ul>
