@@ -364,12 +364,18 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
 /* ============ PALETTE PICKER ============ */
 .palette-picker{position:relative;display:inline-flex;margin-bottom:3.5px}
 .picker-toggle{
-  width:17px;height:17px;padding:0;border:none;background:transparent;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:transform .2s;
+  --a:#2E4365;--b:#E59D2C;
+  position:relative;overflow:hidden;
+  width:17px;height:17px;padding:0;border:none;border-radius:50%;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  background:var(--a);
+  box-shadow:0 0 0 1px rgba(255,255,255,.3);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1);
 }
-.picker-toggle:hover{transform:rotate(20deg) scale(1.06)}
-.picker-toggle img{width:100%;height:100%;object-fit:contain;display:block;filter:saturate(.55) brightness(.95);opacity:.85;transition:filter .25s,opacity .25s}
-.picker-toggle:hover img,.palette-picker.open .picker-toggle img{filter:none;opacity:1}
+body.theme-2 .picker-toggle{--a:#241412;--b:#932C25}
+body.theme-3 .picker-toggle{--a:#EAC891;--b:#8A8635}
+.picker-toggle:hover{transform:rotate(120deg) scale(1.08)}
+.palette-picker.open .picker-toggle{transform:rotate(120deg)}
 .picker-dropdown{
   position:absolute;top:calc(100% + 12px);left:0;
   display:flex;flex-direction:column;gap:10px;padding:12px;
@@ -387,12 +393,13 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weigh
   outline:2px solid transparent;outline-offset:3px;
   transition:transform .35s cubic-bezier(.2,.8,.2,1),outline-color .2s;
 }
-.picker-dropdown .dot .swirl{position:absolute;inset:-3px;filter:blur(1.3px);pointer-events:none}
-.picker-dropdown .dot .swirl::before{
+.swirl{position:absolute;inset:-3px;filter:blur(1.3px);pointer-events:none}
+.swirl::before{
   content:"";position:absolute;inset:0;background:var(--b);
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(0 14 14)'/%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(120 14 14)'/%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(240 14 14)'/%3E%3C/svg%3E") center/100% 100% no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(0 14 14)'/%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(120 14 14)'/%3E%3Cpath d='M14 14 Q20 8 14 -2 A16 16 0 0 1 28 6 Q21.7 16.1 14 14 Z' transform='rotate(240 14 14)'/%3E%3C/svg%3E") center/100% 100% no-repeat;
 }
+.picker-toggle .swirl{inset:-2px;filter:blur(.8px)}
 .picker-dropdown .dot:hover{transform:rotate(120deg) scale(1.1);outline-color:rgba(255,255,255,.35)}
 .picker-dropdown .dot[data-theme="theme-1"]{--a:#2E4365;--b:#E59D2C}
 .picker-dropdown .dot[data-theme="theme-2"]{--a:#241412;--b:#932C25}
@@ -413,7 +420,7 @@ body.theme-3 .picker-dropdown .dot[data-theme="theme-3"]{
 <nav class="nav">
   <div class="palette-picker" id="palettePicker">
     <button class="picker-toggle" id="pickerToggle" aria-label="Choose color palette" aria-expanded="false">
-      <img src="/img/palette-icon-bold.png?v=1" alt="">
+      <span class="swirl"></span>
     </button>
     <div class="picker-dropdown" id="pickerDropdown" role="menu">
       <button class="dot" data-theme="theme-1" aria-label="Palette 1"><span class="swirl"></span></button>
