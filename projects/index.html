@@ -142,6 +142,7 @@ body{
 .card.c4 .bg{background:#0C0C0C url('/img/agentic-ai.jpg?v=1') 52% center/cover no-repeat}
 .card.c6 .bg{background:#0C0C0C url('/img/pe-arena.jpg?v=1') 75% center/cover no-repeat}
 .card.c5 .bg{background:#0C0C0C url('/img/wall-street-bull.jpg?v=1') center/cover no-repeat}
+.card.c7 .bg{background:#0C0C0C url('/img/kalling.jpg?v=2') center/cover no-repeat}
 
 /* marigold hover multiply wash — full card */
 .card::after{
@@ -156,7 +157,8 @@ body{
 .card.c3::before,
 .card.c4::before,
 .card.c5::before,
-.card.c6::before{
+.card.c6::before,
+.card.c7::before{
   content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(12,12,12,.25),rgba(12,12,12,.5));
 }
@@ -290,6 +292,7 @@ body{
 .season-item.i-picday{background-image:url('/img/picture-day-cover.jpg?v=1')}
 .season-item.i-fail{background-image:url('/img/agentic-ai.jpg?v=1');background-position:52% center}
 .season-item.i-zine{background-image:url('/img/furniture-zine-1.png?v=2')}
+.season-item.i-kalling{background-image:url('/img/kalling.jpg?v=2');background-position:center}
 .season-item.i-pe{background-image:url('/img/pe-arena.jpg?v=1');background-position:82% center}
 .season-item.i-pe::before{background:linear-gradient(180deg,transparent 35%,rgba(12,12,12,.85) 100%)}
 .season-item.i-esg{background-image:url('/img/esg-articles.png?v=2')}
@@ -407,6 +410,11 @@ body{
   <div class="strip-scroll" id="stripScroll">
     <div class="strip-inner">
 
+      <div class="card c7" data-target="kalling">
+        <div class="bg"></div>
+        <div class="cap"><h4>Kalling</h4><span class="meta">Product · Nov</span></div>
+      </div>
+
       <div class="card c6" data-target="pe-arena">
         <div class="bg"></div>
         <div class="cap"><h4>Private Equity in Sports</h4></div>
@@ -464,6 +472,13 @@ body{
   </button>
   <div class="season-panel" id="seasonPanel">
     <div class="season-grid">
+      <div class="season-item has-img i-kalling" data-menu data-item-id="kalling">
+        <h4>Kalling</h4><span class="m">Product · Nov</span>
+        <div class="card-menu">
+          <p class="summary">The next wave of private equity. A team of AI agents that sources off-market, founder-led businesses, screens each one against a versioned buy box with the evidence behind every call, and models returns, while a person approves every message and every dollar.</p>
+          <a href="https://github.com/chulkara/pe-agents" target="_blank" rel="noopener">View the Code</a>
+        </div>
+      </div>
       <div class="season-item has-img i-pe" data-menu data-item-id="pe-arena">
         <h4>Private Equity in Sports</h4><span class="m">Writing · Oct</span>
         <div class="card-menu">
