@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalling — Sign up, valuation and agentic diligence</title>
+<meta name="description" content="A walkthrough of how Kalling takes a fictional HVAC company from sign-up to a valuation and agent-run due diligence, with a person deciding at every pause.">
+<meta name="robots" content="noindex">
+<style>
+@font-face{font-family:'Zalando Sans';src:url('fonts/zalando-sans-latin-wght-normal.woff2') format('woff2-variations');font-weight:200 900;font-display:swap}
+@font-face{font-family:'Forum';src:url('fonts/forum-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F3F1EC; --panel:#FFFFFF; --ink:#16121D; --ink-2:#5A5463; --ink-3:#958FA0; --line:#E3DFD7;
+  --purple:#2D1650; --purple-2:#43256F; --peri:#A7B2F7; --peri-soft:#EDEFFD;
+  --green:#1F4D36; --green-soft:#E3EEE7;
+  --warn:#A65F00; --warn-soft:#FDF2E1; --warn-line:#EFC47A;
+  --danger:#A3321F; --danger-soft:#FBE8E4;
+  --r:14px;
+  --ui:'Zalando Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --fig:'Forum',Georgia,'Times New Roman',serif;
+}
+html,body{height:100%}
+body{font-family:var(--ui);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.45;overflow:hidden}
+button,input{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+.fig{font-family:var(--fig);font-weight:400;font-variant-numeric:lining-nums tabular-nums}
+:focus-visible{outline:3px solid var(--peri);outline-offset:2px;border-radius:6px}
+
+/* ---------- top bar ---------- */
+.top{height:60px;display:flex;align-items:center;gap:16px;padding:0 22px;border-bottom:1px solid var(--line);background:var(--panel)}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--purple)}
+.logo svg{flex:none}
+.deal{color:var(--ink-2);font-weight:450;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deal b{color:var(--ink);font-weight:650}
+.fict{font-size:11.5px;font-weight:600;color:var(--ink-2);background:#EFEBE4;border-radius:999px;padding:3px 9px;white-space:nowrap}
+.status{margin-left:auto;display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px;padding:6px 12px;border-radius:999px;background:var(--peri-soft);color:var(--purple);transition:all .3s;white-space:nowrap}
+.status .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.status.working .dot{animation:pulse 1.1s infinite}
+.status.paused{background:var(--warn-soft);color:var(--warn)}
+.status.you{background:var(--green-soft);color:var(--green)}
+.status.done{background:var(--green);color:#fff}
+.status.idle{background:#EFEBE4;color:var(--ink-2)}
+@keyframes pulse{50%{opacity:.25}}
+.demo{display:flex;gap:6px}
+.demo button{border:1px solid var(--line);background:var(--panel);padding:6px 10px;border-radius:8px;font-size:12px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.demo button:hover{color:var(--ink);border-color:var(--ink-3)}
+.demo button[aria-pressed="true"]{background:var(--purple);border-color:var(--purple);color:#fff}
+
+/* ---------- layout ---------- */
+.app{display:grid;grid-template-columns:340px 1fr;height:calc(100% - 60px)}
+.side{border-right:1px solid var(--line);background:var(--panel);padding:20px 20px 16px;display:flex;flex-direction:column;gap:16px;overflow:auto}
+.brief{background:var(--purple);color:#fff;border-radius:var(--r);padding:14px 16px}
+.brief .who{font-size:12px;font-weight:600;color:var(--peri);margin-bottom:6px}
+.brief p{font-weight:450;font-size:13.5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{font-size:11.5px;font-weight:600;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:3px 9px;color:#fff}
+.stage-h{font-size:12.5px;font-weight:650;color:var(--ink);display:flex;align-items:baseline;gap:8px;margin-top:4px}
+.stage-h .fig{font-size:20px;color:var(--purple);line-height:1}
+.steps{list-style:none;display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:24px 1fr auto;gap:10px;padding:7px 0;position:relative;align-items:start}
+.step:not(:last-child)::after{content:"";position:absolute;left:11px;top:30px;bottom:-5px;width:2px;background:var(--line)}
+.step.done:not(:last-child)::after{background:var(--peri)}
+.ic{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink-3);z-index:1;transition:all .25s}
+.step.run .ic{border-color:var(--purple);color:var(--purple)}
+.step.run .ic::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--purple);animation:pulse 1s infinite}
+.step.run .ic span{display:none}
+.step.done .ic{background:var(--purple);border-color:var(--purple);color:#fff}
+.step.stop .ic{background:var(--warn);border-color:var(--warn);color:#fff}
+.step.you .ic{background:var(--green);border-color:var(--green);color:#fff}
+.step .t{font-weight:600;font-size:13.5px}
+.step .d{font-size:12.5px;color:var(--ink-2);margin-top:1px}
+.step.todo .t{color:var(--ink-3)}
+.tag{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;white-space:nowrap;margin-top:3px}
+.tag.agent{background:var(--peri-soft);color:var(--purple)}
+.tag.owner{background:#EFEBE4;color:var(--ink-2)}
+.tag.person{background:var(--green-soft);color:var(--green)}
+.legend{margin-top:auto;font-size:11.5px;color:var(--ink-3);display:flex;gap:8px 10px;flex-wrap:wrap;align-items:center;padding-top:10px;border-top:1px solid var(--line)}
+.legend .tag{margin:0}
+
+/* ---------- main / live screen ---------- */
+.main{position:relative;padding:20px 24px;overflow:hidden;display:flex;flex-direction:column;gap:10px}
+.view-h{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--ink-2)}
+.view-h .live{display:flex;align-items:center;gap:6px}
+.view-h .live i{width:7px;height:7px;border-radius:50%;background:var(--danger);animation:pulse 1.2s infinite}
+.view-h.you .live i{background:var(--green);animation:none}
+.browser{flex:1;min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 40px -30px rgba(22,18,29,.3)}
+.bar{height:40px;display:flex;align-items:center;gap:12px;padding:0 14px;border-bottom:1px solid var(--line);background:#FAF8F5;flex:none}
+.bar .dots{display:flex;gap:6px}.bar .dots i{width:10px;height:10px;border-radius:50%;background:#E0DCD4}
+.url{flex:1;max-width:520px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:12px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page{flex:1;padding:24px 28px;overflow:auto;position:relative}
+.cursor{position:absolute;width:18px;height:18px;pointer-events:none;z-index:5;transition:left .7s cubic-bezier(.4,.1,.2,1),top .7s cubic-bezier(.4,.1,.2,1),opacity .3s;opacity:0}
+.cursor svg{filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+.cursor .lbl{position:absolute;left:16px;top:14px;background:var(--purple);color:#fff;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;white-space:nowrap}
+.cursor.owner path{fill:#5A5463}.cursor.owner .lbl{background:#5A5463}
+
+/* page furniture */
+.ph{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.ph b{font-size:18px;letter-spacing:-.02em;font-weight:650}
+.ph .sub{color:var(--ink-3);font-size:12.5px}
+.brandbar{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:-.01em;font-size:14px;padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--line);color:var(--purple)}
+.brandbar small{font-weight:500;color:var(--ink-3);font-size:12px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:620px}
+.fld{border:1px solid var(--line);border-radius:10px;padding:8px 11px;min-height:52px;transition:border-color .2s,box-shadow .2s}
+.fld small{display:block;font-size:11.5px;color:var(--ink-3);font-weight:600}
+.fld .v{font-weight:550;min-height:20px}
+.fld.typing{border-color:var(--purple);box-shadow:0 0 0 3px var(--peri-soft)}
+.fld.wide{grid-column:1/-1}
+.fld .v::after{content:"";display:inline-block;width:0}
+.fld.typing .v::after{width:1.5px;height:15px;background:var(--purple);vertical-align:-2px;margin-left:1px;animation:pulse .8s infinite}
+.cta{margin-top:14px;padding:11px 18px;border-radius:10px;border:none;background:var(--purple);color:#fff;font-weight:650;font-size:13.5px;min-height:44px}
+.cta:disabled{opacity:.35;cursor:not-allowed}
+.cta.green{background:var(--green)}
+.cta.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.note{font-size:12.5px;color:var(--ink-2);margin-top:10px;max-width:620px}
+.checks{display:flex;flex-direction:column;gap:8px;max-width:620px}
+.ck{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;padding:11px 14px;border:1px solid var(--line);border-radius:12px;transition:all .3s}
+.ck .m{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;transition:all .3s}
+.ck.ok{border-color:#CFE0D5}.ck.ok .m{background:var(--green);border-color:var(--green)}
+.ck small{color:var(--ink-3);font-size:12px}
+.letter{max-width:640px;border:1px solid var(--line);border-radius:12px;padding:18px 20px;background:#FCFBF9}
+.letter h3{font-size:15px;font-weight:650;margin-bottom:6px}
+.letter p{font-size:12.5px;color:var(--ink-2);margin-bottom:8px}
+.terms{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0 14px}
+.terms div{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12.5px}
+.terms small{display:block;font-size:11px;color:var(--ink-3);font-weight:600}
+.sigs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sig{border-top:1px solid var(--ink);padding-top:6px;font-size:12px;color:var(--ink-3);min-height:62px}
+.sig .name{font-family:var(--fig);font-size:24px;color:var(--purple);line-height:1.1;min-height:28px;opacity:0;transition:opacity .4s}
+.sig.signed .name{opacity:1}
+.sig .meta{font-size:11px}
+.reqs{display:flex;flex-direction:column;gap:8px;max-width:680px}
+.rq{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px;transition:all .3s}
+.rq b{font-weight:600}
+.rq small{color:var(--ink-3);font-size:12px;grid-column:1}
+.rq .st{font-size:11.5px;font-weight:650;padding:3px 9px;border-radius:999px;background:#EFEBE4;color:var(--ink-2);grid-row:1/3;grid-column:2;white-space:nowrap}
+.rq.up .st{background:var(--peri-soft);color:var(--purple)}
+.rq.read{border-color:#CFE0D5}.rq.read .st{background:var(--green-soft);color:var(--green)}
+.rq.scan .st{background:var(--warn-soft);color:var(--warn)}
+.locked{opacity:.45}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--purple);animation:spin .8s linear infinite;display:inline-block;vertical-align:-2px;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* recast */
+.tbl{width:100%;max-width:820px;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-size:11.5px;font-weight:600;color:var(--ink-3);padding:6px 8px;border-bottom:1px solid var(--ink)}
+.tbl td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top;transition:background .3s,opacity .3s}
+.tbl td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.tbl td .q{display:block;font-size:11.5px;color:var(--ink-3);margin-top:2px}
+.tbl tr.hid td{opacity:0}
+.tbl tr.flag td{background:var(--warn-soft)}
+.tbl tr.skip td{opacity:.42}.tbl tr.skip td.n{text-decoration:line-through}
+.tbl tr.tot td{border-bottom:none;font-weight:700;font-size:14px;padding-top:12px}
+.sup{font-size:11px;font-weight:650;padding:2px 7px;border-radius:6px;white-space:nowrap}
+.sup.ok{background:var(--green-soft);color:var(--green)}.sup.weak{background:var(--warn-soft);color:var(--warn)}.sup.code{background:var(--peri-soft);color:var(--purple)}
+
+/* valuation */
+.val{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+.inputs{display:flex;flex-direction:column;gap:9px;background:#FAF8F5;border:1px solid var(--line);border-radius:14px;padding:14px}
+.inputs h4,.out h4{font-size:13px;font-weight:650}
+.inputs .hint{font-size:12px;color:var(--ink-2);margin-top:-4px}
+.in{display:grid;grid-template-columns:1fr 118px;gap:8px;align-items:center;font-size:12.5px}
+.in label{color:var(--ink-2);font-weight:500}
+.in .box{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;background:var(--panel);min-height:36px;padding:0 8px}
+.in .box span{color:var(--ink-3);font-size:12px}
+.in input{border:none;background:none;width:100%;text-align:right;font-weight:650;font-variant-numeric:tabular-nums;padding:6px 2px;min-width:0}
+.in input:focus{outline:none}.in .box:focus-within{border-color:var(--purple);box-shadow:0 0 0 3px var(--peri-soft)}
+.in.tg{grid-template-columns:1fr auto}
+.switch{position:relative;width:44px;height:26px;border-radius:999px;background:#D8D3CA;border:none;transition:background .2s;flex:none}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.switch[aria-checked="true"]{background:var(--purple)}.switch[aria-checked="true"]::after{transform:translateX(18px)}
+.out{display:flex;flex-direction:column;gap:14px;min-width:0}
+.ev{background:var(--purple);color:#fff;border-radius:16px;padding:18px 20px;display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:end}
+.ev .k{font-size:12.5px;color:var(--peri);font-weight:550}
+.ev .range{font-family:var(--fig);font-size:44px;line-height:1;letter-spacing:-.01em}
+.ev .mid{text-align:right;font-size:12.5px;color:#D9D4E6}
+.ev .mid .fig{display:block;font-size:26px;color:#fff;line-height:1.1}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.kpi small{display:block;font-size:11.5px;color:var(--ink-3);font-weight:600}
+.kpi .fig{font-size:26px;line-height:1.15}
+.mult{border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.mrow{display:grid;grid-template-columns:1fr auto;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+.mrow:last-child{border-bottom:none;font-weight:700}
+.mrow small{display:block;color:var(--ink-3);font-size:11.5px}
+.mrow .x{font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mrow .x.pos{color:var(--green)}.mrow .x.neg{color:var(--danger)}
+.comps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.comp{border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:12px;color:var(--ink-2)}
+.comp b{display:block;color:var(--ink);font-size:12.5px}
+.comp .fig{font-size:20px;color:var(--ink)}
+.codeline{font-size:12px;color:var(--ink-3)}
+
+/* diligence */
+.agents{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.ag{border:1px solid var(--line);border-radius:12px;padding:11px 13px;transition:all .3s}
+.ag .h{display:flex;align-items:center;gap:8px;font-weight:650;font-size:13px}
+.ag .h i{width:8px;height:8px;border-radius:50%;background:#D8D3CA;flex:none}
+.ag.run{border-color:var(--peri)}.ag.run .h i{background:var(--purple);animation:pulse 1s infinite}
+.ag.ok .h i{background:var(--green)}.ag.warn{border-color:var(--warn-line)}.ag.warn .h i{background:var(--warn)}
+.ag .s{font-size:12px;color:var(--ink-2);margin-top:3px;min-height:34px}
+.ag .bar2{height:3px;background:#EFEBE4;border-radius:3px;margin-top:8px;overflow:hidden}
+.ag .bar2 i{display:block;height:100%;width:0;background:var(--purple);transition:width .6s}
+.ag.ok .bar2 i,.ag.warn .bar2 i{width:100%!important}.ag.ok .bar2 i{background:var(--green)}.ag.warn .bar2 i{background:var(--warn)}
+.finds{display:flex;flex-direction:column;gap:8px;max-width:860px}
+.fd{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:11px 14px;border:1px solid var(--line);border-radius:12px;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.fd .sev{grid-row:1/4;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;align-self:start;white-space:nowrap;margin-top:1px}
+.sev.lo{background:var(--green-soft);color:var(--green)}.sev.md{background:var(--warn-soft);color:var(--warn)}.sev.hi{background:var(--danger-soft);color:var(--danger)}.sev.info{background:var(--peri-soft);color:var(--purple)}
+.fd b{font-weight:650}
+.fd blockquote{font-size:12.5px;color:var(--ink-2);border-left:2px solid var(--peri);padding-left:9px}
+.fd .src{font-size:11.5px;color:var(--ink-3)}
+.fd.open{border-color:var(--warn-line);background:var(--warn-soft)}
+.fd .res{font-size:12px;font-weight:600;color:var(--green)}
+
+/* summary */
+.sum{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;max-width:980px}
+.sum h4{font-size:13px;font-weight:650;margin-bottom:8px}
+.bridge .mrow{font-size:13px}
+.risk{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.risk .sev{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.risk:last-child{border-bottom:none}
+.risk small{display:block;color:var(--ink-3);font-size:11.5px}
+.rv{font-size:11px;font-weight:650;color:var(--green);white-space:nowrap}
+.stamp{display:flex;gap:10px;align-items:center;margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--green-soft);color:var(--green);font-weight:600;font-size:13px;max-width:980px}
+
+/* ---------- pause card ---------- */
+.scrim{position:absolute;inset:0;background:rgba(243,241,236,.55);backdrop-filter:blur(1.5px);opacity:0;pointer-events:none;transition:opacity .35s;z-index:8}
+.scrim.on{opacity:1;pointer-events:auto}
+.card{position:absolute;right:40px;top:68px;width:450px;max-height:calc(100% - 90px);overflow:auto;background:var(--panel);border-radius:18px;border:1px solid var(--line);box-shadow:0 30px 70px -20px rgba(22,18,29,.38);z-index:10;opacity:0;transform:translateY(14px) scale(.98);pointer-events:none;transition:opacity .35s,transform .35s}
+.card.on{opacity:1;transform:none;pointer-events:auto}
+.card-h{padding:18px 20px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--warn-soft),#fff)}
+.card-h .k{font-size:12px;font-weight:650;color:var(--warn);display:flex;align-items:center;gap:6px}
+.card-h h2{font-size:19px;letter-spacing:-.02em;margin-top:6px;line-height:1.25;font-weight:650}
+.card-h p{color:var(--ink-2);margin-top:5px;font-size:13.5px}
+.delta{display:flex;align-items:center;gap:10px;margin-top:12px;font-weight:650;flex-wrap:wrap}
+.delta .a{color:var(--ink-2)}
+.delta .fig{font-size:24px;color:var(--ink)}
+.delta .chip{font-size:12px;background:var(--danger-soft);color:var(--danger);padding:3px 8px;border-radius:999px}
+.delta .chip.w{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn-line)}
+.card-b{padding:12px 20px}
+.state{display:flex;flex-direction:column;gap:7px;font-size:13px}
+.state div{display:flex;gap:9px;align-items:flex-start}
+.state .m{width:18px;flex:none;text-align:center;font-weight:800}
+.state .m.ok{color:var(--purple)}.state .m.hold{color:var(--warn)}.state .m.no{color:var(--green)}
+.opts{padding:4px 12px 14px;display:flex;flex-direction:column;gap:6px}
+.opt{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;text-align:left;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel);transition:all .15s;min-height:56px;width:100%}
+.opt:hover{border-color:var(--ink-3);background:#FAF8F5}
+.opt .oi{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--bg)}
+.opt.rec{border-color:var(--purple);box-shadow:0 0 0 3px var(--peri-soft)}
+.opt.rec .oi{background:var(--purple);color:#fff}
+.opt b{display:block;font-size:14px;font-weight:650}
+.opt small{color:var(--ink-2);font-size:12.5px}
+.opt .badge{font-size:10.5px;font-weight:700;color:var(--purple);background:var(--peri-soft);padding:3px 7px;border-radius:6px}
+.foot{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-2)}
+.sub-view{display:none}.sub-view.on{display:block}
+.back{border:none;background:none;color:var(--ink-2);font-weight:600;font-size:12.5px;padding:12px 20px 0;min-height:36px}
+.draft{margin:12px 20px 0;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#FAF8F5;font-size:13px}
+.draft .to{font-size:11.5px;color:var(--ink-3);font-weight:600;margin-bottom:6px}
+.draft p+p{margin-top:8px}
+.confirm-q{padding:14px 20px 0}
+.confirm-q h3{font-size:16px;letter-spacing:-.01em;font-weight:650}
+.confirm-q p{color:var(--ink-2);font-size:13px;margin-top:4px}
+.ta{display:block;width:calc(100% - 40px);margin:10px 20px 0;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:13px;min-height:64px;resize:vertical;font-family:inherit}
+.ta:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px var(--peri-soft)}
+.cta-row{display:flex;gap:8px;padding:14px 20px 18px}
+.btn{flex:1;padding:11px;border-radius:10px;font-weight:650;font-size:13.5px;border:1px solid var(--line);background:var(--panel);min-height:44px}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+.btn.green{background:var(--green);border-color:var(--green);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.ev2{margin:12px 20px 0;display:grid;gap:8px}
+.ev2 div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12.5px;background:#FCFBF9}
+.ev2 small{display:block;color:var(--ink-3);font-size:11.5px;margin-bottom:4px;font-weight:600}
+.ev2 mark{background:var(--peri);color:var(--ink);padding:0 3px;border-radius:3px}
+
+.toast{position:absolute;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;font-size:13px;transition:all .3s;z-index:12;pointer-events:none;max-width:min(560px,90%);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+html.still *,html.still *::before,html.still *::after{transition:none!important;animation:none!important}
+html.still .demo{display:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ---------- smaller screens ---------- */
+@media (max-width:1180px){.app{grid-template-columns:290px 1fr}.val{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.comps{grid-template-columns:repeat(2,1fr)}.sum{grid-template-columns:1fr}.agents{grid-template-columns:repeat(2,1fr)}.deal{display:none}}
+@media (max-width:860px){
+  body{overflow:auto}
+  .top{height:auto;flex-wrap:wrap;padding:10px 16px;gap:8px 12px}
+  .fict{order:3}.status{order:2}.demo{order:4;width:100%;overflow-x:auto;padding-bottom:2px}
+  .demo button{min-height:40px}
+  .app{display:block;height:auto}
+  .side{border-right:none;border-bottom:1px solid var(--line);padding:16px}
+  .side .legend{display:none}
+  .main{padding:14px 16px 90px;overflow:visible}
+  .browser{min-height:600px}
+  .page{padding:18px 16px;overflow:visible}
+  .cursor{display:none}
+  .form,.terms,.sigs{grid-template-columns:1fr}
+  .agents{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .ev{grid-template-columns:1fr}.ev .mid{text-align:left}.ev .range{font-size:36px}
+  .tbl th:nth-child(3),.tbl td:nth-child(3){display:none}
+  .scrim{position:fixed}
+  .card{position:fixed;left:8px;right:8px;top:auto;bottom:8px;width:auto;max-height:82vh}
+  .toast{position:fixed}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="logo"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#2D1650"/><path d="M7.5 5.5v13M7.5 12.2l7.6-6.7M10.6 9.6l5.9 8.9" stroke="#A7B2F7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>Kalling</div>
+  <div class="deal">Sell-side · <b>Ridgeline Heating &amp; Cooling</b> · Central New Jersey</div>
+  <span class="fict">Fictional company · illustrative figures</span>
+  <div class="status idle" id="status" role="status"><span class="dot"></span><span id="statusTxt">Ready</span></div>
+  <div class="demo">
+    <button id="bRestart" title="Restart the demo (R)">↻ Restart</button>
+    <button data-jump="signup">1 Sign up</button>
+    <button data-jump="valuation">2 Valuation</button>
+    <button data-jump="diligence">3 Diligence</button>
+  </div>
+</header>
+
+<div class="app">
+  <aside class="side">
+    <div class="brief">
+      <div class="who">The owner wrote in</div>
+      <p>“I’ve run Ridgeline for 19 years. I’d like to retire in the next 18 months, keep my team in place, and find a buyer who’ll look after our maintenance customers.”</p>
+      <div class="chips"><span>Residential HVAC</span><span>$4.2M revenue</span><span>24 staff</span><span>Sell in 12–18 mo</span></div>
+    </div>
+    <div class="stage-h"><span class="fig">1</span>Sign up</div>
+    <ol class="steps" id="st1"></ol>
+    <div class="stage-h"><span class="fig">2</span>Valuation</div>
+    <ol class="steps" id="st2"></ol>
+    <div class="stage-h"><span class="fig">3</span>Agentic due diligence</div>
+    <ol class="steps" id="st3"></ol>
+    <div class="legend"><span class="tag agent">Agent</span><span class="tag owner">Owner</span><span class="tag person">Advisor</span><span>Agents prepare. People decide.</span></div>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="view-h" id="viewH"><span class="live"><i></i><span id="viewWho">Live screen</span></span><span id="viewNote" style="color:var(--ink-3);font-weight:500"></span></div>
+    <div class="browser" id="browser">
+      <div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="url" id="url">kalling.example</div></div>
+      <div class="page" id="page"></div>
+    </div>
+    <div class="cursor" id="cursor"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M2 1l13 7-6 1.5L6.5 16z" fill="#2D1650" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg><span class="lbl">Agent</span></div>
+    <div class="scrim" id="scrim"></div>
+
+    <section class="card" id="card" aria-live="polite" role="dialog" aria-label="A decision for the advisor">
+      <!-- A: weak add-back during the recast -->
+      <div class="sub-view" id="vAddback">
+        <div class="card-h">
+          <div class="k">‖ Paused at the recast</div>
+          <h2>One add-back has weak support, so I left it out of earnings.</h2>
+          <p>Payroll for the owner’s spouse could be a real role or a family expense. The records alone can’t tell.</p>
+          <div class="delta"><span class="a">Spouse payroll</span><span class="fig">$38,000</span><span class="chip w">Changes earnings by 4.8%</span></div>
+        </div>
+        <div class="card-b"><div class="state">
+          <div><span class="m ok">✓</span><span>7 lines drafted, each tied to a file, page and excerpt</span></div>
+          <div><span class="m hold">◷</span><span>Only source: <b>team.xlsx</b>, row 14, “J. Okafor · Office · 38,000”</span></div>
+          <div><span class="m no">✕</span><span>Nothing is sent to the owner without you</span></div>
+        </div></div>
+        <div class="opts">
+          <button class="opt rec" data-go="addbackAsk"><span class="oi">✉</span><span><b>Draft a question for the owner</b><small>You read it and send it from her portal</small></span><span class="badge">Suggested</span></button>
+          <button class="opt" data-go="addbackSkip"><span class="oi">–</span><span><b>Leave it out for now</b><small>Value on the supported lines only</small></span></button>
+          <button class="opt" data-go="addbackAccept"><span class="oi">+</span><span><b>Count it, with a note</b><small>You record why it belongs</small></span></button>
+        </div>
+      </div>
+      <div class="sub-view" id="vAddbackAsk">
+        <button class="back" data-go="addbackBack">← Back</button>
+        <div class="confirm-q"><h3>Draft for Maria Okafor</h3><p>The agent wrote this. Edit anything, then send it yourself.</p></div>
+        <div class="draft"><div class="to">To the owner portal · not sent</div><p>Hi Maria, a quick one on payroll. Jordan is listed in the office at $38,000. Does Jordan work set hours in the business, and would a buyer need to replace that role after the sale?</p><p>If it’s a family arrangement rather than a role, we can show it as an owner benefit, which helps your valuation.</p></div>
+        <div class="cta-row"><button class="btn" data-go="addbackBack">Cancel</button><button class="btn primary" data-go="addbackSend">Send it myself</button></div>
+      </div>
+      <div class="sub-view" id="vAddbackAccept">
+        <button class="back" data-go="addbackBack">← Back</button>
+        <div class="confirm-q"><h3>Count the $38,000 as an add-back?</h3><p>Earnings rise to $823,000. Your note is saved with the recast so the buyer’s diligence team can see the reasoning.</p></div>
+        <textarea class="ta" id="addbackNote" placeholder="For example: confirmed on our call that the role ends at sale and no replacement is needed."></textarea>
+        <div class="cta-row"><button class="btn" data-go="addbackBack">Cancel</button><button class="btn primary" id="addbackAcceptBtn" data-go="addbackAcceptConfirm" disabled>Count it</button></div>
+      </div>
+
+      <!-- B: financials don't tie during diligence -->
+      <div class="sub-view" id="vTie">
+        <div class="card-h">
+          <div class="k">‖ Paused at diligence · 5 of 6 workstreams clean</div>
+          <h2>2024 profit doesn’t match the tax return, so I stopped before calling the financials clean.</h2>
+          <p>The gap is small but over the 2% threshold a buyer’s quality-of-earnings team would flag.</p>
+          <div class="delta"><span class="a">P&amp;L</span><span class="fig">$371,400</span><span class="a">vs tax</span><span class="fig">$359,900</span><span class="chip">3.1% apart</span></div>
+        </div>
+        <div class="card-b"><div class="state">
+          <div><span class="m ok">✓</span><span>2023 and 2025 tie within 0.4%</span></div>
+          <div><span class="m hold">◷</span><span>Likely cause: year-end equipment timing. That’s a guess until the owner’s accountant confirms</span></div>
+          <div><span class="m no">✕</span><span>The deal file is unchanged. Nothing was sent</span></div>
+        </div></div>
+        <div class="opts">
+          <button class="opt rec" data-go="tieAsk"><span class="oi">✉</span><span><b>Ask for the reconciliation</b><small>A drafted request for the owner’s accountant</small></span><span class="badge">Suggested</span></button>
+          <button class="opt" data-go="tieEvidence"><span class="oi">⧉</span><span><b>Show me both pages</b><small>The two excerpts side by side</small></span></button>
+          <button class="opt" data-go="tieExplain"><span class="oi">✓</span><span><b>I know why, mark it explained</b><small>Your note goes in the diligence record</small></span></button>
+        </div>
+        <div class="foot"><span>The agents can read and draft. They can’t send, sign or change the deal.</span></div>
+      </div>
+      <div class="sub-view" id="vTieAsk">
+        <button class="back" data-go="tieBack">← Back</button>
+        <div class="confirm-q"><h3>Request to the owner’s accountant</h3><p>Drafted from the two pages. You send it from the portal.</p></div>
+        <div class="draft"><div class="to">To the owner portal · document request · not sent</div><p>Could you share the 2024 book-to-tax reconciliation? The P&amp;L shows net income of $371,400 and the 1120-S shows ordinary business income of $359,900, a difference of $11,500.</p><p>If it’s the December van purchase depreciated differently for tax, a one-line note is enough.</p></div>
+        <div class="cta-row"><button class="btn" data-go="tieBack">Cancel</button><button class="btn primary" data-go="tieSend">Send it myself</button></div>
+      </div>
+      <div class="sub-view" id="vTieEvidence">
+        <button class="back" data-go="tieBack">← Back</button>
+        <div class="confirm-q"><h3>The two sources</h3><p>The quoted words are marked inside each page’s text.</p></div>
+        <div class="ev2">
+          <div><small>pl-2024.pdf · page 2</small>Total operating expenses 3,412,800 · <mark>Net income 371,400</mark> · Prepared by the company, unaudited</div>
+          <div><small>tax-returns.pdf · 2024 Form 1120-S · page 1, line 21</small>Other deductions (attach statement) 214,600 · <mark>Ordinary business income (loss) 359,900</mark></div>
+        </div>
+        <div class="cta-row"><button class="btn" data-go="tieBack">Back to options</button></div>
+      </div>
+      <div class="sub-view" id="vTieExplain">
+        <button class="back" data-go="tieBack">← Back</button>
+        <div class="confirm-q"><h3>Mark the 2024 gap explained?</h3><p>The finding stays visible to the buyer with your note attached.</p></div>
+        <textarea class="ta" id="tieNote" placeholder="For example: $11,500 is bonus depreciation on the December 2024 van, per the accountant's email."></textarea>
+        <div class="cta-row"><button class="btn" data-go="tieBack">Cancel</button><button class="btn green" id="tieExplainBtn" data-go="tieExplainConfirm" disabled>Mark explained</button></div>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status"></div>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   Kalling demo: sign up → valuation → agentic due diligence.
+   All data is fictional. Valuation arithmetic runs in this
+   code from the inputs; the model only drafts and cites.
+   ?state=signup|valuation|diligence|summary jumps to a stage
+   with no animation (for screenshots).
+   ========================================================= */
+const $=id=>document.getElementById(id);
+const STATE=new URLSearchParams(location.search).get('state');
+let FAST=!!STATE;
+if(FAST) document.documentElement.classList.add('still');
+const wait=ms=>FAST?Promise.resolve():new Promise(r=>setTimeout(r,ms));
+let runId=0;
+const usd=n=>'$'+Math.round(n).toLocaleString('en-US');
+const usdK=n=>n>=995000?'$'+(n/1e6).toFixed(n>=1e7?1:2).replace(/0$/,'')+'M':'$'+Math.round(n/1000)+'K';
+
+/* ---- steps ---- */
+const STEPS={
+  st1:[
+    {id:'inq',t:'Owner signs up',d:'Five questions, about two minutes',tag:'owner'},
+    {id:'qual',t:'Qualify the business',d:'Trade, region, decision maker, license',tag:'person'},
+    {id:'eng',t:'Engagement letter',d:'Both signatures open the portal',tag:'person'},
+    {id:'docs',t:'Read the documents',d:'P&Ls, tax returns, agreements, team',tag:'agent'},
+  ],
+  st2:[
+    {id:'recast',t:'Draft the earnings recast',d:'Every add-back cites its source',tag:'agent'},
+    {id:'value',t:'Value the company',d:'Your inputs, computed in code',tag:'person'},
+  ],
+  st3:[
+    {id:'dd',t:'Run six diligence workstreams',d:'Financial, revenue, customers, license, fleet, legal',tag:'agent'},
+    {id:'tie',t:'Resolve open findings',d:'A person decides each one',tag:'person'},
+    {id:'ic',t:'Investment committee summary',d:'Reviewed, sourced, ready to share',tag:'person'},
+  ],
+};
+const TAGS={agent:'Agent',owner:'Owner',person:'Advisor'};
+const STEP_TAG=Object.fromEntries(Object.values(STEPS).flat().map(s=>[s.id,s.tag]));
+function renderSteps(){
+  for(const [list,steps] of Object.entries(STEPS)) $(list).innerHTML=steps.map((s,i)=>`
+    <li class="step todo" id="s-${s.id}">
+      <div class="ic"><span>${i+1}</span></div>
+      <div><div class="t">${s.t}</div><div class="d" id="d-${s.id}">${s.d}</div></div>
+      <span class="tag ${s.tag}">${TAGS[s.tag]}</span>
+    </li>`).join('');
+}
+function setStep(id,cls,desc){
+  const el=$('s-'+id); if(!el)return; el.className='step '+cls;
+  const sp=el.querySelector('.ic span');
+  if(cls==='done'||cls==='you'){sp.textContent='✓';sp.style.display='';}
+  if(cls==='stop'){sp.textContent='!';sp.style.display='';}
+  if(desc) $('d-'+id).textContent=desc;
+}
+function status(kind,txt){ $('status').className='status '+kind; $('statusTxt').textContent=txt; }
+function toast(msg,ms=3200){ const t=$('toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('on'),ms); }
+function view(who,note=''){ $('viewWho').textContent=who; $('viewNote').textContent=note; $('viewH').classList.toggle('you',/^Your/.test(who)); }
+function markJump(stage){ document.querySelectorAll('[data-jump]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.jump===stage?'true':'false')); }
+
+/* ---- cursor ---- */
+function cursorTo(sel,label='Agent'){
+  if(FAST)return;
+  const c=$('cursor'),m=$('main'),el=typeof sel==='string'?document.querySelector(sel):sel; if(!el)return;
+  if(innerWidth>860) el.scrollIntoView({block:'nearest',behavior:'smooth'});
+  const r=el.getBoundingClientRect(),mr=m.getBoundingClientRect();
+  c.style.left=(r.left-mr.left+Math.min(r.width*.5,140))+'px'; c.style.top=(r.top-mr.top+r.height*.55)+'px';
+  c.classList.toggle('owner',label!=='Agent'&&label!=='Advisor'); c.querySelector('.lbl').textContent=label; c.style.opacity=1;
+}
+function cursorOff(){ $('cursor').style.opacity=0; }
+async function type(fieldId,text,alive,speed=28){
+  const f=$(fieldId); if(!f)return; const v=f.querySelector('.v'); f.classList.add('typing'); cursorTo(f,'Owner');
+  if(FAST){v.textContent=text;f.classList.remove('typing');return;}
+  v.textContent=''; for(const ch of text){ if(!alive())return; v.textContent+=ch; await wait(speed); }
+  await wait(160); f.classList.remove('typing');
+}
+
+/* ---- deal data (fictional) ---- */
+const RECAST=[
+  {k:'ni',label:'Reported net income, 2025',amt:412000,src:'pl-2025.pdf, p. 2',q:'“Net income 412,000”',sup:'ok'},
+  {k:'pay',label:'Owner salary',amt:180000,src:'pl-2025.pdf, p. 1',q:'“Officer compensation 180,000”',sup:'ok'},
+  {k:'health',label:'Owner family health plan',amt:22000,src:'ledger-2025.csv, row 418',q:'“BCBS family plan, M. Okafor 22,000”',sup:'ok'},
+  {k:'auto',label:'Personal vehicle',amt:14000,src:'ledger-2025.csv, row 702',q:'“Lease, 2023 Tahoe, personal use 14,000”',sup:'ok'},
+  {k:'legal',label:'One-time legal settlement',amt:40000,src:'pl-2025.pdf, p. 2',q:'“Legal settlement (one-time) 40,000”',sup:'ok'},
+  {k:'da',label:'Depreciation',amt:86000,src:'tax-returns.pdf, p. 1',q:'“Depreciation 86,000”',sup:'ok'},
+  {k:'int',label:'Interest',amt:31000,src:'tax-returns.pdf, p. 1',q:'“Interest 31,000”',sup:'ok'},
+  {k:'spouse',label:'Spouse payroll',amt:38000,src:'team.xlsx, row 14',q:'“J. Okafor · Office · 38,000”',sup:'weak'},
+];
+const BASE={revenue:4200000,netIncome:412000,ownerPay:180000,perks:36000,oneTime:40000,daInt:117000,spouse:38000,gm:130000,recurring:38,top:6,license:true};
+let V={...BASE}, spouseIn=false;
+const COMPS=[
+  {n:'Residential HVAC, North Jersey',y:'2025',rev:'$5.1M',x:4.4},
+  {n:'HVAC and plumbing, Lehigh Valley',y:'2025',rev:'$3.6M',x:3.7},
+  {n:'Residential HVAC, Long Island',y:'2024',rev:'$4.8M',x:4.1},
+  {n:'Commercial refrigeration, Central NJ',y:'2024',rev:'$3.9M',x:3.6},
+];
+function compute(v=V){
+  const sde=v.netIncome+v.ownerPay+v.perks+v.oneTime+v.daInt+(spouseIn?v.spouse:0);
+  const ebitda=sde-v.gm, margin=v.revenue>0?ebitda/v.revenue:0;
+  const adj=[];
+  if(v.recurring>=50) adj.push(['Maintenance agreements',`${v.recurring}% of revenue recurs`,.5]);
+  else if(v.recurring>=35) adj.push(['Maintenance agreements',`${v.recurring}% of revenue recurs`,.25]);
+  else if(v.recurring<20) adj.push(['Maintenance agreements',`Only ${v.recurring}% of revenue recurs`,-.25]);
+  else adj.push(['Maintenance agreements',`${v.recurring}% of revenue recurs, in line`,0]);
+  if(v.top>15) adj.push(['Customer concentration',`Largest customer is ${v.top}% of revenue`,-.5]);
+  else if(v.top>10) adj.push(['Customer concentration',`Largest customer is ${v.top}% of revenue`,-.25]);
+  else adj.push(['Customer concentration',`Largest customer is ${v.top}%, spread out`,0]);
+  if(v.license) adj.push(['Trade license','Only the owner holds the NJ master HVACR license',-.25]);
+  else adj.push(['Trade license','A second employee holds the master license',0]);
+  if(ebitda<500000) adj.push(['Size','Earnings under $500K narrow the buyer pool',-.25]);
+  else if(ebitda>1000000) adj.push(['Size','Earnings over $1M widen the buyer pool',.25]);
+  const a=adj.reduce((s,x)=>s+x[2],0), lo=Math.max(1.5,3.5+a), hi=Math.max(2,4.5+a);
+  return {sde,ebitda,margin,adj,a,lo,hi,evLo:Math.max(0,ebitda*lo),evHi:Math.max(0,ebitda*hi)};
+}
+
+/* ---- the live screen ---- */
+function page(kind){
+  const p=$('page'),url=$('url'); p.scrollTop=0;
+  if(kind==='blank'){ url.textContent='kalling.example'; p.innerHTML=''; }
+  if(kind==='intake'){ url.textContent='kalling.example/sell'; p.innerHTML=`
+    <div class="brandbar">Kalling <small>Sell your HVAC or refrigeration company in New Jersey or New York</small></div>
+    <div class="ph"><b>Tell us about your business</b><span class="sub">Confidential. Only a Kalling advisor sees this.</span></div>
+    <div class="form">
+      <div class="fld" id="f1"><small>Business</small><div class="v"></div></div>
+      <div class="fld" id="f2"><small>Where you work</small><div class="v"></div></div>
+      <div class="fld" id="f3"><small>Revenue last year</small><div class="v"></div></div>
+      <div class="fld" id="f4"><small>What you pay yourself</small><div class="v"></div></div>
+      <div class="fld" id="f5"><small>Maintenance agreements</small><div class="v"></div></div>
+      <div class="fld" id="f6"><small>When you'd like to sell</small><div class="v"></div></div>
+      <div class="fld wide" id="f7"><small>Anything a buyer should know</small><div class="v"></div></div>
+    </div>
+    <button class="cta" id="sendBtn">Send to an advisor</button>
+    <p class="note">No fee to talk. Your name and business stay private until you approve a buyer.</p>`; }
+  if(kind==='qualify'){ url.textContent='kalling.example/advisor/sellers/ridgeline'; p.innerHTML=`
+    <div class="ph"><b>Qualify Ridgeline Heating &amp; Cooling</b><span class="sub">New inquiry · 4 minutes ago</span></div>
+    <div class="checks">
+      <div class="ck" id="c1"><span class="m">✓</span><span>HVAC or refrigeration work<br><small>Residential service and replacement, some light commercial</small></span><small>From the form</small></div>
+      <div class="ck" id="c2"><span class="m">✓</span><span>Operates in New Jersey or New York<br><small>Middlesex, Somerset and Monmouth counties</small></span><small>From the form</small></div>
+      <div class="ck" id="c3"><span class="m">✓</span><span>Speaking with the decision maker<br><small>Maria Okafor, 100% owner</small></span><small>Intro call</small></div>
+      <div class="ck" id="c4"><span class="m">✓</span><span>Why and when<br><small>Retiring; 12 to 18 months; wants the team kept</small></span><small>Intro call</small></div>
+      <div class="ck" id="c5"><span class="m">✓</span><span>Who holds the trade license<br><small>The owner holds the NJ master HVACR license</small></span><small>NJ license lookup</small></div>
+    </div>
+    <button class="cta green" id="qualBtn">Mark qualified</button>`; }
+  if(kind==='letter'){ url.textContent='kalling.example/owner/ridgeline/engagement'; p.innerHTML=`
+    <div class="ph"><b>Engagement letter</b><span class="sub">Version 2026-11 · requests open after both signatures</span></div>
+    <div class="letter">
+      <h3>Kalling and Ridgeline Heating &amp; Cooling LLC</h3>
+      <p>Kalling will prepare Ridgeline for sale, market it confidentially to vetted buyers, and advise Maria Okafor through closing. Buyers see an anonymous listing first and confidential details only after signing an NDA that Maria approves.</p>
+      <div class="terms"><div><small>Success fee</small>Set with the owner</div><div><small>Term</small>12 months</div><div><small>Exclusivity</small>Yes</div></div>
+      <div class="sigs">
+        <div class="sig" id="sigO"><div class="name">Maria Okafor</div>Owner<div class="meta" id="sigOm">Waiting</div></div>
+        <div class="sig" id="sigA"><div class="name">Dana Reyes</div>Kalling advisor<div class="meta" id="sigAm">Waiting</div></div>
+      </div>
+    </div>
+    <p class="note" id="hashNote">Each signature records the account, time, letter version and a SHA-256 hash of the exact text.</p>`; }
+  if(kind==='docs'){ url.textContent='kalling.example/owner/ridgeline/requests'; p.innerHTML=`
+    <div class="ph"><b>Documents for your sale</b><span class="sub">Requested by Dana · due Dec 4 · only your advisor sees these</span></div>
+    <div class="reqs">
+      <div class="rq" id="r1"><b>Profit and loss, 2023, 2024 and 2025</b><small>To recast your earnings</small><span class="st">Requested</span></div>
+      <div class="rq" id="r2"><b>Business tax returns, 2023 to 2025</b><small>To check the P&amp;Ls against what was filed</small><span class="st">Requested</span></div>
+      <div class="rq" id="r3"><b>General ledger, 2025</b><small>To find owner expenses run through the business</small><span class="st">Requested</span></div>
+      <div class="rq" id="r4"><b>Maintenance agreement list</b><small>Recurring revenue is worth more to a buyer</small><span class="st">Requested</span></div>
+      <div class="rq" id="r5"><b>Team, licenses and fleet</b><small>Who does the work and what it runs on</small><span class="st">Requested</span></div>
+      <div class="rq" id="r6"><b>Facility lease</b><small>Whether it transfers to a buyer</small><span class="st">Requested</span></div>
+    </div>`; }
+  if(kind==='recast'){ url.textContent='kalling.example/advisor/deal/ridgeline/valuation'; p.innerHTML=`
+    <div class="ph"><b>Earnings recast, drafted by the agent</b><span class="sub">Local model on the firm’s computer · cites file, page and excerpt for every line</span></div>
+    <table class="tbl"><thead><tr><th>Line</th><th style="text-align:right">Amount</th><th>Source</th><th>Support</th></tr></thead><tbody>
+    ${RECAST.map(r=>`<tr class="hid" id="rc-${r.k}"><td>${r.label}</td><td class="n">${r.k==='ni'?'':'+'}${usd(r.amt)}</td><td>${r.src}<span class="q">${r.q}</span></td><td><span class="sup ${r.sup}">${r.sup==='ok'?'Supported':'Ask the owner'}</span></td></tr>`).join('')}
+    <tr class="tot hid" id="rc-tot"><td>Seller’s discretionary earnings</td><td class="n" id="rcSde"></td><td><span class="codeline">Summed in code, not by the model</span></td><td><span class="sup code">Computed</span></td></tr>
+    </tbody></table>`; }
+  if(kind==='valuation'){ url.textContent='kalling.example/advisor/deal/ridgeline/valuation'; renderValuation(); }
+  if(kind==='diligence'){ url.textContent='kalling.example/advisor/deal/ridgeline/diligence'; p.innerHTML=`
+    <div class="ph"><b>Due diligence</b><span class="sub">Six agents read the data room in parallel. Each finding quotes its source.</span></div>
+    <div class="agents">${AGENTS.map(a=>`<div class="ag" id="ag-${a.k}"><div class="h"><i></i>${a.n}</div><div class="s" id="ags-${a.k}">Waiting</div><div class="bar2"><i id="agb-${a.k}"></i></div></div>`).join('')}</div>
+    <div class="finds" id="finds"></div>`; }
+  if(kind==='summary'){ url.textContent='kalling.example/advisor/deal/ridgeline/summary'; renderSummary(); }
+}
+
+/* ---- valuation panel (interactive) ---- */
+const FIELDS=[
+  ['revenue','Revenue, 2025','$'],['netIncome','Reported net income','$'],['ownerPay','Owner salary','$'],
+  ['perks','Owner perks (health, vehicle)','$'],['oneTime','One-time costs','$'],['daInt','Depreciation and interest','$'],
+  ['gm','Market salary for a GM','$'],['recurring','Maintenance agreements','%'],['top','Largest customer','%'],
+];
+function renderValuation(){
+  $('page').innerHTML=`
+  <div class="ph"><b>Valuation</b><span class="sub">The owner’s inputs, checked against her documents. Change any of them and the range updates.</span></div>
+  <div class="val">
+    <div class="inputs" id="inputs">
+      <h4>Inputs</h4><p class="hint">Prefilled from the documents. Type your own to test a scenario.</p>
+      ${FIELDS.map(([k,l,u])=>`<div class="in"><label for="in-${k}">${l}</label><div class="box">${u==='$'?'<span>$</span>':''}<input id="in-${k}" data-k="${k}" inputmode="numeric" value="${u==='$'?V[k].toLocaleString('en-US'):V[k]}">${u==='%'?'<span>%</span>':''}</div></div>`).join('')}
+      <div class="in tg"><label id="lic-l">Only the owner holds the trade license</label><button class="switch" id="in-license" role="switch" aria-labelledby="lic-l" aria-checked="${V.license}"></button></div>
+      <div class="in tg"><label id="sp-l">Count spouse payroll ($38,000)</label><button class="switch" id="in-spouse" role="switch" aria-labelledby="sp-l" aria-checked="${spouseIn}"></button></div>
+      <button class="cta ghost" id="resetIn" style="margin-top:4px">Reset to the documents</button>
+    </div>
+    <div class="out" id="out"></div>
+  </div>
+  <div style="margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="cta" id="toDD" style="margin:0">Run due diligence</button><span class="codeline">The model never does this arithmetic. It extracts and cites; the code above computes.</span></div>`;
+  document.querySelectorAll('#inputs input').forEach(i=>{
+    i.addEventListener('input',()=>{ const raw=i.value.replace(/[^\d]/g,''); const k=i.dataset.k; let n=raw===''?0:+raw; if(['recurring','top'].includes(k))n=Math.min(100,n); V[k]=n; renderOut(); });
+    i.addEventListener('blur',()=>{ const k=i.dataset.k; i.value=['recurring','top'].includes(k)?V[k]:V[k].toLocaleString('en-US'); });
+  });
+  $('in-license').onclick=e=>{V.license=!V.license;e.currentTarget.setAttribute('aria-checked',V.license);renderOut();};
+  $('in-spouse').onclick=e=>{spouseIn=!spouseIn;e.currentTarget.setAttribute('aria-checked',spouseIn);renderOut();};
+  $('resetIn').onclick=()=>{V={...BASE};spouseIn=addbackDecision==='accepted';renderValuation();toast('Back to the figures in the documents');};
+  $('toDD').onclick=()=>startDiligence();
+  renderOut();
+}
+function renderOut(){
+  const c=compute();
+  $('out').innerHTML=`
+    <div class="ev"><div><div class="k">Enterprise value range</div><div class="range" aria-live="polite">${usdK(c.evLo)} – ${usdK(c.evHi)}</div></div>
+      <div class="mid">Midpoint<span class="fig">${usdK((c.evLo+c.evHi)/2)}</span>${c.lo.toFixed(2)}x – ${c.hi.toFixed(2)}x EBITDA</div></div>
+    <div class="kpis">
+      <div class="kpi"><small>Seller’s earnings (SDE)</small><span class="fig">${usdK(c.sde)}</span></div>
+      <div class="kpi"><small>Adjusted EBITDA</small><span class="fig">${usdK(c.ebitda)}</span></div>
+      <div class="kpi"><small>EBITDA margin</small><span class="fig">${(c.margin*100).toFixed(1)}%</span></div>
+      <div class="kpi"><small>Revenue</small><span class="fig">${usdK(V.revenue)}</span></div>
+    </div>
+    <div class="mult"><h4 style="margin-bottom:4px">How the multiple is built</h4>
+      <div class="mrow"><span>Starting range<small>Four comparable HVAC sales in NJ, NY and PA, below</small></span><span class="x">3.50x – 4.50x</span></div>
+      ${c.adj.map(([n,w,x])=>`<div class="mrow"><span>${n}<small>${w}</small></span><span class="x ${x>0?'pos':x<0?'neg':''}">${x>0?'+':''}${x.toFixed(2)}x</span></div>`).join('')}
+      <div class="mrow"><span>Applied to adjusted EBITDA of ${usd(c.ebitda)}</span><span class="x">${c.lo.toFixed(2)}x – ${c.hi.toFixed(2)}x</span></div>
+    </div>
+    <div><h4 style="margin-bottom:8px">Comparable sales</h4><div class="comps">${COMPS.map(x=>`<div class="comp"><b>${x.n}</b>${x.y} · ${x.rev} revenue<div class="fig">${x.x.toFixed(1)}x</div></div>`).join('')}</div>
+    <p class="codeline" style="margin-top:6px">Illustrative comparables for this demo. Fewer than three confirmed comps and the page says so instead of drawing a range.</p></div>`;
+}
+
+/* ---- diligence ---- */
+const AGENTS=[
+  {k:'fin',n:'Financial',reading:'Tying 3 P&Ls to 3 tax returns',done:'2023 and 2025 tie. 2024 is 3.1% apart',st:'warn'},
+  {k:'rev',n:'Revenue quality',reading:'Reading agreements.csv, 1,184 rows',done:'38% recurring, 91% renewed',st:'ok'},
+  {k:'cust',n:'Customers',reading:'Ranking 2025 revenue by customer',done:'Largest customer is 6%',st:'ok'},
+  {k:'lic',n:'License and compliance',reading:'Checking NJ license records',done:'Key-person risk on the license',st:'ok'},
+  {k:'ops',n:'Fleet and operations',reading:'Reading the fleet list and team.xlsx',done:'3 vans due within 18 months',st:'ok'},
+  {k:'legal',n:'Legal and lease',reading:'Reading the facility lease, 9 pages',done:'Assignment needs landlord consent',st:'ok'},
+];
+const FINDINGS=[
+  {k:'rev',sev:'lo',sl:'Strength',t:'Recurring revenue is high and sticky',q:'“Active agreements: 1,184 · Renewed in 2025: 1,077 (91%)”',src:'agreements.csv, summary rows'},
+  {k:'cust',sev:'lo',sl:'Low risk',t:'No customer concentration',q:'“Hillcrest Property Group 252,000 (6.0%)”',src:'ledger-2025.csv, revenue by customer'},
+  {k:'lic',sev:'md',sl:'Medium',t:'Only the owner holds the master HVACR license',q:'“Master HVACR Contractor · Status: Active · Holder: M. Okafor”',src:'NJ Division of Consumer Affairs lookup, saved Nov 12',fix:'A senior technician is eligible to sit for the license in 2027. Plan a transition period.'},
+  {k:'ops',sev:'md',sl:'Medium',t:'Fleet replacement is coming',q:'“Vans: 11 · Average age 6.8 years · 3 over 160,000 miles”',src:'team.xlsx, Fleet tab',fix:'Budget about $165,000 of capex in the first 18 months.'},
+  {k:'legal',sev:'md',sl:'Medium',t:'The lease needs the landlord’s consent to transfer',q:'“Tenant shall not assign this Lease without Landlord’s prior written consent”',src:'lease.pdf, p. 4, §12',fix:'Ask the owner to approach the landlord before LOI.'},
+  {k:'fin',sev:'hi',sl:'Open',t:'2024 net income is 3.1% off the tax return',q:'“Net income 371,400” vs “Ordinary business income 359,900”',src:'pl-2024.pdf, p. 2 · tax-returns.pdf, p. 1',open:true},
+];
+function addFinding(f){
+  $('finds').insertAdjacentHTML('beforeend',`<div class="fd ${f.open?'open':''}" id="fd-${f.k}"><span class="sev ${f.sev}">${f.sl}</span><b>${f.t}</b><blockquote>${f.q}</blockquote><span class="src">${f.src}${f.fix?' · '+f.fix:''}</span></div>`);
+}
+
+/* ---- summary ---- */
+let addbackDecision='', tieDecision='';
+function renderSummary(){
+  const c=compute();
+  const tieLine=tieDecision==='explained'?'Explained by the advisor: '+($('tieNote').value.trim()||'note on file'):tieDecision==='asked'?'Reconciliation requested from the owner’s accountant by Dana Reyes':'Open';
+  const spouseLine=addbackDecision==='accepted'?'Counted, with the advisor’s note':addbackDecision==='asked'?'Left out. Question sent to the owner by Dana Reyes':'Left out until supported';
+  $('page').innerHTML=`
+  <div class="ph"><b>Investment committee summary</b><span class="sub">Ridgeline Heating &amp; Cooling · prepared Nov 18 · every line traces to a source</span></div>
+  <div class="ev" style="max-width:980px;margin-bottom:16px"><div><div class="k">Enterprise value range</div><div class="range">${usdK(c.evLo)} – ${usdK(c.evHi)}</div></div><div class="mid">Adjusted EBITDA<span class="fig">${usdK(c.ebitda)}</span>${c.lo.toFixed(2)}x – ${c.hi.toFixed(2)}x</div></div>
+  <div class="sum">
+    <div class="bridge mult"><h4>Earnings bridge, 2025</h4>
+      <div class="mrow"><span>Reported net income</span><span class="x">${usd(V.netIncome)}</span></div>
+      <div class="mrow"><span>Owner salary and perks</span><span class="x pos">+${usd(V.ownerPay+V.perks)}</span></div>
+      <div class="mrow"><span>One-time costs</span><span class="x pos">+${usd(V.oneTime)}</span></div>
+      <div class="mrow"><span>Depreciation and interest</span><span class="x pos">+${usd(V.daInt)}</span></div>
+      <div class="mrow"><span>Spouse payroll<small>${spouseLine}</small></span><span class="x ${spouseIn?'pos':''}">${spouseIn?'+'+usd(V.spouse):'$0'}</span></div>
+      <div class="mrow"><span>Market salary for a general manager</span><span class="x neg">−${usd(V.gm)}</span></div>
+      <div class="mrow"><span>Adjusted EBITDA</span><span class="x">${usd(c.ebitda)}</span></div>
+    </div>
+    <div class="mult"><h4>Findings and decisions</h4>
+      <div class="risk"><span class="sev hi">Financial</span><span>2024 P&amp;L vs tax return, 3.1%<small>${tieLine}</small></span><span class="rv">${tieDecision?'Decided':'Open'}</span></div>
+      <div class="risk"><span class="sev md">License</span><span>Owner is the only master license holder<small>Transition period and 2027 exam plan</small></span><span class="rv">Reviewed</span></div>
+      <div class="risk"><span class="sev md">Fleet</span><span>About $165,000 of van replacement<small>Reflected in the capex plan, not the multiple</small></span><span class="rv">Reviewed</span></div>
+      <div class="risk"><span class="sev md">Lease</span><span>Landlord consent needed to assign<small>Owner to approach before LOI</small></span><span class="rv">Reviewed</span></div>
+      <div class="risk"><span class="sev lo">Revenue</span><span>38% recurring, 91% renewal<small>Supports the upper half of the range</small></span><span class="rv">Reviewed</span></div>
+      <div class="risk"><span class="sev lo">Customers</span><span>Largest customer 6% of revenue<small>No concentration discount</small></span><span class="rv">Reviewed</span></div>
+    </div>
+  </div>
+  <div class="stamp">✓ Reviewed by Dana Reyes, Kalling advisor. The agents drafted; every decision above was made by a person, and nothing was sent automatically.</div>
+  <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="cta" id="shareBtn" style="margin:0">Share with an approved buyer</button><button class="cta ghost" id="backVal" style="margin:0">Back to the valuation</button></div>`;
+  $('shareBtn').onclick=()=>toast('In the product this goes to the data room, and the owner approves it before any buyer can open it.',4200);
+  $('backVal').onclick=()=>{ hideCard(); page('valuation'); status('you','Your turn · adjust any input'); view('Your screen','Change an input to test a scenario'); markJump('valuation'); };
+}
+
+/* ---- the run ---- */
+function resetAll(){
+  hideCard(); renderSteps(); page('blank'); cursorOff(); status('idle','Ready'); view('Live screen');
+  V={...BASE}; spouseIn=false; addbackDecision=''; tieDecision='';
+  ['addbackNote','tieNote'].forEach(id=>{$(id).value='';}); $('addbackAcceptBtn').disabled=true; $('tieExplainBtn').disabled=true;
+}
+async function runSignup(){
+  const id=++runId, alive=()=>id===runId; resetAll(); markJump('signup');
+  await wait(500); if(!alive())return;
+  status('working','Owner signing up'); view("Owner's screen",'kalling.example/sell');
+  setStep('inq','run'); page('intake'); await wait(400);
+  const vals=[['f1','Ridgeline Heating & Cooling LLC'],['f2','Central New Jersey'],['f3','About $4.2 million'],['f4','$180,000 salary'],['f5','About 1,200 customers'],['f6','In the next 12 to 18 months'],['f7','I want my 24 people kept on. Two techs have been with me 15+ years.']];
+  for(const [f,t] of vals){ await type(f,t,alive); if(!alive())return; }
+  cursorTo('#sendBtn','Owner'); await wait(700); if(!alive())return;
+  setStep('inq','done','Ridgeline, Central NJ, $4.2M'); toast('Inquiry sent to a Kalling advisor. Nothing about Ridgeline is public.');
+  // qualify
+  status('working','Advisor qualifying'); view("Advisor's screen",'Dana Reyes, Kalling'); setStep('qual','run'); page('qualify'); cursorOff(); await wait(500);
+  for(let i=1;i<=5;i++){ if(!alive())return; $('c'+i).classList.add('ok'); cursorTo('#c'+i,'Advisor'); await wait(420); }
+  cursorTo('#qualBtn','Advisor'); await wait(700); if(!alive())return; setStep('qual','you','Qualified by Dana · 5 of 5');
+  // engagement
+  setStep('eng','run'); page('letter'); cursorOff(); status('working','Waiting on signatures'); await wait(900); if(!alive())return;
+  $('sigO').classList.add('signed'); $('sigOm').textContent='Signed Nov 14, 9:12 AM · maria@ridgeline.example'; await wait(900); if(!alive())return;
+  $('sigA').classList.add('signed'); $('sigAm').textContent='Countersigned Nov 14, 10:40 AM'; $('hashNote').innerHTML='Signed version kalling-engagement-2026-11 · hash <span style="font-variant-numeric:tabular-nums">7f3a…c91e</span>. Document requests are now open to the owner.';
+  await wait(700); if(!alive())return; setStep('eng','you','Both signed · requests open');
+  // documents
+  setStep('docs','run'); page('docs'); view("Owner's screen",'Uploads are private to the advisor'); status('working','Reading documents'); await wait(500);
+  const files=[['r1','3 PDFs uploaded'],['r2','1 PDF, 3 years'],['r3','ledger-2025.csv'],['r4','agreements.csv'],['r5','team.xlsx'],['r6','lease.pdf']];
+  for(const [r,txt] of files){ if(!alive())return; const el=$(r); el.classList.add('up'); el.querySelector('.st').innerHTML='<span class="spin"></span>'+txt; cursorTo(el,'Owner'); await wait(380); }
+  cursorOff(); view('Agent reading','Text is extracted in the browser; scans are flagged');
+  for(const [r] of files){ if(!alive())return; const el=$(r); el.classList.remove('up'); el.classList.add('read'); el.querySelector('.st').textContent='Read'; await wait(260); }
+  setStep('docs','done','9 files, 41 pages read'); await wait(500); if(!alive())return;
+  await runRecast(id);
+}
+function preMark(ids){ ids.forEach(s=>setStep(s,STEP_TAG[s]==='agent'||STEP_TAG[s]==='owner'?'done':'you')); }
+async function runRecast(id){
+  if(id===undefined){ id=++runId; resetAll(); preMark(['inq','qual','eng','docs']); }
+  const alive=()=>id===runId;
+  markJump('valuation'); status('working','Drafting the recast'); view("Agent's screen",'Local model · no paid API · no data leaves the firm');
+  setStep('recast','run'); page('recast'); await wait(400);
+  let sde=0;
+  for(const r of RECAST){ if(!alive())return; const row=$('rc-'+r.k); row.classList.remove('hid'); cursorTo(row.querySelector('td:nth-child(3)')); await wait(420);
+    if(r.sup==='weak'){ row.classList.add('flag'); } else sde+=r.amt; }
+  $('rc-tot').classList.remove('hid'); $('rcSde').textContent=usd(sde); cursorTo('#rcSde'); await wait(700); if(!alive())return; cursorOff();
+  setStep('recast','stop','Paused: one add-back needs you'); status('paused','Paused · needs you');
+  await wait(500); if(!alive())return; showCard('Addback');
+}
+function afterAddback(decision){
+  addbackDecision=decision; spouseIn=decision==='accepted'; hideCard();
+  const row=$('rc-spouse'); if(row){row.classList.remove('flag'); if(!spouseIn)row.classList.add('skip');}
+  if($('rcSde'))$('rcSde').textContent=usd(compute().sde);
+  setStep('recast','you',decision==='accepted'?'Counted spouse payroll, with a note':decision==='asked'?'Asked the owner; left out until she answers':'Left out spouse payroll for now');
+  setTimeout(()=>{ setStep('value','run'); page('valuation'); status('you','Your turn · adjust any input'); view('Your screen','These are your inputs now. Try changing one'); markJump('valuation'); },FAST?0:700);
+}
+async function startDiligence(fresh){
+  const id=++runId, alive=()=>id===runId;
+  if(fresh){ resetAll(); preMark(['inq','qual','eng','docs','recast']); addbackDecision='skipped'; setStep('recast','you','Left out spouse payroll for now'); }
+  hideCard(); ['dd','tie','ic'].forEach(s=>{const el=$('s-'+s); el.className='step todo'; el.querySelector('.ic span').textContent=STEPS.st3.findIndex(x=>x.id===s)+1; $('d-'+s).textContent=STEPS.st3.find(x=>x.id===s).d;}); tieDecision=''; $('tieNote').value=''; $('tieExplainBtn').disabled=true;
+  const c=compute(); setStep('value','you',`${usdK(c.evLo)} – ${usdK(c.evHi)} at ${usdK(c.ebitda)} EBITDA`);
+  markJump('diligence'); status('working','Agents working'); view("Agents' screen",'Six workstreams, read-only access to the data room');
+  setStep('dd','run'); page('diligence'); await wait(500);
+  AGENTS.forEach(a=>{ $('ag-'+a.k).classList.add('run'); $('ags-'+a.k).textContent=a.reading; });
+  const order=['rev','cust','lic','ops','legal','fin'];
+  for(let step=1;step<=3;step++){ if(!alive())return; AGENTS.forEach(a=>{ $('agb-'+a.k).style.width=(step*28+(a.k.length*3))+'%'; }); await wait(550); }
+  for(const k of order){ if(!alive())return; const a=AGENTS.find(x=>x.k===k), f=FINDINGS.find(x=>x.k===k);
+    const el=$('ag-'+k); el.classList.remove('run'); el.classList.add(a.st); $('ags-'+k).textContent=a.done; addFinding(f); cursorTo($('fd-'+k)); await wait(650); }
+  cursorOff(); setStep('dd','done','5 clean or explained, 1 open'); setStep('tie','stop','Paused: 2024 doesn’t tie');
+  status('paused','Paused · needs you'); await wait(500); if(!alive())return; showCard('Tie');
+}
+function afterTie(decision){
+  tieDecision=decision; hideCard();
+  const fd=$('fd-fin'); if(fd){ fd.classList.remove('open'); fd.insertAdjacentHTML('beforeend',`<span class="res">${decision==='explained'?'✓ Marked explained by Dana, with a note':'✓ Reconciliation requested by Dana from the owner portal'}</span>`); fd.querySelector('.sev').className='sev '+(decision==='explained'?'lo':'md'); fd.querySelector('.sev').textContent=decision==='explained'?'Explained':'Asked'; }
+  setStep('tie','you',decision==='explained'?'Explained, with your note':'Asked the accountant; tracked as open');
+  setTimeout(()=>{ setStep('ic','you','Reviewed by Dana · ready to share'); page('summary'); status('done','Ready for your IC'); view('Your screen','Summary built from reviewed items only'); markJump('diligence'); toast('Summary ready. Every figure links back to its source.'); },FAST?0:700);
+}
+
+/* ---- card ---- */
+const CARD_VIEWS=['Addback','AddbackAsk','AddbackAccept','Tie','TieAsk','TieEvidence','TieExplain'];
+function showCard(v){ $('scrim').classList.add('on'); $('card').classList.add('on'); CARD_VIEWS.forEach(x=>$('v'+x).classList.toggle('on',x===v)); $('card').scrollTop=0; const first=$('v'+v).querySelector('button,textarea'); if(first&&!FAST)setTimeout(()=>first.focus({preventScroll:true}),350); }
+function hideCard(){ $('scrim').classList.remove('on'); $('card').classList.remove('on'); }
+$('addbackNote').addEventListener('input',e=>{$('addbackAcceptBtn').disabled=e.target.value.trim().length<5;});
+$('tieNote').addEventListener('input',e=>{$('tieExplainBtn').disabled=e.target.value.trim().length<5;});
+
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]'); if(!g||g.disabled)return; const go=g.dataset.go;
+  if(go==='addbackAsk')showCard('AddbackAsk');
+  if(go==='addbackAccept')showCard('AddbackAccept');
+  if(go==='addbackBack')showCard('Addback');
+  if(go==='addbackSkip'){afterAddback('skipped');toast('Left out. Earnings stay at the supported $785,000.');}
+  if(go==='addbackSend'){afterAddback('asked');toast('You sent it from the owner portal. The add-back stays out until she answers.');}
+  if(go==='addbackAcceptConfirm'){afterAddback('accepted');toast('Counted, with your note on the recast.');}
+  if(go==='tieAsk')showCard('TieAsk');
+  if(go==='tieEvidence')showCard('TieEvidence');
+  if(go==='tieExplain')showCard('TieExplain');
+  if(go==='tieBack')showCard('Tie');
+  if(go==='tieSend'){afterTie('asked');toast('You sent the request. The finding stays open until the accountant replies.');}
+  if(go==='tieExplainConfirm'){afterTie('explained');}
+});
+document.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{ FAST=false; document.documentElement.classList.remove('still');
+  if(b.dataset.jump==='signup')runSignup();
+  if(b.dataset.jump==='valuation'){ runRecast(); }
+  if(b.dataset.jump==='diligence'){ startDiligence(true); }
+});
+$('bRestart').onclick=()=>runSignup();
+document.addEventListener('keydown',e=>{ if(e.target.closest('input,textarea'))return; if(e.key==='r'||e.key==='R')runSignup(); if(e.key==='Escape'&&$('card').classList.contains('on')){ const v=CARD_VIEWS.find(x=>$('v'+x).classList.contains('on')); if(v&&v!=='Addback'&&v!=='Tie')showCard(v.startsWith('Addback')?'Addback':'Tie'); } });
+
+/* ---- entry ---- */
+(async()=>{
+  if(STATE==='valuation'){ await runRecast(); afterAddback('skipped'); return; }
+  if(STATE==='diligence'){ await startDiligence(true); return; }
+  if(STATE==='summary'){ await startDiligence(true); afterTie('asked'); return; }
+  if(STATE==='addback'){ await runRecast(); return; }
+  runSignup();
+})();
+</script>
+</body>
+</html>
